@@ -1,0 +1,32 @@
+version: '3.7'
+services:
+  coach-platform-hasura:
+    build: ./hasura
+    restart: always
+    networks:
+      - db
+      - traefik
+    env_file:
+      - variables.env
+    environment:
+      HASURA_GRAPHQL_ENABLE_CONSOLE: "false"
+      HASURA_GRAPHQL_DEV_MODE: "false"
+      HOOK_URL: "http://server:8080/api/"
+
+  coach-platform-server:
+    build: 
+      context: ./nextjs
+    restart: always
+    networks:
+      - traefik
+    env_file:
+      - variables.env
+
+networks:
+  db:
+    external:
+      name: db
+  traefik:
+    external:
+      name: traefik
+  default:

@@ -1,0 +1,15 @@
+{
+  "name": "hasura",
+  "version": "0.0.1",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "console": "hasura console",
+    "console-prod": "hasura --envfile ../variables.env console --endpoint https://coach.scbirs.ch/hasura"
+  },
+  "author": "Tim (https://tiim.ch/)",
+  "license": "MIT",
+  "devDependencies": {
+    "hasura-cli": "^1.3.3"
+  }
+}

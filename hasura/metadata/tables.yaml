@@ -1,0 +1,79 @@
+- table:
+    schema: public
+    name: attendance_state
+  is_enum: true
+- table:
+    schema: public
+    name: lesson
+  object_relationships:
+  - name: organisation
+    using:
+      foreign_key_constraint_on: organisation_id
+  array_relationships:
+  - name: student_attendances
+    using:
+      foreign_key_constraint_on:
+        column: lesson_id
+        table:
+          schema: public
+          name: student_attendance
+- table:
+    schema: public
+    name: organisation
+  array_relationships:
+  - name: lessons
+    using:
+      foreign_key_constraint_on:
+        column: organisation_id
+        table:
+          schema: public
+          name: lesson
+  - name: students
+    using:
+      foreign_key_constraint_on:
+        column: organisation_id
+        table:
+          schema: public
+          name: student
+  - name: users
+    using:
+      foreign_key_constraint_on:
+        column: organisation_id
+        table:
+          schema: public
+          name: user
+- table:
+    schema: public
+    name: student
+  object_relationships:
+  - name: organisation
+    using:
+      foreign_key_constraint_on: organisation_id
+  array_relationships:
+  - name: student_attendances
+    using:
+      foreign_key_constraint_on:
+        column: student_id
+        table:
+          schema: public
+          name: student_attendance
+- table:
+    schema: public
+    name: student_attendance
+  object_relationships:
+  - name: attendance_state
+    using:
+      foreign_key_constraint_on: state
+  - name: lesson
+    using:
+      foreign_key_constraint_on: lesson_id
+  - name: student
+    using:
+      foreign_key_constraint_on: student_id
+- table:
+    schema: public
+    name: user
+  object_relationships:
+  - name: organisation
+    using:
+      foreign_key_constraint_on: organisation_id

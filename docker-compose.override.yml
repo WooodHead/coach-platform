@@ -1,0 +1,33 @@
+version: '3.7'
+services:
+  coach-platform-server:
+    labels:
+      traefik.http.routers.pdbserver.rule: 'HOST(`${URL_HOST}`)'
+      traefik.http.routers.pdbserver.tls.certresolver: 'exoframeChallenge'
+      traefik.http.routers.pdbserver.entrypoints: 'websecure'
+      traefik.http.services.pdbserverservice.loadbalancer.server.port: 3000
+
+      traefik.http.middlewares.pdbserver-redirect.redirectscheme.scheme: 'https'
+      traefik.http.routers.pdbserver-web.rule: 'HOST(`${URL_HOST}`)'
+      traefik.http.routers.pdbserver-web.entrypoints: 'web'
+      traefik.http.routers.pdbserver-web.middlewares: 'pdbserver-redirect@docker'
+
+      traefik.docker.network: "traefik"
+
+  coach-platform-hasura:
+    labels:
+      traefik.http.routers.pdbhasura.rule: 'HOST(`${URL_HOST}`) && PathPrefix(`/hasura`)'
+      traefik.http.routers.pdbhasura.tls.certresolver: 'exoframeChallenge'
+      traefik.http.routers.pdbhasura.entrypoints: 'websecure'
+      traefik.http.services.pdbhasuraservice.loadbalancer.server.port: 8080
+
+      traefik.http.middlewares.pdbhasura-redirect.redirectscheme.scheme: 'https'
+      traefik.http.routers.pdbhasura-web.rule: 'HOST(`${URL_HOST}`) && PathPrefix(`/hasura`)'
+      traefik.http.routers.pdbhasura-web.entrypoints: 'web'
+      traefik.http.routers.pdbhasura-web.middlewares: 'pdbserver-redirect@docker'
+      
+      # remove /hasura prefix
+      traefik.http.middlewares.pdbhasura-stripprefix.stripprefix.prefixes: '/hasura'
+      traefik.http.routers.pdbhasura.middlewares: 'pdbhasura-stripprefix@docker'
+
+      traefik.docker.network: "traefik"

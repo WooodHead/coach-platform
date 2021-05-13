@@ -1,0 +1,30 @@
+version: '3.7'
+services:
+  coach-platform-server:
+    build:
+      context: ./nextjs
+      target: build-stage
+    command: npm run dev
+    volumes:
+      - './nextjs/src/:/code/src/'
+      - './nextjs/pages/:/code/pages/'
+      - './nextjs/public/:/code/public/'
+    ports:
+      - '8080:3000'
+    environment:
+      NODE_ENV: "development"
+      ENV_NAME: "development"
+
+
+  postgres:
+    image: postgres
+    environment:
+      POSTGRES_HOST_AUTH_METHOD: "trust"
+    networks:
+      - db
+    env_file:
+      - variables.env
+
+  coach-platform-hasura:
+    ports:
+      - '8081:8080'
