@@ -17,6 +17,57 @@
         table:
           schema: public
           name: student_attendance
+  insert_permissions:
+  - role: user
+    permission:
+      check:
+        organisation:
+          id:
+            _eq: X-Hasura-Org-Id
+      set:
+        organisation_id: x-hasura-Org-Id
+      columns:
+      - duration
+      - name
+      - plan
+      - start_time
+      backend_only: false
+  select_permissions:
+  - role: user
+    permission:
+      columns:
+      - duration
+      - id
+      - name
+      - plan
+      - start_time
+      filter:
+        organisation_id:
+          _eq: X-Hasura-Org-Id
+  update_permissions:
+  - role: user
+    permission:
+      columns:
+      - duration
+      - id
+      - name
+      - plan
+      - start_time
+      filter:
+        organisation:
+          id:
+            _eq: X-Hasura-Org-Id
+      check:
+        organisation:
+          id:
+            _eq: X-Hasura-Org-Id
+  delete_permissions:
+  - role: user
+    permission:
+      filter:
+        organisation:
+          id:
+            _eq: X-Hasura-Org-Id
 - table:
     schema: public
     name: organisation
@@ -57,6 +108,40 @@
         table:
           schema: public
           name: student_attendance
+  insert_permissions:
+  - role: user
+    permission:
+      check:
+        organisation_id:
+          _eq: X-Hasura-Org-Id
+      set:
+        organisation_id: x-hasura-Org-Id
+      columns:
+      - birthday
+      - name
+      backend_only: false
+  select_permissions:
+  - role: user
+    permission:
+      columns:
+      - birthday
+      - id
+      - name
+      filter:
+        organisation_id:
+          _eq: X-Hasura-Org-Id
+  update_permissions:
+  - role: user
+    permission:
+      columns:
+      - birthday
+      - name
+      filter:
+        organisation_id:
+          _eq: X-Hasura-Org-Id
+      check:
+        organisation_id:
+          _eq: X-Hasura-Org-Id
 - table:
     schema: public
     name: student_attendance
@@ -70,6 +155,71 @@
   - name: student
     using:
       foreign_key_constraint_on: student_id
+  insert_permissions:
+  - role: user
+    permission:
+      check:
+        _and:
+        - student:
+            organisation_id:
+              _eq: X-Hasura-Org-Id
+        - lesson:
+            organisation_id:
+              _eq: X-Hasura-Org-Id
+      columns:
+      - id
+      - lesson_id
+      - state
+      - student_id
+      backend_only: false
+  select_permissions:
+  - role: user
+    permission:
+      columns:
+      - id
+      - lesson_id
+      - state
+      - student_id
+      filter:
+        _and:
+        - student:
+            organisation_id:
+              _eq: X-Hasura-Org-Id
+        - lesson:
+            organisation_id:
+              _eq: X-Hasura-Org-Id
+  update_permissions:
+  - role: user
+    permission:
+      columns:
+      - state
+      filter:
+        _and:
+        - student:
+            organisation_id:
+              _eq: X-Hasura-Org-Id
+        - lesson:
+            organisation_id:
+              _eq: X-Hasura-Org-Id
+      check:
+        _and:
+        - student:
+            organisation_id:
+              _eq: X-Hasura-Org-Id
+        - lesson:
+            organisation_id:
+              _eq: X-Hasura-Org-Id
+  delete_permissions:
+  - role: user
+    permission:
+      filter:
+        _and:
+        - student:
+            organisation_id:
+              _eq: X-Hasura-Org-Id
+        - lesson:
+            organisation_id:
+              _eq: X-Hasura-Org-Id
 - table:
     schema: public
     name: user
@@ -77,3 +227,13 @@
   - name: organisation
     using:
       foreign_key_constraint_on: organisation_id
+  select_permissions:
+  - role: user
+    permission:
+      columns:
+      - email
+      - id
+      - name
+      filter:
+        id:
+          _eq: X-Hasura-User-Id

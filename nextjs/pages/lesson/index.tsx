@@ -29,8 +29,8 @@ function NewLessonPage() {
     initialValues: {
       name: "Training",
       date: new Date().toISOString().substr(0, 10),
-      time: "00:00",
-      duration: "00:00",
+      time: "14:00",
+      duration: "01:00",
     },
     onSubmit: async (values) => {
       console.log(values);
