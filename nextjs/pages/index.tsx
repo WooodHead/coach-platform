@@ -1,3 +1,4 @@
+import { signIn } from "next-auth/client";
 import Link from "next/link";
 import { gql, useQuery } from "urql";
 
@@ -20,6 +21,7 @@ function Home() {
     <div>
       <h1>Coach Platform</h1>
       <h2>Lessons</h2>
+      <button onClick={(e) => signIn()}>Login</button>
       <Link href="/lesson">
         <a>New Lesson</a>
       </Link>

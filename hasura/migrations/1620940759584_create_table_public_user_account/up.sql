@@ -1,0 +1,1 @@
+CREATE TABLE "public"."user_account"("user_token" text NOT NULL, "user_id" uuid NOT NULL, "data" jsonb, PRIMARY KEY ("user_token") , FOREIGN KEY ("user_id") REFERENCES "public"."user"("id") ON UPDATE cascade ON DELETE cascade);
