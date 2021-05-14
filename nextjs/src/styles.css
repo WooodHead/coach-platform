@@ -3,11 +3,20 @@
 }
 
 html {
+    --box-border-radius: 0.5em;
     --input-radius: 0px;
     --shadow-color: #757575b6;
     --color-primary: rgb(137, 158, 255);
     --color-highlight: rgb(176, 191, 255);
     --color-font-secondary: rgb(102, 102, 102);
+
+    --color-yellow-1: rgb(252, 252, 120);
+    --color-yellow-2: rgb(255, 255, 225);
+    --color-red-1: rgb(233, 130, 123);
+    --color-red-2: rgb(226, 165, 160);
+    --color-green-1: rgb(95, 201, 139);
+    --color-green-2: rgb(178, 240, 203);
+    
 }
 
 body {
