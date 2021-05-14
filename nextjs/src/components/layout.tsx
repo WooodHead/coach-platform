@@ -1,5 +1,6 @@
 import { signIn, signOut, useSession } from "next-auth/client";
 import { AppProps } from "next/app";
+import Link from "next/link";
 import { FC } from "react";
 //import "../styles.css";
 
@@ -70,8 +71,21 @@ const SideNav: FC = () => {
   return (
     <nav className="side-nav">
       <ul>
-        <li>Students</li>
-        <li>Lessons</li>
+        <li>
+          <Link href="/">
+            <a>Home</a>
+          </Link>
+        </li>
+        <li>
+          <Link href="/student">
+            <a>Students</a>
+          </Link>
+        </li>
+        <li>
+          <Link href="/lesson">
+            <a>Lessons</a>
+          </Link>
+        </li>
       </ul>
       <style jsx scoped>{`
         .side-nav {

@@ -1,5 +1,6 @@
 import { useFormik } from "formik";
 import { useRouter } from "next/dist/client/router";
+import Link from "next/link";
 import React, { FC } from "react";
 import { gql, useMutation, useQuery } from "urql";
 
@@ -26,10 +27,12 @@ function StudentsPage() {
       <NewStudent />
       {result.data.student.map((s) => (
         <div key={s.id}>
-          {s.name} {s.birthday && ` (${s.birthday})`}
+          <Link href={`/student/${s.id}`}>
+            <a>{s.name}</a>
+          </Link>
+          {s.birthday && ` (${s.birthday})`}
         </div>
       ))}
-      <pre>{JSON.stringify(result?.data, null, 2)}</pre>
     </div>
   );
 }

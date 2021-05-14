@@ -117,6 +117,68 @@
             _eq: X-Hasura-Org-Id
 - table:
     schema: public
+    name: lesson_template
+  insert_permissions:
+  - role: manager
+    permission:
+      check:
+        organisation_id:
+          _eq: X-Hasura-Org-Id
+      set:
+        organisation_id: x-hasura-Org-Id
+      columns:
+      - day
+      - duration
+      - name
+      - start_time
+      backend_only: false
+  select_permissions:
+  - role: manager
+    permission:
+      columns:
+      - day
+      - duration
+      - id
+      - name
+      - start_time
+      filter:
+        organisation_id:
+          _eq: X-Hasura-Org-Id
+  - role: user
+    permission:
+      columns:
+      - day
+      - duration
+      - id
+      - name
+      - start_time
+      filter:
+        organisation_id:
+          _eq: X-Hasura-Org-Id
+  update_permissions:
+  - role: manager
+    permission:
+      columns:
+      - day
+      - duration
+      - name
+      - start_time
+      filter:
+        organisation_id:
+          _eq: X-Hasura-Org-Id
+      check:
+        organisation_id:
+          _eq: X-Hasura-Org-Id
+      set:
+        organisation_id: x-hasura-Org-Id
+  delete_permissions:
+  - role: manager
+    permission:
+      filter:
+        organisation_id:
+          _eq: X-Hasura-Org-Id
+- table:
+    schema: public
     name: organisation
   array_relationships:
   - name: lessons
