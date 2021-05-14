@@ -86,6 +86,11 @@ const SideNav: FC = () => {
             <a>Lessons</a>
           </Link>
         </li>
+        <li>
+          <Link href="/settings">
+            <a>Settings</a>
+          </Link>
+        </li>
       </ul>
       <style jsx scoped>{`
         .side-nav {

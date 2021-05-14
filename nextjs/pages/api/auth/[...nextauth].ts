@@ -1,6 +1,7 @@
 import NextAuth, { User } from "next-auth";
 import Providers from "next-auth/providers";
 import jwt from "jsonwebtoken";
+import { hasura } from "../../../src/lib/hasura";
 
 const secret = process.env.JWT_SECRET;
 type ExtendedUser = User & { id?: string; organisation_id?: string };
@@ -149,17 +150,4 @@ async function githubGetEmail(account, user) {
   }).then((res) => res.json());
 
   user.email = emails.find((e) => e.primary)?.email;
-}
-
-async function hasura({ query, variables }) {
-  return await fetch("http://coach-platform-hasura:8080/v1/graphql", {
-    method: "POST",
-    body: JSON.stringify({
-      query,
-      variables,
-    }),
-    headers: {
-      "X-Hasura-Admin-Secret": process.env.HASURA_GRAPHQL_ADMIN_SECRET,
-    },
-  }).then((d) => d.json());
 }
