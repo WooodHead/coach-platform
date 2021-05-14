@@ -52,9 +52,11 @@ function LessonPage() {
       <AddStudent lessonId={lesson.id} reload={reloadLesson} />
       <table>
         <thead>
-          <th>Name</th>
-          <th>Birthday</th>
-          <th>Attendance</th>
+          <tr>
+            <th>Name</th>
+            <th>Birthday</th>
+            <th>Attendance</th>
+          </tr>
         </thead>
         <tbody>
           {lesson.student_attendances.map((sa) => (

@@ -8,7 +8,7 @@ function StudentsPage() {
   const [result] = useQuery({
     query: gql`
       query MyQuery {
-        student {
+        student(order_by: { name: asc }) {
           id
           name
           birthday
