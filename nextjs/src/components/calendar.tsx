@@ -41,6 +41,7 @@ export const Calendar: FC<{
         .calendar {
           display: flex;
           gap: 1rem;
+          flex-wrap: wrap;
         }
         .event {
           margin: 0.3rem;
