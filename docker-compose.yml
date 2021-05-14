@@ -11,7 +11,7 @@ services:
     environment:
       HASURA_GRAPHQL_ENABLE_CONSOLE: "false"
       HASURA_GRAPHQL_DEV_MODE: "false"
-      HOOK_URL: "http://server:8080/api/"
+      HOOK_URL: "http://coach-platform-server:8080/api/"
 
   coach-platform-server:
     build: 

@@ -3,7 +3,7 @@ import Providers from "next-auth/providers";
 import jwt from "jsonwebtoken";
 
 const secret = process.env.JWT_SECRET;
-type ExtendedUser = User & { id?: string };
+type ExtendedUser = User & { id?: string; organisation_id?: string };
 
 export default NextAuth({
   secret,
@@ -27,14 +27,15 @@ export default NextAuth({
 
       await githubGetEmail(account, userInfo);
 
-      const id = await upsertUserAccount({
+      const { id, organisation_id } = await upsertUserAccount({
         token: userToken,
         name: userInfo.name,
         data: metadata,
         email: userInfo.email,
-      }).catch((err) => console.log(err));
+      });
 
       userInfo.id = id;
+      userInfo.organisation_id = organisation_id;
       return true;
     },
     async jwt(token, user: ExtendedUser) {
@@ -56,6 +57,7 @@ export default NextAuth({
             "x-hasura-default-role": "user",
             "x-hasura-role": "user",
             "x-hasura-user-id": user.id,
+            "x-hasura-org-id": user.organisation_id,
           },
         };
 
@@ -73,21 +75,29 @@ export default NextAuth({
   ],
 });
 
-async function upsertUserAccount({ token, name, data, email }) {
-  const user = await hasura({
+async function upsertUserAccount({
+  token,
+  name,
+  data,
+  email,
+}): Promise<{ id: string; organisation_id?: string }> {
+  const userResult = await hasura({
     query: `
       query($token: String!) {
         user_account_by_pk(user_token: $token) {
-          user_id
+          user {
+            id
+            organisation_id
+          }
         }
       }
     `,
     variables: { token },
   });
-  const id = user.data?.user_account_by_pk?.user_id;
+  const user = userResult.data?.user_account_by_pk?.user;
 
-  if (id) {
-    return id;
+  if (user) {
+    return user;
   } else {
     console.log("User does NOT exist");
 
@@ -123,7 +133,7 @@ async function upsertUserAccount({ token, name, data, email }) {
     });
     console.log({ token, email, name, data });
     console.dir(newUser);
-    return newUser.data.insert_user_account_one.user_id;
+    return { id: newUser.data.insert_user_account_one.user_id };
   }
 }
 
