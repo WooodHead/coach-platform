@@ -4,7 +4,11 @@ import jwt from "jsonwebtoken";
 import { hasura } from "../../../src/lib/hasura";
 
 const secret = process.env.JWT_SECRET;
-type ExtendedUser = User & { id?: string; organisation_id?: string };
+type ExtendedUser = User & {
+  id?: string;
+  organisation_id?: string;
+  manager?: boolean;
+};
 
 export default NextAuth({
   secret,
@@ -28,15 +32,15 @@ export default NextAuth({
 
       await githubGetEmail(account, userInfo);
 
-      const { id, organisation_id } = await upsertUserAccount({
+      const { id, organisation_id, manager } = await upsertUserAccount({
         token: userToken,
         name: userInfo.name,
         data: metadata,
         email: userInfo.email,
       });
 
-      userInfo.id = id;
-      userInfo.organisation_id = organisation_id;
+      Object.assign(userInfo, { id, organisation_id, manager });
+
       return true;
     },
     async jwt(token, user: ExtendedUser) {
@@ -47,6 +51,9 @@ export default NextAuth({
         if (user.email === "tim.bachmann96@gmail.com") {
           roles.push("admin");
         }
+        if (user.manager) {
+          roles.push("manager");
+        }
 
         const claims = {
           sub: user.id,
@@ -55,8 +62,8 @@ export default NextAuth({
           image: user.image,
           "https://hasura.io/jwt/claims": {
             "x-hasura-allowed-roles": roles,
-            "x-hasura-default-role": "user",
-            "x-hasura-role": "user",
+            "x-hasura-default-role": user.manager ? "manager" : "user",
+            "x-hasura-role": user.manager ? "manager" : "user",
             "x-hasura-user-id": user.id,
             "x-hasura-org-id": user.organisation_id,
           },
@@ -81,7 +88,7 @@ async function upsertUserAccount({
   name,
   data,
   email,
-}): Promise<{ id: string; organisation_id?: string }> {
+}): Promise<{ id: string; organisation_id?: string; manager?: boolean }> {
   const userResult = await hasura({
     query: `
       query($token: String!) {
@@ -89,6 +96,7 @@ async function upsertUserAccount({
           user {
             id
             organisation_id
+            manager
           }
         }
       }
