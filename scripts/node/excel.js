@@ -1,14 +1,9 @@
 import xlsx from 'node-xlsx';
-import { v5 } from 'uuid';
 import pgPromise from 'pg-promise';
 import fsExtra from 'fs-extra';
 import { ArgumentParser } from 'argparse';
+import { uuid5 } from './cfg';
 
-// CONFIG:
-const uuidNamespace = 'c4556bf7-03ff-4a99-8969-2226b06f0d47'
-// END CONFIG
-
-const uuid = (name) => v5(name, uuidNamespace);
 const pgp = pgPromise();
 
 
@@ -21,7 +16,7 @@ parse.add_argument('--org', {type: "str", required: true})
 const args = parse.parse_args(process.argv.slice(2));
 
 const organisation_id = args.org
-let nameMap = args.name_map ? await fsExtra.readJson(args.name_map) : {}
+const nameMap = args.name_map ? await fsExtra.readJson(args.name_map) : {}
 
 console.warn("Files", args.files);
 
@@ -38,14 +33,14 @@ const entries = worksheets.flatMap(worksheet => worksheet.flatMap((value) => han
 })));
 
 
-const students = [...new Set(entries.map(val => val.name))].map(name => ({name, id: uuid(name), organisation_id,}))
+const students = [...new Set(entries.map(val => val.name))].map(name => ({name, id: uuid5(name), organisation_id,}))
 const studentsIds = students.reduce((p, c) => ({...p, [c.name]: c.id}), {});
 console.warn("Students:", students.length)
 
 
 const lessons = [... new Set(entries.map(val => val.day.getTime()))].map(s => ({
   start_time: new Date(s), 
-  id: uuid(new Date(s).toISOString()), 
+  id: uuid5(new Date(s).toISOString()), 
   name: 'Importiertes Training',
   organisation_id,
 }));
