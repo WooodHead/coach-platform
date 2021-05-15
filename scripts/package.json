@@ -11,8 +11,14 @@
   "type": "module",
   "license": "MIT",
   "dependencies": {
+    "argparse": "^2.0.1",
+    "fs-extra": "^10.0.0",
     "node-xlsx": "^0.16.1",
     "pg-promise": "^10.10.2",
     "uuid": "^8.3.2"
+  },
+  "devDependencies": {
+    "@types/argparse": "^2.0.6",
+    "@types/fs-extra": "^9.0.11"
   }
 }
