@@ -9,6 +9,7 @@ import {
 } from "date-fns";
 import { map } from "lodash";
 import { useRouter } from "next/dist/client/router";
+import Link from "next/link";
 import { useState } from "react";
 import { gql, useMutation, useQuery } from "urql";
 import { Calendar } from "../src/components/calendar";
@@ -96,7 +97,7 @@ function Home() {
   }
 
   async function onCreateLesson(e) {
-    const d = setDay(new Date(), openTemplate.day, {
+    const d = setDay(week, openTemplate.day, {
       weekStartsOn: 1,
     });
     const t = e.time.split(":");
@@ -138,6 +139,14 @@ function Home() {
           template: "var(--color-red-2)",
         }}
       />
+      <div>
+        <Link href="/lesson/template">
+          <a>New Template</a>
+        </Link>
+        <Link href="/lesson/new">
+          <a>New Lesson</a>
+        </Link>
+      </div>
       {openTemplate && (
         <Modal onClose={() => setOpenTemplate(null)}>
           <h2>Create Lesson</h2>
@@ -145,9 +154,9 @@ function Home() {
             <ul>
               <li>
                 day:
-                {setDay(new Date(), openTemplate.day, {
+                {setDay(week, openTemplate.day, {
                   weekStartsOn: 1,
-                }).toLocaleString()}
+                }).toLocaleDateString()}
               </li>
               <li>name: {openTemplate.name}</li>
               <li>time: {openTemplate.time}</li>
