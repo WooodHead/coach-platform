@@ -1,4 +1,12 @@
-import { format, getDay, endOfWeek, startOfWeek, setDay } from "date-fns";
+import {
+  format,
+  getDay,
+  endOfWeek,
+  startOfWeek,
+  setDay,
+  addWeeks,
+  getWeek,
+} from "date-fns";
 import { map } from "lodash";
 import { useRouter } from "next/dist/client/router";
 import { useState } from "react";
@@ -7,6 +15,9 @@ import { Calendar } from "../src/components/calendar";
 import { Modal } from "../src/components/modal";
 
 function Home() {
+  const [offset, setOffset] = useState(0);
+  const week = addWeeks(new Date(), offset);
+
   const [openTemplate, setOpenTemplate] = useState(null);
   const [result] = useQuery({
     query: gql`
@@ -34,8 +45,8 @@ function Home() {
       }
     `,
     variables: {
-      weekStart: startOfWeek(new Date(), { weekStartsOn: 1 }).toISOString(),
-      weekEnd: endOfWeek(new Date(), { weekStartsOn: 1 }).toISOString(),
+      weekStart: startOfWeek(week, { weekStartsOn: 1 }).toISOString(),
+      weekEnd: endOfWeek(week, { weekStartsOn: 1 }).toISOString(),
     },
   });
 
@@ -110,6 +121,15 @@ function Home() {
 
   return (
     <div>
+      <div>
+        <button onClick={() => setOffset(offset - 1)}>Last Week</button>
+        <span>Week {getWeek(week, { weekStartsOn: 1 })}</span>
+        <span>
+          {startOfWeek(week, { weekStartsOn: 1 }).toLocaleDateString()}-
+          {endOfWeek(week, { weekStartsOn: 1 }).toLocaleDateString()}
+        </span>
+        <button onClick={() => setOffset(offset + 1)}>Next Week</button>
+      </div>
       <Calendar
         events={[...templates, ...lessons]}
         onClick={clickEvent}
