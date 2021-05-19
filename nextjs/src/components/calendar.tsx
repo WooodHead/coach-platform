@@ -45,9 +45,9 @@ export const Calendar: FC<{
         }
         .event {
           margin: 0.3rem;
-          padding: 0.3rem;
+          padding: 0.6rem;
           background-color: #f2f2f2;
-          border-radius: calc(var(--box-border-radius) / 2);
+          border-radius: var(--input-radius);
         }
       `}</style>
     </div>

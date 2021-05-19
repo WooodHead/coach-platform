@@ -146,13 +146,14 @@ function TimeTable() {
 
   return (
     <div>
-      <div>
+      <div className="date-strip">
         <button onClick={() => setOffset(offset - 1)}>Last Week</button>
         <span>Week {getWeek(week, { weekStartsOn: 1 })}</span>
         <span>
-          {startOfWeek(week, { weekStartsOn: 1 }).toLocaleDateString()}-
-          {endOfWeek(week, { weekStartsOn: 1 }).toLocaleDateString()}
+          {startOfWeek(week, { weekStartsOn: 1 }).toLocaleDateString()}
         </span>
+        -
+        <span>{endOfWeek(week, { weekStartsOn: 1 }).toLocaleDateString()}</span>
         <button onClick={() => setOffset(offset + 1)}>Next Week</button>
       </div>
       <Calendar
@@ -183,6 +184,13 @@ function TimeTable() {
           </div>
         </Modal>
       )}
+      <style jsx>{`
+        .date-strip {
+          display: flex;
+          align-items: baseline;
+          gap: 0.5rem;
+        }
+      `}</style>
     </div>
   );
 }
