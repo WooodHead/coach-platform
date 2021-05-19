@@ -6,7 +6,9 @@ import {
   setDay,
   addWeeks,
   getWeek,
+  startOfDay,
 } from "date-fns";
+import { endOfDay } from "date-fns";
 import { map } from "lodash";
 import { useRouter } from "next/dist/client/router";
 import Link from "next/link";
@@ -19,13 +21,16 @@ function Home() {
   return (
     <div>
       <div className="button-strip">
-        <Link href="/lesson/template">
+        <Link href="/lesson/template/new">
           <a className="button">New Template</a>
         </Link>
         <Link href="/lesson/new">
           <a className="button">New Lesson</a>
         </Link>
       </div>
+      <h2>Today</h2>
+      <Today />
+      <h2>Time Table</h2>
       <TimeTable />
 
       <style jsx>{`
@@ -38,6 +43,37 @@ function Home() {
 }
 
 export default Home;
+
+function Today() {
+  const [result] = useQuery({
+    query: gql`
+      query MyMutation($start: timestamptz!, $end: timestamptz!) {
+        lesson(
+          where: { start_time: { _gte: $start, _lte: $end } }
+          order_by: { start_time: asc }
+        ) {
+          id
+          name
+          start_time
+        }
+      }
+    `,
+    variables: {
+      start: startOfDay(new Date()),
+      end: endOfDay(new Date()),
+    },
+  });
+  if (!result.data) {
+    return <div>loading</div>;
+  }
+  return (
+    <ul>
+      {result.data.lesson.map((l) => (
+        <li key={l.id}>{l.name}</li>
+      ))}
+    </ul>
+  );
+}
 
 function TimeTable() {
   const [offset, setOffset] = useState(0);

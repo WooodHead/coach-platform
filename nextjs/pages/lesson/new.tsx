@@ -10,15 +10,9 @@ function NewLessonPage() {
       $name: String!
       $start_time: timestamptz!
       $duration: interval!
-      $organisation_id: uuid = "0ddb3d79-a59b-48af-8829-b264e30a9001"
     ) {
       insert_lesson_one(
-        object: {
-          name: $name
-          start_time: $start_time
-          duration: $duration
-          organisation_id: $organisation_id
-        }
+        object: { name: $name, start_time: $start_time, duration: $duration }
       ) {
         id
       }

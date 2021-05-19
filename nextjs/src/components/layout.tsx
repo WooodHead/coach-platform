@@ -87,6 +87,11 @@ const SideNav: FC = () => {
           </Link>
         </li>
         <li>
+          <Link href="/lesson/template">
+            <a>Templates</a>
+          </Link>
+        </li>
+        <li>
           <Link href="/settings">
             <a>Settings</a>
           </Link>

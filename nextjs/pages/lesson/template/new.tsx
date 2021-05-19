@@ -2,7 +2,7 @@ import { useFormik } from "formik";
 import { useRouter } from "next/dist/client/router";
 import React, { FC } from "react";
 import { gql, useMutation } from "urql";
-import { DAYS } from "../../src/days";
+import { DAYS } from "../../../src/days";
 
 function NewLessonPage() {
   const router = useRouter();

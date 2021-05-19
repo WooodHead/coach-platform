@@ -24,16 +24,17 @@ export const Calendar: FC<{
     <div className="calendar">
       {days.map((d) => (
         <div key={d}>
-          <h2>{format(setDay(new Date(), d), "eeee")}</h2>
+          <h3>{format(setDay(new Date(), d), "eeee")}</h3>
           {sortBy(eventsGroup[d], "time").map((e) => (
-            <div
+            <a
               style={{ backgroundColor: typeMap?.[e.type] }}
               key={e.id}
               className="event"
               onClick={() => onClick?.(e)}
+              href={`#${e.id}`}
             >
               {e.time.substr(0, e.time.length - 3)} {e.name}
-            </div>
+            </a>
           ))}
         </div>
       ))}
@@ -48,6 +49,8 @@ export const Calendar: FC<{
           padding: 0.6rem;
           background-color: #f2f2f2;
           border-radius: var(--input-radius);
+          text-decoration: none;
+          color: var(--text-color);
         }
       `}</style>
     </div>

@@ -17,7 +17,7 @@ function LessonPage() {
           birthday
           student_attendances(
             order_by: { lesson: { start_time: desc } }
-            limit: 20
+            limit: 365
           ) {
             id
             lesson {
@@ -26,6 +26,11 @@ function LessonPage() {
               id
             }
             state
+          }
+          student_attendances_aggregate {
+            aggregate {
+              count
+            }
           }
         }
       }
@@ -42,16 +47,29 @@ function LessonPage() {
   return (
     <div>
       <h1>{student.name}</h1>
-      <span>Birthday: {new Date(student.birthday).toLocaleDateString()}</span>
+      <div>
+        Total Trainings {student.student_attendances_aggregate.aggregate.count}
+      </div>
+      <div>Birthday: {new Date(student.birthday).toLocaleDateString()}</div>
       <h2>Last Attendances</h2>
-      <ul>
-        {student.student_attendances.map((at) => (
-          <li key={at.id}>
-            {new Date(at.lesson.start_time).toLocaleString()} {at.lesson.name} -{" "}
-            {at.state}
-          </li>
-        ))}
-      </ul>
+      <table>
+        <thead>
+          <tr>
+            <th>Date</th>
+            <th>Name</th>
+            <th>State</th>
+          </tr>
+        </thead>
+        <tbody>
+          {student.student_attendances.map((at) => (
+            <tr key={at.id}>
+              <td>{new Date(at.lesson.start_time).toLocaleString()}</td>
+              <td> {at.lesson.name}</td>
+              <td> {at.state}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
     </div>
   );
 }
