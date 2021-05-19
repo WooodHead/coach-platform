@@ -4,8 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "console": "hasura --envfile ../variables.env console",
-    "console-prod": "hasura --envfile ../variables.env console --endpoint https://coach.scbirs.ch/hasura"
+    "console": "hasura --envfile ../variables.env console --no-browser",
+    "console-prod": "hasura --envfile ../variables.env console --endpoint https://coach.scbirs.ch/hasura --no-browser"
   },
   "author": "Tim (https://tiim.ch/)",
   "license": "MIT",
