@@ -16,6 +16,30 @@ import { Calendar } from "../src/components/calendar";
 import { Modal } from "../src/components/modal";
 
 function Home() {
+  return (
+    <div>
+      <div className="button-strip">
+        <Link href="/lesson/template">
+          <a className="button">New Template</a>
+        </Link>
+        <Link href="/lesson/new">
+          <a className="button">New Lesson</a>
+        </Link>
+      </div>
+      <TimeTable />
+
+      <style jsx>{`
+        .button-strip {
+          display: flex;
+        }
+      `}</style>
+    </div>
+  );
+}
+
+export default Home;
+
+function TimeTable() {
   const [offset, setOffset] = useState(0);
   const week = addWeeks(new Date(), offset);
 
@@ -139,14 +163,6 @@ function Home() {
           template: "var(--color-red-2)",
         }}
       />
-      <div>
-        <Link href="/lesson/template">
-          <a>New Template</a>
-        </Link>
-        <Link href="/lesson/new">
-          <a>New Lesson</a>
-        </Link>
-      </div>
       {openTemplate && (
         <Modal onClose={() => setOpenTemplate(null)}>
           <h2>Create Lesson</h2>
@@ -170,5 +186,3 @@ function Home() {
     </div>
   );
 }
-
-export default Home;
