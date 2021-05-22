@@ -49,7 +49,10 @@ function LessonPage() {
       <h1>{lesson.name}</h1>
       {start.toLocaleString()} - {end.toLocaleTimeString()}
       <div>{lesson.plan}</div>
-      <AddStudent lessonId={lesson.id} reload={reloadLesson} />
+      <AddStudent
+        lessonId={lesson.id}
+        reload={() => reloadLesson({ requestPolicy: "network-only" })}
+      />
       <table>
         <thead>
           <tr>
