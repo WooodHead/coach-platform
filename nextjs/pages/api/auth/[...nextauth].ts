@@ -25,7 +25,17 @@ export default NextAuth({
         algorithm: "HS256",
       });
 
-      return { ...session, token, accessToken: encodedToken };
+      console.log(session, token);
+
+      return {
+        user: { ...session.user, image: token?.image, id: token.sub },
+        auth: {
+          roles:
+            token["https://hasura.io/jwt/claims"]["x-hasura-allowed-roles"],
+          org: token["https://hasura.io/jwt/claims"]["x-hasura-org-id"],
+        },
+        accessToken: encodedToken,
+      };
     },
     async signIn(userInfo: ExtendedUser, account, metadata) {
       const userToken = `${account.provider}:${account.id}`;
@@ -43,8 +53,10 @@ export default NextAuth({
 
       return true;
     },
-    async jwt(token, user: ExtendedUser) {
+    async jwt(token, user?: ExtendedUser) {
       const isJustUserSignedIn = !!user;
+
+      console.log(token, user);
 
       if (isJustUserSignedIn) {
         const roles = ["user"];
@@ -54,6 +66,8 @@ export default NextAuth({
         if (user.manager) {
           roles.push("manager");
         }
+
+        console.log(`User: ${user.name} logged in`);
 
         const claims = {
           sub: user.id,
