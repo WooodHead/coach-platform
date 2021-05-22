@@ -37,7 +37,10 @@ MyApp.getInitialProps = async (appContext: AppContext) => {
 
   console.log("BASE PATH", appContext.router, session.auth.org);
 
-  if (!session?.auth?.org && appContext.router.route !== "/no-org") {
+  if (
+    !session?.auth?.org &&
+    !["/token", "/no-org"].includes(appContext.router.route)
+  ) {
     appContext.ctx.res.writeHead(307, { Location: "/no-org" });
     appContext.ctx.res.end();
   }
