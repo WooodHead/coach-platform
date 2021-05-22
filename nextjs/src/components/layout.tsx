@@ -12,13 +12,15 @@ export const Layout: FC<{ children: JSX.Element }> = ({ children }) => {
       <main>{children}</main>
       <style jsx scoped>{`
         .page-wrap {
-          margin: 2rem 6rem;
+          --wrap-margin-y: 2rem;
+          --wrap-margin-x: 6rem;
+          margin: var(--wrap-margin-y) var(--wrap-margin-x);
           gap: 1rem;
           display: grid;
           justify-items: stretch;
           justify-content: stretch;
           grid-template-columns: 15rem auto;
-          grid-template-rows: auto auto;
+          grid-template-rows: 5rem auto;
           grid-template-areas:
             "header header"
             "sidebar content";
@@ -26,7 +28,7 @@ export const Layout: FC<{ children: JSX.Element }> = ({ children }) => {
 
         @media only screen and (max-width: 900px) {
           .page-wrap {
-            margin: 2rem 4rem;
+            --wrap-margin-x: 4rem;
             grid-template-columns: auto;
             grid-template-areas:
               "header"
@@ -36,7 +38,7 @@ export const Layout: FC<{ children: JSX.Element }> = ({ children }) => {
         }
         @media only screen and (max-width: 600px) {
           .page-wrap {
-            margin: 2rem 2rem;
+            --wrap-margin-x: 2rem;
           }
         }
       `}</style>
@@ -47,11 +49,21 @@ export const Layout: FC<{ children: JSX.Element }> = ({ children }) => {
 const TopNav: FC = () => {
   const [session] = useSession();
   return (
-    <nav className="top-nav">
+    <nav className="top-nav box">
       <ul className="nav-list">
-        <li>Coach Platform</li>
-        {!session && <button onClick={(e) => signIn()}>Login</button>}
-        {session && <button onClick={(e) => signOut()}>Logout</button>}
+        <li>
+          <h1>Coach Platform</h1>
+        </li>
+        {!session && (
+          <li>
+            <button onClick={(e) => signIn()}>Login</button>
+          </li>
+        )}
+        {session && (
+          <li>
+            <button onClick={(e) => signOut()}>Logout</button>
+          </li>
+        )}
       </ul>
       <style jsx scoped>{`
         .top-nav {
@@ -61,6 +73,12 @@ const TopNav: FC = () => {
           display: flex;
           list-style: none;
           gap: 1rem;
+          align-items: center;
+          height: 100%;
+          margin: 0px;
+        }
+        .nav-list h1 {
+          margin: 0px;
         }
       `}</style>
     </nav>
@@ -69,7 +87,7 @@ const TopNav: FC = () => {
 
 const SideNav: FC = () => {
   return (
-    <nav className="side-nav">
+    <nav className="side-nav box">
       <ul>
         <li>
           <Link href="/">

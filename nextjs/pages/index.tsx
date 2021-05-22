@@ -20,24 +20,14 @@ import { Modal } from "../src/components/modal";
 function Home() {
   return (
     <div>
-      <div className="button-strip">
-        <Link href="/lesson/template/new">
-          <a className="button">New Template</a>
-        </Link>
-        <Link href="/lesson/new">
-          <a className="button">New Lesson</a>
-        </Link>
+      <div className="box">
+        <h2>Today</h2>
+        <Today />
       </div>
-      <h2>Today</h2>
-      <Today />
-      <h2>Time Table</h2>
-      <TimeTable />
-
-      <style jsx>{`
-        .button-strip {
-          display: flex;
-        }
-      `}</style>
+      <div className="box">
+        <h2>Time Table</h2>
+        <TimeTable />
+      </div>
     </div>
   );
 }
