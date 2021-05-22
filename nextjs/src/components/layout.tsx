@@ -6,11 +6,13 @@ import { Avatar } from "./avatar";
 //import "../styles.css";
 
 export const Layout: FC<{ children: JSX.Element }> = ({ children }) => {
+  const [mobileOpen, setMobileOpen] = useState(false);
+
   return (
     <div className="app-wrap">
       <div className="page-wrap">
-        <TopNav />
-        <SideNav />
+        <TopNav mobileOpen={mobileOpen} setMobileOpen={setMobileOpen} />
+        <SideNav mobileOpen={mobileOpen} />
         <main>{children}</main>
       </div>
       <style jsx scoped>{`
@@ -55,20 +57,22 @@ export const Layout: FC<{ children: JSX.Element }> = ({ children }) => {
   );
 };
 
-const TopNav: FC = () => {
+const TopNav: FC<{
+  mobileOpen: boolean;
+  setMobileOpen: (boolean) => void;
+}> = ({ mobileOpen, setMobileOpen }) => {
   const [session] = useSession();
   const [dropdownOpen, setDropdownOpen] = useState(false);
   return (
-    <nav className="top-nav box">
+    <nav className="top-nav">
       <ul className="nav-list">
-        <li>
+        <li className="burger">
+          <button onClick={() => setMobileOpen(!mobileOpen)}>&#9776;</button>
+          <h1>Coach</h1>
+        </li>
+        <li className="header">
           <h1>Coach Platform</h1>
         </li>
-        {!session && (
-          <li>
-            <button onClick={() => signIn()}>Login</button>
-          </li>
-        )}
         <li className="spacer"></li>
         {session && (
           <>
@@ -99,6 +103,7 @@ const TopNav: FC = () => {
           align-items: center;
           height: 100%;
           margin: 0px;
+          padding: 0px;
         }
         .nav-list li {
           height: 100%;
@@ -111,6 +116,23 @@ const TopNav: FC = () => {
         }
         .avatar-container {
           position: relative;
+        }
+        .burger {
+          display: none;
+          align-items: center;
+          gap: 1rem;
+        }
+        .burger button {
+          width: 33px;
+          height: 33px;
+        }
+        @media only screen and (max-width: 900px) {
+          .header {
+            display: none;
+          }
+          .burger {
+            display: flex;
+          }
         }
       `}</style>
     </nav>
@@ -148,17 +170,19 @@ const AvatarDropdown: FC = () => {
         .items-list li {
           list-style: none;
         }
+        .items-list li:hover {
+          background-color: var(--color-highlight);
+        }
         .items-list li button {
           width: 100%;
           padding: 0px;
           text-align: left;
-          background-color: var(--color-foreground);
+          background-color: transparent;
         }
         .items-list li a {
           width: 100%;
           padding: 0px;
           text-align: left;
-          background-color: var(--color-foreground);
           text-decoration: none;
           color: var(--color-text);
           margin: 3.2px;
@@ -169,10 +193,10 @@ const AvatarDropdown: FC = () => {
   );
 };
 
-const SideNav: FC = () => {
+const SideNav: FC<{ mobileOpen: boolean }> = ({ mobileOpen }) => {
   return (
-    <nav className="side-nav box">
-      <ul>
+    <nav className={`side-nav ${mobileOpen ? "active" : ""}`}>
+      <ul className="nav-list">
         <li>
           <Link href="/">
             <a>Home</a>
@@ -202,6 +226,32 @@ const SideNav: FC = () => {
       <style jsx scoped>{`
         .side-nav {
           grid-area: sidebar;
+        }
+        .nav-list {
+          list-style: none;
+          font-weight: bold;
+          padding: 0px;
+        }
+        .nav-list li {
+          margin-bottom: 10px;
+          padding: 4px;
+          background-color: var(--color-foreground);
+        }
+        .nav-list li:hover {
+          background-color: var(--color-highlight);
+        }
+        .nav-list li a {
+          display: block;
+          color: var(--color-text);
+          text-decoration: none;
+        }
+        @media only screen and (max-width: 900px) {
+          .side-nav {
+            display: none;
+          }
+          .side-nav.active {
+            display: block;
+          }
         }
       `}</style>
     </nav>
