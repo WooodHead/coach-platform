@@ -51,6 +51,7 @@ export const Calendar: FC<{
           border-radius: var(--input-radius);
           text-decoration: none;
           color: var(--text-color);
+          display: block;
         }
       `}</style>
     </div>
