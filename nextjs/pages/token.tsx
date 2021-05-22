@@ -1,8 +1,8 @@
-import { useFormik } from "formik";
 import { signIn, useSession } from "next-auth/client";
 import { useRouter } from "next/dist/client/router";
-import Link from "next/link";
 import React, { FC, useEffect, useState } from "react";
+
+import { Layout } from "../src/components/layout";
 
 function SettingsPage() {
   const [session] = useSession();
@@ -42,29 +42,31 @@ function SettingsPage() {
     );
   }
   return (
-    <div>
-      {result && (
-        <div className={`box ${!status ? "err" : ""}`}>
-          <span>{result.msg}</span>
-        </div>
-      )}
-      <style jsx>{`
-        .box {
-          width: border-box;
-          padding: 3rem;
-          background-color: var(--color-green-2);
-          display: flex;
-          justify-content: center;
-          align-items: center;
-          border-radius: var(--box-border-radius);
-          flex-direction: column;
-          gap: 1rem;
-        }
-        .box.err {
-          background-color: var(--color-red-2);
-        }
-      `}</style>
-    </div>
+    <Layout>
+      <>
+        {result && (
+          <div className={`box ${!status ? "err" : ""}`}>
+            <span>{result.msg}</span>
+          </div>
+        )}
+        <style jsx>{`
+          .box {
+            width: border-box;
+            padding: 3rem;
+            background-color: var(--color-green-2);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border-radius: var(--box-border-radius);
+            flex-direction: column;
+            gap: 1rem;
+          }
+          .box.err {
+            background-color: var(--color-red-2);
+          }
+        `}</style>
+      </>
+    </Layout>
   );
 }
 

@@ -2,6 +2,7 @@ import { useFormik } from "formik";
 import { useRouter } from "next/dist/client/router";
 import React, { FC } from "react";
 import { gql, useMutation } from "urql";
+import { Layout } from "../../src/components/layout";
 
 function NewLessonPage() {
   const router = useRouter();
@@ -40,37 +41,39 @@ function NewLessonPage() {
   });
 
   return (
-    <div>
-      <h1>New Lesson</h1>
-      <form onSubmit={formik.handleSubmit}>
-        <input
-          type="text"
-          name="name"
-          placeholder="Name"
-          onChange={formik.handleChange}
-          value={formik.values.name}
-        />
-        <input
-          type="date"
-          name="date"
-          onChange={formik.handleChange}
-          value={formik.values.date}
-        />
-        <input
-          type="time"
-          name="time"
-          onChange={formik.handleChange}
-          value={formik.values.time}
-        />
-        <input
-          type="time"
-          name="duration"
-          onChange={formik.handleChange}
-          value={formik.values.duration}
-        />
-        <input type="submit" name="submit" value="Submit" />
-      </form>
-    </div>
+    <Layout>
+      <div>
+        <h1>New Lesson</h1>
+        <form onSubmit={formik.handleSubmit}>
+          <input
+            type="text"
+            name="name"
+            placeholder="Name"
+            onChange={formik.handleChange}
+            value={formik.values.name}
+          />
+          <input
+            type="date"
+            name="date"
+            onChange={formik.handleChange}
+            value={formik.values.date}
+          />
+          <input
+            type="time"
+            name="time"
+            onChange={formik.handleChange}
+            value={formik.values.time}
+          />
+          <input
+            type="time"
+            name="duration"
+            onChange={formik.handleChange}
+            value={formik.values.duration}
+          />
+          <input type="submit" name="submit" value="Submit" />
+        </form>
+      </div>
+    </Layout>
   );
 }
 

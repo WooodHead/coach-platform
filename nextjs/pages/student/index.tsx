@@ -3,6 +3,7 @@ import { useRouter } from "next/dist/client/router";
 import Link from "next/link";
 import React, { FC } from "react";
 import { gql, useMutation, useQuery } from "urql";
+import { Layout } from "../../src/components/layout";
 
 function StudentsPage() {
   const [result] = useQuery({
@@ -22,18 +23,20 @@ function StudentsPage() {
   }
 
   return (
-    <div>
-      <h1>Students</h1>
-      <NewStudent />
-      {result.data.student.map((s) => (
-        <div key={s.id}>
-          <Link href={`/student/${s.id}`}>
-            <a>{s.name}</a>
-          </Link>
-          {s.birthday && ` (${s.birthday})`}
-        </div>
-      ))}
-    </div>
+    <Layout>
+      <div>
+        <h1>Students</h1>
+        <NewStudent />
+        {result.data.student.map((s) => (
+          <div key={s.id}>
+            <Link href={`/student/${s.id}`}>
+              <a>{s.name}</a>
+            </Link>
+            {s.birthday && ` (${s.birthday})`}
+          </div>
+        ))}
+      </div>
+    </Layout>
   );
 }
 

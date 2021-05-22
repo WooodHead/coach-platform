@@ -2,7 +2,7 @@ import xlsx from 'node-xlsx';
 import pgPromise from 'pg-promise';
 import fsExtra from 'fs-extra';
 import { ArgumentParser } from 'argparse';
-import { uuid5 } from './cfg';
+import { uuid5 } from './cfg.js';
 
 const pgp = pgPromise();
 

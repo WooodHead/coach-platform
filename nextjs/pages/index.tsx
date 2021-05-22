@@ -11,24 +11,26 @@ import {
 import { endOfDay } from "date-fns";
 import { map } from "lodash";
 import { useRouter } from "next/dist/client/router";
-import Link from "next/link";
 import { useState } from "react";
 import { gql, useMutation, useQuery } from "urql";
 import { Calendar } from "../src/components/calendar";
+import { Layout } from "../src/components/layout";
 import { Modal } from "../src/components/modal";
 
 function Home() {
   return (
-    <div>
-      <div className="box">
-        <h2>Today</h2>
-        <Today />
-      </div>
-      <div className="box">
-        <h2>Time Table</h2>
-        <TimeTable />
-      </div>
-    </div>
+    <Layout>
+      <>
+        <div className="box">
+          <h2>Today</h2>
+          <Today />
+        </div>
+        <div className="box">
+          <h2>Time Table</h2>
+          <TimeTable />
+        </div>
+      </>
+    </Layout>
   );
 }
 

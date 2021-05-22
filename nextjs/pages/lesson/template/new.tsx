@@ -2,6 +2,7 @@ import { useFormik } from "formik";
 import { useRouter } from "next/dist/client/router";
 import React, { FC } from "react";
 import { gql, useMutation } from "urql";
+import { Layout } from "../../../src/components/layout";
 import { DAYS } from "../../../src/days";
 
 function NewLessonPage() {
@@ -48,43 +49,45 @@ function NewLessonPage() {
   });
 
   return (
-    <div>
-      <h1>New Template</h1>
-      <form onSubmit={formik.handleSubmit}>
-        <input
-          type="text"
-          name="name"
-          placeholder="Name"
-          onChange={formik.handleChange}
-          value={formik.values.name}
-        />
-        <select
-          name="day"
-          onChange={formik.handleChange}
-          value={formik.values.day}
-        >
-          <option value=""></option>
-          {DAYS.map((d, i) => (
-            <option key={d} value={i}>
-              {d}
-            </option>
-          ))}
-        </select>
-        <input
-          type="time"
-          name="time"
-          onChange={formik.handleChange}
-          value={formik.values.time}
-        />
-        <input
-          type="time"
-          name="duration"
-          onChange={formik.handleChange}
-          value={formik.values.duration}
-        />
-        <input type="submit" name="submit" value="Submit" />
-      </form>
-    </div>
+    <Layout>
+      <div>
+        <h1>New Template</h1>
+        <form onSubmit={formik.handleSubmit}>
+          <input
+            type="text"
+            name="name"
+            placeholder="Name"
+            onChange={formik.handleChange}
+            value={formik.values.name}
+          />
+          <select
+            name="day"
+            onChange={formik.handleChange}
+            value={formik.values.day}
+          >
+            <option value=""></option>
+            {DAYS.map((d, i) => (
+              <option key={d} value={i}>
+                {d}
+              </option>
+            ))}
+          </select>
+          <input
+            type="time"
+            name="time"
+            onChange={formik.handleChange}
+            value={formik.values.time}
+          />
+          <input
+            type="time"
+            name="duration"
+            onChange={formik.handleChange}
+            value={formik.values.duration}
+          />
+          <input type="submit" name="submit" value="Submit" />
+        </form>
+      </div>
+    </Layout>
   );
 }
 

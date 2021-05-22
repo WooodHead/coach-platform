@@ -84,6 +84,10 @@ export default NextAuth({
         };
 
         return claims;
+      } else {
+        // TODO: update token with recent data:
+        // * org-id
+        // *
       }
       return token;
     },

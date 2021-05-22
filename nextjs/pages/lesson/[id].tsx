@@ -4,6 +4,7 @@ import { useRouter } from "next/dist/client/router";
 import React, { FC, useState } from "react";
 import { gql, useMutation, useQuery } from "urql";
 import { AttendanceButton } from "../../src/components/attendance-buttons";
+import { Layout } from "../../src/components/layout";
 
 function LessonPage() {
   const router = useRouter();
@@ -45,47 +46,49 @@ function LessonPage() {
     .map((n) => Number(n));
   const end = add(start, { hours, minutes, seconds });
   return (
-    <div>
-      <h1>{lesson.name}</h1>
-      {start.toLocaleString()} - {end.toLocaleTimeString()}
-      <div>{lesson.plan}</div>
-      <AddStudent
-        lessonId={lesson.id}
-        reload={() => reloadLesson({ requestPolicy: "network-only" })}
-      />
-      <table>
-        <thead>
-          <tr>
-            <th>Name</th>
-            <th>Birthday</th>
-            <th>Attendance</th>
-          </tr>
-        </thead>
-        <tbody>
-          {lesson.student_attendances.map((sa) => (
-            <tr key={sa.id}>
-              <td>
-                <Link href={`/student/${sa.student.id}`}>
-                  <a>{sa.student.name}</a>
-                </Link>
-              </td>
-              <td>
-                {sa.student.birthday &&
-                  new Date(sa.student.birthday).toLocaleDateString()}
-              </td>
-              <td>
-                <AttendanceButton
-                  attendance_id={sa.id}
-                  state={sa.state}
-                  reload={reloadLesson}
-                />
-              </td>
+    <Layout>
+      <div>
+        <h1>{lesson.name}</h1>
+        {start.toLocaleString()} - {end.toLocaleTimeString()}
+        <div>{lesson.plan}</div>
+        <AddStudent
+          lessonId={lesson.id}
+          reload={() => reloadLesson({ requestPolicy: "network-only" })}
+        />
+        <table>
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Birthday</th>
+              <th>Attendance</th>
             </tr>
-          ))}
-        </tbody>
-      </table>
-      <style jsx>{``}</style>
-    </div>
+          </thead>
+          <tbody>
+            {lesson.student_attendances.map((sa) => (
+              <tr key={sa.id}>
+                <td>
+                  <Link href={`/student/${sa.student.id}`}>
+                    <a>{sa.student.name}</a>
+                  </Link>
+                </td>
+                <td>
+                  {sa.student.birthday &&
+                    new Date(sa.student.birthday).toLocaleDateString()}
+                </td>
+                <td>
+                  <AttendanceButton
+                    attendance_id={sa.id}
+                    state={sa.state}
+                    reload={reloadLesson}
+                  />
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+        <style jsx>{``}</style>
+      </div>
+    </Layout>
   );
 }
 
