@@ -19,6 +19,7 @@ html {
     --color-green-2: rgb(178, 240, 203);
     --color-background: #dfe1e5;
     --color-foreground: #fdfdfd;
+    --color-text: black;
 
 
     --font: BlinkMacSystemFont,-apple-system,Segoe UI,Roboto,Oxygen,Ubuntu,Cantarell,Fira Sans,Droid Sans,Helvetica Neue,Helvetica,Arial,sans-serif;
@@ -48,10 +49,12 @@ input[type=submit], button, .button {
     text-decoration: none;
     color: var(--color-font-primary);
     font-size: var(--font-size);
+    font-family: var(--font);
 }
 
 input[type=submit]:hover, button:hover, .button:hover {
     background-color: var(--color-highlight);
+    cursor: pointer;
 }
 
 .box {
