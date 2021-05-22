@@ -21,6 +21,8 @@ services:
       - traefik
     env_file:
       - variables.env
+    environment:
+      NEXTAUTH_URL_INTERNAL: "http://localhost:3000"
 
 networks:
   db:

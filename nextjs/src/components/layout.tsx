@@ -60,9 +60,14 @@ const TopNav: FC = () => {
           </li>
         )}
         {session && (
-          <li>
-            <button onClick={(e) => signOut()}>Logout</button>
-          </li>
+          <>
+            <li>
+              <button onClick={(e) => signOut()}>Logout</button>
+            </li>
+            <li>
+              <pre>{JSON.stringify(session)}</pre>
+            </li>
+          </>
         )}
       </ul>
       <style jsx scoped>{`
