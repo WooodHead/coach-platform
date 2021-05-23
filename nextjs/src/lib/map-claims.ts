@@ -1,4 +1,12 @@
-export function mapClaims(obj) {
+export type HasuraClaims = {
+  "https://hasura.io/jwt/claims": {
+    "x-hasura-allowed-roles": Array<string>;
+    "x-hasura-default-role": string;
+    "x-hasura-org-id": string;
+  };
+};
+
+export function mapClaims(obj: HasuraClaims) {
   if (!obj) {
     return undefined;
   }

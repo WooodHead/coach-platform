@@ -461,6 +461,9 @@
               _eq: X-Hasura-Org-Id
 - table:
     schema: public
+    name: url_token
+- table:
+    schema: public
     name: user
   object_relationships:
   - name: organisation

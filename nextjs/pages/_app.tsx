@@ -29,19 +29,9 @@ MyApp.getInitialProps = async (appContext: AppContext) => {
     appContext.ctx
   );
 
-  if (!session) {
-    appContext.ctx.res.writeHead(307, { Location: "/api/auth/signin" });
-    appContext.ctx.res.end();
-    return;
-  }
-
-  console.log("BASE PATH", appContext.router, session.auth.org);
-
-  if (
-    !session?.auth?.org &&
-    !["/token", "/no-org"].includes(appContext.router.route)
-  ) {
-    appContext.ctx.res.writeHead(307, { Location: "/no-org" });
+  const newRoute = routing(appContext.router.route, session);
+  if (newRoute && newRoute !== appContext.router.route) {
+    appContext.ctx.res.writeHead(307, { Location: newRoute });
     appContext.ctx.res.end();
   }
 
@@ -51,4 +41,17 @@ MyApp.getInitialProps = async (appContext: AppContext) => {
       session,
     },
   };
+};
+
+const routing = (
+  route: string,
+  session: Session & { auth?: { org: string } }
+) => {
+  if (!session) {
+    return "/api/auth/signin";
+  } else if (!session.auth?.org) {
+    return "/no-org";
+  } else if (session?.auth?.org && route === "/no-org") {
+    return "/";
+  }
 };

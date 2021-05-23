@@ -1,58 +1,77 @@
+import { responsePathAsArray, Token } from "graphql";
 import jwt from "jsonwebtoken";
 import { intersection } from "lodash";
 import type { NextApiRequest, NextApiResponse } from "next";
-import { getToken } from "next-auth/jwt";
+import { getToken, JWT } from "next-auth/jwt";
+import { resolveHref } from "next/dist/next-server/lib/router/router";
 import { hasura } from "../../src/lib/hasura";
-import { mapClaims } from "../../src/lib/map-claims";
+import { HasuraClaims, mapClaims } from "../../src/lib/map-claims";
 import { jwtSecret } from "../../src/srv-config";
 
 export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse
 ): Promise<undefined> {
-  if (req.method !== "POST") {
-    res.status(403).json({ error: "Must be POST request" });
-    return;
-  }
-  const userToken = mapClaims(await getToken({ req, secret: jwtSecret }));
-  if (!userToken) {
-    res.status(403).json({ error: "Authorization bearer token is invalid" });
-    return;
-  }
-
-  const paramToken = req.body.token;
-  if (!paramToken) {
-    res.status(400).json({ error: "Token not provided in body" });
-    return;
-  }
-
-  const tokenObj: any = await new Promise((resolve, reject) =>
-    jwt.verify(paramToken, jwtSecret, {}, (err, valid) =>
-      err ? reject(err) : resolve(valid)
-    )
+  const userToken = mapClaims(
+    (await getToken({ req, secret: jwtSecret })) as JWT & HasuraClaims
   );
+  if (!userToken) {
+    res.status(403).json({ error: "Not logged in" });
+    return;
+  }
 
-  const { status, result } = await commands[tokenObj.cmd](
+  const tokenId = req.query.t;
+  if (!tokenId) {
+    res.status(400).json({ error: "Token not provided" });
+    return;
+  }
+
+  const resu = await hasura({
+    query: `
+      query($id: uuid!) {
+        url_token_by_pk(id: $id) {
+          data
+          expire
+          id
+          type
+        }
+      }
+    `,
+    variables: { id: tokenId },
+  });
+
+  const tokenObj = resu?.data?.url_token_by_pk;
+
+  if (!tokenObj) {
+    res.status(400).json({ error: "Token invalid" });
+    return;
+  }
+
+  const { msg, success } = await commands[tokenObj.type](
     req,
     res,
     userToken,
     tokenObj
   );
 
-  res.status(status).json(result);
-  return;
+  res.redirect(
+    `/msg?msg=${encodeURIComponent(msg)}&type=${success ? "success" : "warn"}`
+  );
 }
 
-const commands = {
-  "invite-org": inviteOrg,
-};
-
-async function inviteOrg(
+type TokenHandler = (
   req: NextApiRequest,
   res: NextApiResponse,
-  userToken,
-  queryToken
-) {
+  userToken: JWT & HasuraClaims,
+  queryToken: {
+    id: string;
+    expire: string;
+    type: string;
+    data: Record<string, any>;
+  }
+) => Promise<{ msg: string; success: boolean }>;
+
+const inviteOrg: TokenHandler = async (req, res, userToken, queryToken) => {
   const userId = userToken.sub;
   const orgId = queryToken.data.org_id;
   const srcUser = queryToken.data.src_user_id;
@@ -63,8 +82,8 @@ async function inviteOrg(
 
   if (userToken.org) {
     return {
-      status: 400,
-      result: { msg: "you are already in an organisation" },
+      success: false,
+      msg: "You are already in an organisation",
     };
   }
 
@@ -85,12 +104,13 @@ async function inviteOrg(
   });
 
   return {
-    status: 200,
-    result: {
-      msg:
-        "Successfully invited to organisation " +
-        userResult.data.update_user_by_pk.organisation.name +
-        "\n plead log out and back in.",
-    },
+    success: true,
+    msg:
+      "Successfully invited to organisation " +
+      userResult.data.update_user_by_pk.organisation.name,
   };
-}
+};
+
+const commands: Record<string, TokenHandler> = {
+  "invite-org": inviteOrg,
+};

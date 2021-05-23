@@ -26,12 +26,12 @@ function SettingsPage() {
             <div className="input-strip">
               <input
                 type="text"
-                value={`${window.location.protocol}//${window.location.host}/token/?t=${result.inviteToken}`}
+                value={`${window.location.protocol}//${window.location.host}/api/token/?t=${result.token}`}
               />
               <button
                 onClick={() => {
                   navigator.clipboard.writeText(
-                    `${window.location.protocol}//${window.location.host}/token/?t=${result.inviteToken}`
+                    `${window.location.protocol}//${window.location.host}/api/token/?t=${result.token}`
                   );
                 }}
               >

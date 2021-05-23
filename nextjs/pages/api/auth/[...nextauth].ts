@@ -25,8 +25,6 @@ export default NextAuth({
         algorithm: "HS256",
       });
 
-      console.log(session, token);
-
       return {
         user: { ...session.user, image: token?.image, id: token.sub },
         auth: {
@@ -47,6 +45,7 @@ export default NextAuth({
         name: userInfo.name,
         data: metadata,
         email: userInfo.email,
+        image: userInfo.image,
       });
 
       Object.assign(userInfo, { id, organisation_id, manager });
@@ -56,40 +55,50 @@ export default NextAuth({
     async jwt(token, user?: ExtendedUser) {
       const isJustUserSignedIn = !!user;
 
-      console.log(token, user);
-
-      if (isJustUserSignedIn) {
-        const roles = ["user"];
-        if (user.email === "tim.bachmann96@gmail.com") {
-          roles.push("admin");
-        }
-        if (user.manager) {
-          roles.push("manager");
-        }
-
-        console.log(`User: ${user.name} logged in`);
-
-        const claims = {
-          sub: user.id,
-          name: user.name,
-          email: user.email,
-          image: user.image,
-          "https://hasura.io/jwt/claims": {
-            "x-hasura-allowed-roles": roles,
-            "x-hasura-default-role": user.manager ? "manager" : "user",
-            "x-hasura-role": user.manager ? "manager" : "user",
-            "x-hasura-user-id": user.id,
-            "x-hasura-org-id": user.organisation_id,
+      if (!isJustUserSignedIn) {
+        const update = await hasura({
+          query: `
+            query($id: uuid!) {
+              user_by_pk(id: $id) {
+                id
+                name
+                email
+                image
+                manager
+                organisation_id
+              }
+            }
+          `,
+          variables: {
+            id: token.sub,
           },
-        };
+        });
 
-        return claims;
-      } else {
-        // TODO: update token with recent data:
-        // * org-id
-        // *
+        user = update.data.user_by_pk;
       }
-      return token;
+      const roles = ["user"];
+      if (user.email === "tim.bachmann96@gmail.com") {
+        roles.push("admin");
+      }
+      if (user.manager) {
+        roles.push("manager");
+      }
+
+      const claims = {
+        ...(token ?? {}),
+        sub: user.id ?? token.sub,
+        name: user.name,
+        email: user.email,
+        image: user.image,
+        "https://hasura.io/jwt/claims": {
+          "x-hasura-allowed-roles": roles,
+          "x-hasura-default-role": user.manager ? "manager" : "user",
+          "x-hasura-role": user.manager ? "manager" : "user",
+          "x-hasura-user-id": user.id,
+          "x-hasura-org-id": user.organisation_id,
+        },
+      };
+      return claims;
     },
   },
   providers: [
@@ -106,7 +115,18 @@ async function upsertUserAccount({
   name,
   data,
   email,
-}): Promise<{ id: string; organisation_id?: string; manager?: boolean }> {
+  image,
+}: {
+  token: string;
+  name: string;
+  data: Record<string, unknown>;
+  email: string;
+  image?: string;
+}): Promise<{
+  id: string;
+  organisation_id?: string;
+  manager?: boolean;
+}> {
   const userResult = await hasura({
     query: `
       query($token: String!) {
@@ -124,6 +144,31 @@ async function upsertUserAccount({
   const user = userResult.data?.user_account_by_pk?.user;
 
   if (user) {
+    await hasura({
+      query: `
+        mutation(
+          $id: uuid!
+          $email: String!
+          $image: String!
+          $last_online: timestamptz!
+          $name: String!
+        ) {
+          update_user_by_pk(
+            pk_columns: { id: $id }
+            _set: {
+              email: $email
+              image: $image
+              last_online: $last_online
+              name: $name
+            }
+          ) {
+            id
+          }
+        }
+      `,
+      variables: { id: user.id, email, image, name, last_online: new Date() },
+    });
+
     return user;
   } else {
     console.log("User does NOT exist");
@@ -142,10 +187,6 @@ async function upsertUserAccount({
               user_token: $token
               user: {
                 data: { name: $name, email: $email }
-                on_conflict: {
-                  constraint: user_pkey
-                  update_columns: [name, email]
-                }
               }
               data: $data
             }
@@ -158,8 +199,6 @@ async function upsertUserAccount({
       `,
       variables: { token, email, name, data },
     });
-    console.log({ token, email, name, data });
-    console.dir(newUser);
     return { id: newUser.data.insert_user_account_one.user_id };
   }
 }

@@ -1,4 +1,4 @@
-export async function hasura({ query, variables }) {
+export async function hasura({ query, variables }): Promise<{ data: any }> {
   return await fetch("http://coach-platform-hasura:8080/v1/graphql", {
     method: "POST",
     body: JSON.stringify({

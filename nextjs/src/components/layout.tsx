@@ -5,14 +5,17 @@ import { FC, useState } from "react";
 import { Avatar } from "./avatar";
 //import "../styles.css";
 
-export const Layout: FC<{ children: JSX.Element }> = ({ children }) => {
+export const Layout: FC<{ children: JSX.Element; disabled?: boolean }> = ({
+  children,
+  disabled = false,
+}) => {
   const [mobileOpen, setMobileOpen] = useState(false);
 
   return (
     <div className="app-wrap">
       <div className="page-wrap">
         <TopNav mobileOpen={mobileOpen} setMobileOpen={setMobileOpen} />
-        <SideNav mobileOpen={mobileOpen} />
+        <SideNav disabled={disabled} mobileOpen={mobileOpen} />
         <main>{children}</main>
       </div>
       <style jsx scoped>{`
@@ -193,7 +196,14 @@ const AvatarDropdown: FC = () => {
   );
 };
 
-const SideNav: FC<{ mobileOpen: boolean }> = ({ mobileOpen }) => {
+const SideNav: FC<{ mobileOpen: boolean; disabled: boolean }> = ({
+  mobileOpen,
+  disabled,
+}) => {
+  if (disabled) {
+    return <nav className="side-nav"></nav>;
+  }
+
   return (
     <nav className={`side-nav ${mobileOpen ? "active" : ""}`}>
       <ul className="nav-list">
