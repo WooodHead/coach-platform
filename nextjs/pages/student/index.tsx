@@ -1,5 +1,5 @@
 import { useFormik } from "formik";
-import { useRouter } from "next/dist/client/router";
+import { Router, useRouter } from "next/dist/client/router";
 import Link from "next/link";
 import React, { FC } from "react";
 import { gql, useMutation, useQuery } from "urql";
@@ -43,6 +43,7 @@ function StudentsPage() {
 export default StudentsPage as FC<void>;
 
 function NewStudent() {
+  const router = useRouter();
   const [, addUser] = useMutation(gql`
     mutation MyMutation($birthday: date, $name: String!) {
       insert_student_one(object: { birthday: $birthday, name: $name }) {
@@ -60,7 +61,7 @@ function NewStudent() {
         name: values.name,
         birthday: values.birthday === "" ? null : values.birthday,
       });
-      console.log(res);
+      router.push(`/student/${res.data.insert_student_one.id}`);
     },
   });
   return (

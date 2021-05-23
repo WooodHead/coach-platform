@@ -1,9 +1,10 @@
 import Link from "next/link";
-import { add } from "date-fns";
+import { add, differenceInCalendarYears } from "date-fns";
 import { useRouter } from "next/dist/client/router";
-import React, { FC } from "react";
-import { gql, useQuery } from "urql";
+import React, { FC, useState } from "react";
+import { gql, useMutation, useQuery } from "urql";
 import { Layout } from "../../src/components/layout";
+import { Editable } from "../../src/components/editable";
 
 function LessonPage() {
   const router = useRouter();
@@ -39,6 +40,27 @@ function LessonPage() {
     variables: { id },
   });
 
+  const [, setName] = useMutation(gql`
+    mutation($id: uuid!, $name: String!) {
+      update_student_by_pk(pk_columns: { id: $id }, _set: { name: $name }) {
+        id
+        name
+      }
+    }
+  `);
+
+  const [, setBirthday] = useMutation(gql`
+    mutation($id: uuid!, $birthday: date!) {
+      update_student_by_pk(
+        pk_columns: { id: $id }
+        _set: { birthday: $birthday }
+      ) {
+        id
+        birthday
+      }
+    }
+  `);
+
   const student = result.data?.student_by_pk;
 
   if (!student) {
@@ -52,12 +74,37 @@ function LessonPage() {
   return (
     <Layout>
       <>
-        <h1>{student.name}</h1>
-        <div>
-          Total Trainings{" "}
-          {student.student_attendances_aggregate.aggregate.count}
-        </div>
-        <div>Birthday: {new Date(student.birthday).toLocaleDateString()}</div>
+        <h1>
+          <Editable
+            value={student.name}
+            onChange={(name) => setName({ id: student.id, name })}
+          >
+            {student.name}
+          </Editable>
+        </h1>
+        <ul>
+          <li>
+            <strong>Total Trainings </strong>
+            {student.student_attendances_aggregate.aggregate.count}
+          </li>
+          <li>
+            <Editable
+              type="date"
+              value={student.birthday}
+              onChange={(bd) => setBirthday({ id: student.id, birthday: bd })}
+            >
+              <strong>Birthday: </strong>
+              {student.birthday &&
+                new Date(student.birthday).toLocaleDateString() +
+                  " (" +
+                  differenceInCalendarYears(
+                    new Date(),
+                    new Date(student.birthday)
+                  ) +
+                  ")"}
+            </Editable>
+          </li>
+        </ul>
         <h2>Last Attendances</h2>
         <table>
           <thead>
