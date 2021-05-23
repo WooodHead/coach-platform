@@ -31,8 +31,12 @@ MyApp.getInitialProps = async (appContext: AppContext) => {
 
   const newRoute = routing(appContext.router.route, session);
   if (newRoute && newRoute !== appContext.router.route) {
-    appContext.ctx.res.writeHead(307, { Location: newRoute });
-    appContext.ctx.res.end();
+    if (appContext.ctx.res) {
+      appContext.ctx.res.writeHead(307, { Location: newRoute });
+      appContext.ctx.res.end();
+    } else {
+      window.location.href = newRoute;
+    }
   }
 
   return {
@@ -47,7 +51,9 @@ const routing = (
   route: string,
   session: Session & { auth?: { org: string } }
 ) => {
-  if (!session) {
+  if (route === "/msg") {
+    return;
+  } else if (!session) {
     return "/api/auth/signin";
   } else if (!session.auth?.org) {
     return "/no-org";

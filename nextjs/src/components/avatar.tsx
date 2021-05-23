@@ -8,7 +8,10 @@ export const Avatar: FC<{
   return (
     <div className="avatar">
       <img
-        src={image}
+        src={
+          image ??
+          `https://eu.ui-avatars.com/api/?name=${encodeURIComponent(name)}`
+        }
         width={size}
         height={size}
         alt={`${name}s Avatar Image`}

@@ -16,13 +16,15 @@ export default async function handler(
     (await getToken({ req, secret: jwtSecret })) as JWT & HasuraClaims
   );
   if (!userToken) {
-    res.status(403).json({ error: "Not logged in" });
+    res.redirect(
+      `/msg?msg=${encodeURIComponent("You are not logged in")}&type=warn`
+    );
     return;
   }
 
   const tokenId = req.query.t;
   if (!tokenId) {
-    res.status(400).json({ error: "Token not provided" });
+    res.redirect(`/msg?msg=${encodeURIComponent("Token invalid")}&type=warn`);
     return;
   }
 
@@ -43,7 +45,7 @@ export default async function handler(
   const tokenObj = resu?.data?.url_token_by_pk;
 
   if (!tokenObj) {
-    res.status(400).json({ error: "Token invalid" });
+    res.redirect(`/msg?msg=${encodeURIComponent("Token invalid")}&type=warn`);
     return;
   }
 

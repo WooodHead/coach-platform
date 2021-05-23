@@ -11,9 +11,9 @@ function MsgPage() {
     <Layout disabled={true}>
       <div className="msg-wrap">
         <div>{msg}</div>
-        <Link href="/">
-          <a className="button">Continue</a>
-        </Link>
+        <a className="button" href="/">
+          Continue
+        </a>
         <style jsx>{`
           .msg-wrap {
             display: flex;
