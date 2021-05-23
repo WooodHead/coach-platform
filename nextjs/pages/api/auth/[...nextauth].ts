@@ -2,6 +2,7 @@ import NextAuth, { User } from "next-auth";
 import Providers from "next-auth/providers";
 import jwt from "jsonwebtoken";
 import { hasura } from "../../../src/lib/hasura";
+import { development } from "../../../src/srv-config";
 
 const secret = process.env.JWT_SECRET;
 type ExtendedUser = User & {
@@ -19,6 +20,38 @@ export default NextAuth({
   jwt: {
     secret,
   },
+  providers: [
+    Providers.GitHub({
+      clientId: process.env.AUTH_GITHUB_CLIENT_ID,
+      clientSecret: process.env.AUTH_GITHUB_CLIENT_SECRET,
+      scope: "user:email",
+    }),
+    ...(!development
+      ? []
+      : [
+          Providers.Credentials({
+            id: "debug",
+            name: "Debug-Credentials",
+            credentials: {
+              id: {
+                label: "ID",
+                type: "number",
+              },
+              name: {
+                label: "Username",
+                type: "text",
+              },
+            },
+            async authorize(creds): Promise<User> {
+              return {
+                id: "1",
+                email: "debug@coach-platform.com",
+                ...creds,
+              };
+            },
+          }),
+        ]),
+  ],
   callbacks: {
     async session(session, token: any) {
       const encodedToken = jwt.sign(token, secret, {
@@ -36,7 +69,9 @@ export default NextAuth({
       };
     },
     async signIn(userInfo: ExtendedUser, account, metadata) {
-      const userToken = `${account.provider}:${account.id}`;
+      console.log(userInfo, account, metadata);
+
+      const userToken = `${account.provider ?? account.type}:${userInfo.id}`;
 
       await githubGetEmail(account, userInfo);
 
@@ -101,13 +136,6 @@ export default NextAuth({
       return claims;
     },
   },
-  providers: [
-    Providers.GitHub({
-      clientId: process.env.AUTH_GITHUB_CLIENT_ID,
-      clientSecret: process.env.AUTH_GITHUB_CLIENT_SECRET,
-      scope: "user:email",
-    }),
-  ],
 });
 
 async function upsertUserAccount({
@@ -181,12 +209,13 @@ async function upsertUserAccount({
           $name: String!
           $data: jsonb
           $email: String!
+          $image: String
         ) {
           insert_user_account_one(
             object: {
               user_token: $token
               user: {
-                data: { name: $name, email: $email }
+                data: { name: $name, email: $email, image: $image }
               }
               data: $data
             }
@@ -197,7 +226,7 @@ async function upsertUserAccount({
           }
         }
       `,
-      variables: { token, email, name, data },
+      variables: { token, email, name, data, image },
     });
     return { id: newUser.data.insert_user_account_one.user_id };
   }
