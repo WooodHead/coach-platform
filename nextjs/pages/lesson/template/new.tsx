@@ -43,7 +43,9 @@ function NewLessonPage() {
         duration: values.duration + ":00",
       });
       if (res?.data) {
-        router.push(`/`);
+        router.push(
+          `/lesson/template/${res.data.insert_lesson_template_one.id}`
+        );
       }
     },
   });

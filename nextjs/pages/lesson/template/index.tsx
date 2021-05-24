@@ -44,7 +44,11 @@ function StudentsPage() {
           <tbody>
             {result.data.lesson_template.map((t) => (
               <tr key={t.id}>
-                <td>{t.name}</td>
+                <td>
+                  <Link href={`/lesson/template/${t.id}`}>
+                    <a>{t.name}</a>
+                  </Link>
+                </td>
                 <td>{t.day}</td>
                 <td>{t.start_time}</td>
                 <td>{t.duration}</td>

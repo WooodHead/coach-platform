@@ -196,17 +196,48 @@ export function EditableTime({
   const [_, hh, mm] = /(\d+):(\d+)/.exec(value);
 
   const [time, setTime] = useState(`${hh}:${mm}`);
-  function save() {
-    onChange(time);
-  }
-
   return (
-    <EditableBase label={label} save={save} innerChildren={children}>
+    <EditableBase
+      label={label}
+      save={() => onChange(time)}
+      innerChildren={children}
+    >
       <input
         value={time}
         onChange={(e) => setTime(e.target.value)}
         type="time"
       />
+    </EditableBase>
+  );
+}
+
+type EditSelect = {
+  onChange: (a: string) => void;
+  value: string;
+  options: Record<string, string>;
+};
+export function EditableSelect({
+  label,
+  children,
+  onChange,
+  value,
+  options,
+}: BaseElements & EditSelect): ReactElement {
+  const [val, setVal] = useState(value);
+
+  return (
+    <EditableBase
+      label={label}
+      save={() => onChange(val)}
+      innerChildren={children}
+    >
+      <select onChange={(e) => setVal(e.target.value)} value={val}>
+        {Object.entries(options).map((e) => (
+          <option key={e[0]} value={e[0]}>
+            {e[1]}
+          </option>
+        ))}
+      </select>
     </EditableBase>
   );
 }

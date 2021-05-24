@@ -10,6 +10,7 @@ import {
   EditableString,
   EditableTime,
 } from "../../src/components/editable";
+import { StudentSearch } from "../../src/components/student-search";
 
 function LessonPage() {
   const router = useRouter();
@@ -116,10 +117,15 @@ function LessonPage() {
             .substr(0, end.toLocaleTimeString().length - 3)}
         </EditableTime>
         <div>{lesson.plan}</div>
-        <AddStudent
-          lessonId={lesson.id}
-          reload={() => reloadLesson({ requestPolicy: "network-only" })}
-        />
+        <StudentSearch>
+          <AttendanceButton
+            lesson_id={lesson.id}
+            student_id=""
+            reload={() => {
+              reloadLesson({ requestPolicy: "network-only" });
+            }}
+          />
+        </StudentSearch>
         <table>
           <thead>
             <tr>
@@ -158,108 +164,3 @@ function LessonPage() {
 }
 
 export default LessonPage as FC<void>;
-
-const AddStudent: FC<{ lessonId: string; reload: () => void }> = ({
-  lessonId,
-  reload,
-}) => {
-  const [searchText, setSearchText] = useState("");
-
-  const [result] = useQuery({
-    query: gql`
-      query MyQuery($name: String = "") {
-        student(where: { name: { _ilike: $name } }, limit: 5) {
-          id
-          name
-          birthday
-        }
-      }
-    `,
-    pause: searchText === "",
-    variables: { name: `%${searchText}%` },
-  });
-
-  const [, addStudent] = useMutation(gql`
-    mutation MyMutation($lesson: uuid!, $student: uuid!) {
-      insert_student_attendance_one(
-        object: { lesson_id: $lesson, student_id: $student, state: present }
-        on_conflict: { constraint: student_attendance_student_id_lesson_id_key }
-      ) {
-        id
-        lesson_id
-        state
-        student_id
-      }
-    }
-  `);
-
-  return (
-    <div className="add-student">
-      <div className="search-box">
-        <input
-          type="text"
-          placeholder="Search Student"
-          value={searchText}
-          onChange={(e) => setSearchText(e.target.value)}
-        />
-        <button title="clear" onClick={() => setSearchText("")}>
-          X
-        </button>
-      </div>
-      {result.data && searchText !== "" && (
-        <ul className="result-list">
-          {result.data.student.map((s) => (
-            <li key={s.id}>
-              {s.name}
-              {s.birthday && ` (${new Date(s.birthday).toLocaleDateString()})`}
-              <AttendanceButton
-                student_id={s.id}
-                lesson_id={lessonId}
-                reload={() => {
-                  setSearchText("");
-                  reload();
-                }}
-              />
-            </li>
-          ))}
-        </ul>
-      )}
-      <style jsx>{`
-        .add-student {
-          margin-top: 1rem;
-          margin-bottom: 1rem;
-          max-width: 500px;
-          position: relative;
-        }
-        .search-box {
-          position: relative;
-        }
-        .search-box input {
-          width: 100%;
-        }
-        .search-box button {
-          position: absolute;
-          top: 0px;
-          right: 0px;
-          margin-right: 0px;
-        }
-        .result-list {
-          list-style: none;
-          padding-left: 0px;
-          position: absolute;
-          background-color: white;
-          width: 100%;
-          padding: 1rem;
-          border-radius: var(--box-border-radius);
-          box-shadow: 0 0.5em 1em -0.125em rgba(10, 10, 10, 0.1),
-            0 0 0 1px rgba(10, 10, 10, 0.02);
-        }
-        .result-list li {
-          display: flex;
-          align-items: baseline;
-          justify-content: space-between;
-        }
-      `}</style>
-    </div>
-  );
-};
