@@ -87,6 +87,13 @@ function TimeTable() {
           duration
           name
           time: start_time
+          template_students(order_by: { student: { name: asc } }) {
+            id
+            student {
+              id
+              name
+            }
+          }
         }
         lesson(where: { start_time: { _gte: $weekStart, _lte: $weekEnd } }) {
           id
@@ -109,6 +116,7 @@ function TimeTable() {
       $start_time: timestamptz!
       $name: String!
       $duration: interval!
+      $student_attendances: student_attendance_arr_rel_insert_input!
     ) {
       insert_lesson_one(
         object: {
@@ -116,6 +124,7 @@ function TimeTable() {
           name: $name
           start_time: $start_time
           template_id: $template_id
+          student_attendances: $student_attendances
         }
       ) {
         id
@@ -166,6 +175,12 @@ function TimeTable() {
       start_time,
       name: e.name,
       duration: e.duration,
+      student_attendances: {
+        data: e.template_students.map((ts) => ({
+          student_id: ts.student.id,
+          state: "absent",
+        })),
+      },
     });
     if (result.data) {
       router.push(`/lesson/${result.data.insert_lesson_one.id}`);
@@ -206,7 +221,14 @@ function TimeTable() {
               <li>name: {openTemplate.name}</li>
               <li>time: {openTemplate.time}</li>
               <li>duration: {openTemplate.duration}</li>
-              <li>Students: TODO</li>
+              <li>
+                Students:
+                <ul>
+                  {openTemplate.template_students.map((ts) => (
+                    <li key={ts.id}>{ts.student.name}</li>
+                  ))}
+                </ul>
+              </li>
             </ul>
             <button onClick={() => onCreateLesson(openTemplate)}>Create</button>
           </div>
