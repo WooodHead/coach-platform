@@ -5,6 +5,11 @@ import React, { FC, useState } from "react";
 import { gql, useMutation, useQuery } from "urql";
 import { AttendanceButton } from "../../src/components/attendance-buttons";
 import { Layout } from "../../src/components/layout";
+import {
+  EditableDateTime,
+  EditableString,
+  EditableTime,
+} from "../../src/components/editable";
 
 function LessonPage() {
   const router = useRouter();
@@ -34,6 +39,37 @@ function LessonPage() {
     variables: { id },
   });
 
+  const [, setName] = useMutation(gql`
+    mutation($id: uuid!, $name: String!) {
+      update_lesson_by_pk(pk_columns: { id: $id }, _set: { name: $name }) {
+        id
+        name
+      }
+    }
+  `);
+  const [, setDate] = useMutation(gql`
+    mutation($id: uuid!, $date: timestamptz!) {
+      update_lesson_by_pk(
+        pk_columns: { id: $id }
+        _set: { start_time: $date }
+      ) {
+        id
+        start_time
+      }
+    }
+  `);
+  const [, setDuration] = useMutation(gql`
+    mutation($id: uuid!, $duration: interval!) {
+      update_lesson_by_pk(
+        pk_columns: { id: $id }
+        _set: { duration: $duration }
+      ) {
+        id
+        duration
+      }
+    }
+  `);
+
   const lesson = result.data?.lesson_by_pk;
 
   if (!lesson) {
@@ -41,15 +77,44 @@ function LessonPage() {
   }
 
   const start = new Date(lesson?.start_time);
-  const [, hours, minutes, seconds] = /(\d)+:(\d)+:(\d)+/
+  const [, hours, minutes] = /(\d+):(\d+)/
     .exec(lesson?.duration)
     .map((n) => Number(n));
-  const end = add(start, { hours, minutes, seconds });
+  const end = add(start, { hours, minutes });
+
+  console.log(`${start} + ${lesson?.duration} = ${end}`);
+
   return (
     <Layout>
       <div>
-        <h1>{lesson.name}</h1>
-        {start.toLocaleString()} - {end.toLocaleTimeString()}
+        <h1>
+          <EditableString
+            label="Name"
+            value={lesson.name}
+            onChange={(name) => setName({ id: lesson.id, name })}
+          >
+            {lesson.name}
+          </EditableString>
+        </h1>
+        <EditableDateTime
+          label="Start time"
+          value={start}
+          onChange={(date) =>
+            setDate({ id: lesson.id, date: date.toISOString() })
+          }
+        >
+          {start.toLocaleString().substr(0, start.toLocaleString().length - 3)}
+        </EditableDateTime>
+        -
+        <EditableTime
+          label="Duration"
+          value={lesson.duration}
+          onChange={(duration) => setDuration({ id: lesson.id, duration })}
+        >
+          {end
+            .toLocaleTimeString()
+            .substr(0, end.toLocaleTimeString().length - 3)}
+        </EditableTime>
         <div>{lesson.plan}</div>
         <AddStudent
           lessonId={lesson.id}

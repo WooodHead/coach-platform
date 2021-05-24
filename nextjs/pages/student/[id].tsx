@@ -1,10 +1,9 @@
-import Link from "next/link";
-import { add, differenceInCalendarYears } from "date-fns";
+import { differenceInCalendarYears } from "date-fns";
 import { useRouter } from "next/dist/client/router";
-import React, { FC, useState } from "react";
+import React, { FC } from "react";
 import { gql, useMutation, useQuery } from "urql";
 import { Layout } from "../../src/components/layout";
-import { Editable } from "../../src/components/editable";
+import { EditableDate, EditableString } from "../../src/components/editable";
 
 function LessonPage() {
   const router = useRouter();
@@ -75,12 +74,13 @@ function LessonPage() {
     <Layout>
       <>
         <h1>
-          <Editable
+          <EditableString
+            label="Name"
             value={student.name}
             onChange={(name) => setName({ id: student.id, name })}
           >
             {student.name}
-          </Editable>
+          </EditableString>
         </h1>
         <ul>
           <li>
@@ -88,9 +88,9 @@ function LessonPage() {
             {student.student_attendances_aggregate.aggregate.count}
           </li>
           <li>
-            <Editable
-              type="date"
-              value={student.birthday}
+            <EditableDate
+              label="Birthday"
+              value={new Date(student.birthday)}
               onChange={(bd) => setBirthday({ id: student.id, birthday: bd })}
             >
               <strong>Birthday: </strong>
@@ -102,7 +102,7 @@ function LessonPage() {
                     new Date(student.birthday)
                   ) +
                   ")"}
-            </Editable>
+            </EditableDate>
           </li>
         </ul>
         <h2>Last Attendances</h2>
