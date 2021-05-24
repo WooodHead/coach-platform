@@ -1,4 +1,4 @@
-import { differenceInCalendarYears } from "date-fns";
+import { differenceInCalendarYears, differenceInYears } from "date-fns";
 import { useRouter } from "next/dist/client/router";
 import React, { FC } from "react";
 import { gql, useMutation, useQuery } from "urql";
@@ -97,10 +97,7 @@ function LessonPage() {
               {student.birthday &&
                 new Date(student.birthday).toLocaleDateString() +
                   " (" +
-                  differenceInCalendarYears(
-                    new Date(),
-                    new Date(student.birthday)
-                  ) +
+                  differenceInYears(new Date(), new Date(student.birthday)) +
                   ")"}
             </EditableDate>
           </li>

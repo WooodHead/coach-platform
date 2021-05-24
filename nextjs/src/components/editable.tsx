@@ -41,7 +41,7 @@ function EditableBase({
               >
                 Cancel
               </button>
-            </div>{" "}
+            </div>
           </div>
         )}
       </span>
