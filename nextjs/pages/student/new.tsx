@@ -2,6 +2,7 @@ import { useFormik } from "formik";
 import { useRouter } from "next/dist/client/router";
 import { gql, useMutation } from "urql";
 import { Layout } from "../../src/components/layout";
+import { useNotification } from "../../src/hooks/notification-hook";
 
 function NewStudent() {
   const router = useRouter();
@@ -15,9 +16,16 @@ function NewStudent() {
     }
   `);
 
+  const [addNotification] = useNotification();
+
   const formik = useFormik({
     initialValues: { name: "", birthday: "" },
     async onSubmit(values) {
+      if (!values.name.trim()) {
+        addNotification({ text: "Empty student name", type: "warn", ttl: 5 });
+        return;
+      }
+
       const res = await addUser({
         name: values.name,
         birthday: values.birthday === "" ? null : values.birthday,
