@@ -20,8 +20,7 @@ function LessonPage() {
   return (
     <Layout>
       <div>
-        <h1>Coach Platform</h1>
-        <h2>Lessons</h2>
+        <h1>Lessons</h1>
         <Link href="/lesson/new">
           <a className="button">New Lesson</a>
         </Link>
