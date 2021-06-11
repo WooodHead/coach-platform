@@ -3,6 +3,7 @@ import { useRouter } from "next/dist/client/router";
 import { gql, useMutation } from "urql";
 import { Layout } from "../../src/components/layout";
 import { useNotification } from "../../src/hooks/notification-hook";
+import { gqlErrorCheck } from "../../src/lib/errors";
 
 function NewStudent() {
   const router = useRouter();
@@ -30,6 +31,7 @@ function NewStudent() {
         name: values.name,
         birthday: values.birthday === "" ? null : values.birthday,
       });
+      gqlErrorCheck(res, addNotification);
       router.push(`/student/${res.data.insert_student_one.id}`);
     },
   });

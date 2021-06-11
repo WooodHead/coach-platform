@@ -1,6 +1,6 @@
 import { createContext, FC, useContext, useState } from "react";
 
-type Notification = {
+export type Notification = {
   text: string;
   type: "info" | "warn" | "error";
   ttl?: number;

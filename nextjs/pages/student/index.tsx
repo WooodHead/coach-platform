@@ -1,8 +1,6 @@
-import { useFormik } from "formik";
-import { Router, useRouter } from "next/dist/client/router";
 import Link from "next/link";
 import React, { FC } from "react";
-import { gql, useMutation, useQuery } from "urql";
+import { gql, useQuery } from "urql";
 import { Layout } from "../../src/components/layout";
 import { getAge } from "../../src/lib/time-fmt";
 
