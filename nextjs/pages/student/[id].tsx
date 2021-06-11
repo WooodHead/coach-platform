@@ -4,6 +4,7 @@ import React, { FC } from "react";
 import { gql, useMutation, useQuery } from "urql";
 import { Layout } from "../../src/components/layout";
 import { EditableDate, EditableString } from "../../src/components/editable";
+import { getAge } from "../../src/lib/time-fmt";
 
 function LessonPage() {
   const router = useRouter();
@@ -97,7 +98,7 @@ function LessonPage() {
               {student.birthday &&
                 new Date(student.birthday).toLocaleDateString() +
                   " (" +
-                  differenceInYears(new Date(), new Date(student.birthday)) +
+                  getAge(new Date(student.birthday)) +
                   ")"}
             </EditableDate>
           </li>
