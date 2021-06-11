@@ -10,13 +10,16 @@ import "../src/styles.css";
 import { Layout } from "../src/components/layout";
 import app from "next/app";
 import { Session } from "next-auth";
+import { NotificationContextProvider } from "../src/hooks/notification-hook";
 //import "../styles.css";
 
 function MyApp({ Component, pageProps }: AppProps) {
   return (
     <AuthProvider session={pageProps.session}>
       <GraphQLProvider>
-        <Component {...pageProps} />
+        <NotificationContextProvider>
+          <Component {...pageProps} />
+        </NotificationContextProvider>
       </GraphQLProvider>
     </AuthProvider>
   );

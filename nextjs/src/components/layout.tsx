@@ -2,6 +2,7 @@ import { signIn, signOut, useSession } from "next-auth/client";
 import { AppProps } from "next/app";
 import Link from "next/link";
 import { FC, useState } from "react";
+import { useNotification } from "../hooks/notification-hook";
 import { Avatar } from "./avatar";
 //import "../styles.css";
 
@@ -13,6 +14,7 @@ export const Layout: FC<{ children: JSX.Element; disabled?: boolean }> = ({
 
   return (
     <div className="app-wrap">
+      <Notifications />
       <div className="page-wrap">
         <TopNav mobileOpen={mobileOpen} setMobileOpen={setMobileOpen} />
         <SideNav disabled={disabled} mobileOpen={mobileOpen} />
@@ -54,6 +56,47 @@ export const Layout: FC<{ children: JSX.Element; disabled?: boolean }> = ({
           .page-wrap {
             --wrap-margin-x: 2rem;
           }
+        }
+      `}</style>
+    </div>
+  );
+};
+
+const Notifications: FC = () => {
+  const [, notifications, removeNotification] = useNotification();
+
+  return (
+    <div className="notify-container">
+      {notifications.map((n) => (
+        <div className={`notification ${n.type}`} key={n.ts}>
+          {n.text}
+          <button onClick={() => removeNotification(n)}>close</button>
+        </div>
+      ))}
+      <style jsx scoped>{`
+        .notify-container {
+          position: absolute;
+          right: 10px;
+          top: 10px;
+          width: min(calc(100vw - 20px), 30rem);
+          z-index: 1;
+        }
+        .notification {
+          background-color: red;
+          padding: 1rem;
+          border-radius: var(--box-border-radius);
+          margin: 0.5rem;
+          display: flex;
+          justify-content: space-between;
+        }
+        .notification.info {
+          background-color: var(--color-green-1);
+        }
+        .notification.warn {
+          background-color: var(--color-yellow-1);
+        }
+        .notification.error {
+          background-color: var(--color-red-1);
         }
       `}</style>
     </div>

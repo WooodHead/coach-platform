@@ -1,4 +1,4 @@
-import { add, format, set } from "date-fns";
+import { add, differenceInYears, format, set } from "date-fns";
 import { isDate } from "lodash";
 
 export function getTimeFromString(time: string): Date {
@@ -28,4 +28,8 @@ export function durationString(
   const fs = format(start, "HH:mm");
   const fe = format(end, "HH:mm");
   return [`${fs} - ${fe}`, fs, fe];
+}
+
+export function getAge(birthday: Date): number {
+  return differenceInYears(new Date(), new Date(birthday));
 }
