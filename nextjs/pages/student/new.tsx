@@ -8,7 +8,7 @@ import { gqlErrorCheck } from "../../src/lib/errors";
 function NewStudent() {
   const router = useRouter();
   const [, addUser] = useMutation(gql`
-    mutation MyMutation($birthday: date, $name: String!) {
+    mutation AddStudent($birthday: date, $name: String!) {
       insert_student_one(object: { birthday: $birthday, name: $name }) {
         id
         name

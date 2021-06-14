@@ -7,7 +7,7 @@ import { Layout } from "../../../src/components/layout";
 function StudentsPage() {
   const [result] = useQuery({
     query: gql`
-      query MyQuery {
+      query GetLessonTemplates {
         lesson_template {
           id
           duration

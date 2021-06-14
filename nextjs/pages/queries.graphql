@@ -1,0 +1,60 @@
+query LessonsToday($start: timestamptz!, $end: timestamptz!) {
+  lesson(
+    where: { start_time: { _gte: $start, _lte: $end } }
+    order_by: { start_time: asc }
+  ) {
+    id
+    name
+    start_time
+  }
+}
+
+query AllLessonsInWeek($weekStart: timestamptz!, $weekEnd: timestamptz!) {
+  lesson_template(
+    where: {
+      _not: {
+        lessons: { start_time: { _gte: $weekStart, _lte: $weekEnd } }
+      }
+    }
+  ) {
+    id
+    day
+    duration
+    name
+    time: start_time
+    template_students(order_by: { student: { name: asc } }) {
+      id
+      student {
+        id
+        name
+      }
+    }
+  }
+  lesson(where: { start_time: { _gte: $weekStart, _lte: $weekEnd } }) {
+    id
+    name
+    start_time
+    duration
+    template_id
+  }
+}
+
+mutation CreateLesson(
+  $template_id: uuid!
+  $start_time: timestamptz!
+  $name: String!
+  $duration: interval!
+  $student_attendances: student_attendance_arr_rel_insert_input!
+) {
+  insert_lesson_one(
+    object: {
+      duration: $duration
+      name: $name
+      start_time: $start_time
+      template_id: $template_id
+      student_attendances: $student_attendances
+    }
+  ) {
+    id
+  }
+}

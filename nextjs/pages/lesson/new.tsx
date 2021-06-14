@@ -7,7 +7,7 @@ import { Layout } from "../../src/components/layout";
 function NewLessonPage() {
   const router = useRouter();
   const [, insertLesson] = useMutation(gql`
-    mutation MyMutation(
+    mutation AddLesson(
       $name: String!
       $start_time: timestamptz!
       $duration: interval!

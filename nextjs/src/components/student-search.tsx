@@ -13,7 +13,7 @@ export const StudentSearch: FC = ({
 
   const [result] = useQuery({
     query: gql`
-      query MyQuery($name: String = "") {
+      query SearchStudent($name: String = "") {
         student(
           where: { name: { _ilike: $name } }
           limit: 5

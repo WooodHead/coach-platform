@@ -18,7 +18,7 @@ function LessonPage() {
 
   const [result, reloadLesson] = useQuery({
     query: gql`
-      query MyQuery($id: uuid!) {
+      query GetLessonById($id: uuid!) {
         lesson_by_pk(id: $id) {
           id
           name
@@ -41,7 +41,7 @@ function LessonPage() {
   });
 
   const [, setName] = useMutation(gql`
-    mutation($id: uuid!, $name: String!) {
+    mutation SetLessonName($id: uuid!, $name: String!) {
       update_lesson_by_pk(pk_columns: { id: $id }, _set: { name: $name }) {
         id
         name
@@ -49,7 +49,7 @@ function LessonPage() {
     }
   `);
   const [, setDate] = useMutation(gql`
-    mutation($id: uuid!, $date: timestamptz!) {
+    mutation SetLessonDate($id: uuid!, $date: timestamptz!) {
       update_lesson_by_pk(
         pk_columns: { id: $id }
         _set: { start_time: $date }
@@ -60,7 +60,7 @@ function LessonPage() {
     }
   `);
   const [, setDuration] = useMutation(gql`
-    mutation($id: uuid!, $duration: interval!) {
+    mutation SetLessonDuration($id: uuid!, $duration: interval!) {
       update_lesson_by_pk(
         pk_columns: { id: $id }
         _set: { duration: $duration }

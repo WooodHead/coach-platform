@@ -17,6 +17,12 @@ import { Calendar } from "../src/components/calendar";
 import { Layout } from "../src/components/layout";
 import { Modal } from "../src/components/modal";
 
+import {
+  useLessonsTodayQuery,
+  useAllLessonsInWeekQuery,
+  useCreateLessonMutation,
+} from "../src/generated-graphql";
+
 function Home() {
   return (
     <Layout>
@@ -37,24 +43,13 @@ function Home() {
 export default Home;
 
 function Today() {
-  const [result] = useQuery({
-    query: gql`
-      query MyMutation($start: timestamptz!, $end: timestamptz!) {
-        lesson(
-          where: { start_time: { _gte: $start, _lte: $end } }
-          order_by: { start_time: asc }
-        ) {
-          id
-          name
-          start_time
-        }
-      }
-    `,
+  const [result] = useLessonsTodayQuery({
     variables: {
       start: startOfDay(new Date()),
       end: endOfDay(new Date()),
     },
   });
+
   if (!result.data) {
     return <div>loading</div>;
   }
@@ -72,65 +67,14 @@ function TimeTable() {
   const week = addWeeks(new Date(), offset);
 
   const [openTemplate, setOpenTemplate] = useState(null);
-  const [result] = useQuery({
-    query: gql`
-      query MyQuery($weekStart: timestamptz!, $weekEnd: timestamptz!) {
-        lesson_template(
-          where: {
-            _not: {
-              lessons: { start_time: { _gte: $weekStart, _lte: $weekEnd } }
-            }
-          }
-        ) {
-          id
-          day
-          duration
-          name
-          time: start_time
-          template_students(order_by: { student: { name: asc } }) {
-            id
-            student {
-              id
-              name
-            }
-          }
-        }
-        lesson(where: { start_time: { _gte: $weekStart, _lte: $weekEnd } }) {
-          id
-          name
-          start_time
-          duration
-          template_id
-        }
-      }
-    `,
+  const [result] = useAllLessonsInWeekQuery({
     variables: {
       weekStart: startOfWeek(week, { weekStartsOn: 1 }).toISOString(),
       weekEnd: endOfWeek(week, { weekStartsOn: 1 }).toISOString(),
     },
   });
 
-  const [, createLesson] = useMutation(gql`
-    mutation MyMutation(
-      $template_id: uuid!
-      $start_time: timestamptz!
-      $name: String!
-      $duration: interval!
-      $student_attendances: student_attendance_arr_rel_insert_input!
-    ) {
-      insert_lesson_one(
-        object: {
-          duration: $duration
-          name: $name
-          start_time: $start_time
-          template_id: $template_id
-          student_attendances: $student_attendances
-        }
-      ) {
-        id
-      }
-    }
-  `);
+  const [, createLesson] = useCreateLessonMutation();
 
   const templates =
     result.data?.lesson_template?.map((t) => ({ ...t, type: "template" })) ??

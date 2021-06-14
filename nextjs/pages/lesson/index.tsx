@@ -6,7 +6,7 @@ import { Layout } from "../../src/components/layout";
 function LessonPage() {
   const [result] = useQuery({
     query: gql`
-      query MyQuery {
+      query GetLessonsSmall {
         lesson(order_by: { start_time: desc }) {
           id
           name

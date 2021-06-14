@@ -34,7 +34,7 @@ export default async function handler(
 
   const result = await hasura({
     query: `
-      mutation MyMutation(
+      mutation (
         $data: jsonb!
         $type: String!
         $expire: timestamp!

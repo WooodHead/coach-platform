@@ -7,7 +7,7 @@ import { getAge } from "../../src/lib/time-fmt";
 function StudentsPage() {
   const [result] = useQuery({
     query: gql`
-      query MyQuery {
+      query GetStudents {
         student(order_by: { name: asc }) {
           id
           name

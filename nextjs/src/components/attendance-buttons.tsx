@@ -9,7 +9,7 @@ export const AttendanceButton: FC<
   (ExistingProp | NewProp) & { reload: () => void }
 > = (props) => {
   const [, setAttendanceState] = useMutation(gql`
-    mutation MyMutation($id: uuid!, $state: attendance_state_enum!) {
+    mutation SetStudentAttendance($id: uuid!, $state: attendance_state_enum!) {
       update_student_attendance_by_pk(
         pk_columns: { id: $id }
         _set: { state: $state }
@@ -22,7 +22,7 @@ export const AttendanceButton: FC<
   `);
 
   const [, addAttendance] = useMutation(gql`
-    mutation MyMutation(
+    mutation AddStudentAttendance(
       $state: attendance_state_enum!
       $lesson_id: uuid!
       $student_id: uuid!
@@ -43,7 +43,7 @@ export const AttendanceButton: FC<
   `);
 
   const [, removeAttendace] = useMutation(gql`
-    mutation MyMutation($id: uuid!) {
+    mutation DeleteStudentAttendance($id: uuid!) {
       delete_student_attendance_by_pk(id: $id) {
         id
       }

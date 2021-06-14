@@ -11,7 +11,7 @@ function LessonPage() {
 
   const [result] = useQuery({
     query: gql`
-      query MyQuery($id: uuid!) {
+      query GetStudentById($id: uuid!) {
         student_by_pk(id: $id) {
           id
           name
@@ -40,7 +40,7 @@ function LessonPage() {
   });
 
   const [, setName] = useMutation(gql`
-    mutation($id: uuid!, $name: String!) {
+    mutation SetStudentName($id: uuid!, $name: String!) {
       update_student_by_pk(pk_columns: { id: $id }, _set: { name: $name }) {
         id
         name
@@ -49,7 +49,7 @@ function LessonPage() {
   `);
 
   const [, setBirthday] = useMutation(gql`
-    mutation($id: uuid!, $birthday: date!) {
+    mutation SetStudentBirthday($id: uuid!, $birthday: date!) {
       update_student_by_pk(
         pk_columns: { id: $id }
         _set: { birthday: $birthday }

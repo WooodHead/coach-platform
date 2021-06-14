@@ -8,7 +8,7 @@ import { DAYS } from "../../../src/days";
 function NewLessonPage() {
   const router = useRouter();
   const [, insertTemplate] = useMutation(gql`
-    mutation MyMutation(
+    mutation AddLessonTemplate(
       $name: String!
       $time: time!
       $duration: interval!

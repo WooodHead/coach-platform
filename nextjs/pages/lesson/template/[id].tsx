@@ -17,7 +17,7 @@ function LessonTemplatePage() {
 
   const [result, reloadLesson] = useQuery({
     query: gql`
-      query MyQuery($id: uuid!) {
+      query GetLessonTemplateById($id: uuid!) {
         lesson_template_by_pk(id: $id) {
           id
           name
@@ -38,7 +38,7 @@ function LessonTemplatePage() {
   });
 
   const [, setName] = useMutation(gql`
-    mutation MyMutation($id: uuid!, $name: String!) {
+    mutation UpdateLessonTemplateName($id: uuid!, $name: String!) {
       update_lesson_template_by_pk(
         pk_columns: { id: $id }
         _set: { name: $name }
@@ -50,7 +50,7 @@ function LessonTemplatePage() {
   `);
 
   const [, setDay] = useMutation(gql`
-    mutation MyMutation($id: uuid!, $day: Int!) {
+    mutation UpdateLessonTemplateDay($id: uuid!, $day: Int!) {
       update_lesson_template_by_pk(
         pk_columns: { id: $id }
         _set: { day: $day }
@@ -61,7 +61,7 @@ function LessonTemplatePage() {
     }
   `);
   const [, setTime] = useMutation(gql`
-    mutation MyMutation($id: uuid!, $time: time!) {
+    mutation UpdateLessonTemplateTime($id: uuid!, $time: time!) {
       update_lesson_template_by_pk(
         pk_columns: { id: $id }
         _set: { start_time: $time }
@@ -72,7 +72,7 @@ function LessonTemplatePage() {
     }
   `);
   const [, setDuration] = useMutation(gql`
-    mutation MyMutation($id: uuid!, $duration: interval!) {
+    mutation UpdateLessonTemplateDuration($id: uuid!, $duration: interval!) {
       update_lesson_template_by_pk(
         pk_columns: { id: $id }
         _set: { duration: $duration }
@@ -84,7 +84,7 @@ function LessonTemplatePage() {
   `);
 
   const [, addStudent] = useMutation(gql`
-    mutation MyMutation($template_id: uuid!, $student_id: uuid!) {
+    mutation AddLessonTemplateStudent($template_id: uuid!, $student_id: uuid!) {
       insert_lesson_template_student_one(
         object: { lesson_template_id: $template_id, student_id: $student_id }
       ) {
@@ -95,7 +95,7 @@ function LessonTemplatePage() {
     }
   `);
   const [, removeStudent] = useMutation(gql`
-    mutation MyMutation($id: uuid!) {
+    mutation RemoveLessonTemplateStudent($id: uuid!) {
       delete_lesson_template_student_by_pk(id: $id) {
         id
         student_id
