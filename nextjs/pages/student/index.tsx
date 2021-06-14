@@ -1,21 +1,11 @@
 import Link from "next/link";
 import React, { FC } from "react";
-import { gql, useQuery } from "urql";
 import { Layout } from "../../src/components/layout";
+import { useGetStudentsQuery } from "../../src/generated-graphql";
 import { getAge } from "../../src/lib/time-fmt";
 
 function StudentsPage() {
-  const [result] = useQuery({
-    query: gql`
-      query GetStudents {
-        student(order_by: { name: asc }) {
-          id
-          name
-          birthday
-        }
-      }
-    `,
-  });
+  const [result] = useGetStudentsQuery();
 
   if (!result.data) {
     return <div>loading</div>;

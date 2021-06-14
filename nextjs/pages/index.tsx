@@ -12,7 +12,6 @@ import { endOfDay } from "date-fns";
 import { map } from "lodash";
 import { useRouter } from "next/dist/client/router";
 import { useState } from "react";
-import { gql, useMutation, useQuery } from "urql";
 import { Calendar } from "../src/components/calendar";
 import { Layout } from "../src/components/layout";
 import { Modal } from "../src/components/modal";

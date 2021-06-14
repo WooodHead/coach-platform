@@ -3636,6 +3636,14 @@ export type CreateLessonMutation = { __typename?: "mutation_root" } & {
   insert_lesson_one?: Maybe<{ __typename?: "lesson" } & Pick<Lesson, "id">>;
 };
 
+export type GetStudentsQueryVariables = Exact<{ [key: string]: never }>;
+
+export type GetStudentsQuery = { __typename?: "query_root" } & {
+  student: Array<
+    { __typename?: "student" } & Pick<Student, "id" | "name" | "birthday">
+  >;
+};
+
 export type GetStudentByIdQueryVariables = Exact<{
   id: Scalars["uuid"];
 }>;
@@ -3687,14 +3695,6 @@ export type SetStudentBirthdayMutationVariables = Exact<{
 export type SetStudentBirthdayMutation = { __typename?: "mutation_root" } & {
   update_student_by_pk?: Maybe<
     { __typename?: "student" } & Pick<Student, "id" | "birthday">
-  >;
-};
-
-export type GetStudentsQueryVariables = Exact<{ [key: string]: never }>;
-
-export type GetStudentsQuery = { __typename?: "query_root" } & {
-  student: Array<
-    { __typename?: "student" } & Pick<Student, "id" | "name" | "birthday">
   >;
 };
 
@@ -3996,6 +3996,15 @@ export const CreateLesson = gql`
     }
   }
 `;
+export const GetStudents = gql`
+  query GetStudents {
+    student(order_by: { name: asc }) {
+      id
+      name
+      birthday
+    }
+  }
+`;
 export const GetStudentById = gql`
   query GetStudentById($id: uuid!) {
     student_by_pk(id: $id) {
@@ -4037,15 +4046,6 @@ export const SetStudentBirthday = gql`
       _set: { birthday: $birthday }
     ) {
       id
-      birthday
-    }
-  }
-`;
-export const GetStudents = gql`
-  query GetStudents {
-    student(order_by: { name: asc }) {
-      id
-      name
       birthday
     }
   }
@@ -12794,6 +12794,24 @@ export function useCreateLessonMutation() {
     CreateLessonDocument
   );
 }
+export const GetStudentsDocument = gql`
+  query GetStudents {
+    student(order_by: { name: asc }) {
+      id
+      name
+      birthday
+    }
+  }
+`;
+
+export function useGetStudentsQuery(
+  options: Omit<Urql.UseQueryArgs<GetStudentsQueryVariables>, "query"> = {}
+) {
+  return Urql.useQuery<GetStudentsQuery>({
+    query: GetStudentsDocument,
+    ...options,
+  });
+}
 export const GetStudentByIdDocument = gql`
   query GetStudentById($id: uuid!) {
     student_by_pk(id: $id) {
@@ -12861,24 +12879,6 @@ export function useSetStudentBirthdayMutation() {
     SetStudentBirthdayMutation,
     SetStudentBirthdayMutationVariables
   >(SetStudentBirthdayDocument);
-}
-export const GetStudentsDocument = gql`
-  query GetStudents {
-    student(order_by: { name: asc }) {
-      id
-      name
-      birthday
-    }
-  }
-`;
-
-export function useGetStudentsQuery(
-  options: Omit<Urql.UseQueryArgs<GetStudentsQueryVariables>, "query"> = {}
-) {
-  return Urql.useQuery<GetStudentsQuery>({
-    query: GetStudentsDocument,
-    ...options,
-  });
 }
 export const AddStudentDocument = gql`
   mutation AddStudent($birthday: date, $name: String!) {

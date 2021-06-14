@@ -1,64 +1,24 @@
 import { useRouter } from "next/dist/client/router";
 import React, { FC } from "react";
-import { gql, useMutation, useQuery } from "urql";
 import { Layout } from "../../src/components/layout";
 import { EditableDate, EditableString } from "../../src/components/editable";
 import { getAge } from "../../src/lib/time-fmt";
+import {
+  useGetStudentByIdQuery,
+  useSetStudentBirthdayMutation,
+  useSetStudentNameMutation,
+} from "../../src/generated-graphql";
 
 function LessonPage() {
   const router = useRouter();
   const { id } = router.query;
 
-  const [result] = useQuery({
-    query: gql`
-      query GetStudentById($id: uuid!) {
-        student_by_pk(id: $id) {
-          id
-          name
-          birthday
-          student_attendances(
-            order_by: { lesson: { start_time: desc } }
-            limit: 365
-          ) {
-            id
-            lesson {
-              name
-              start_time
-              id
-            }
-            state
-          }
-          student_attendances_aggregate {
-            aggregate {
-              count
-            }
-          }
-        }
-      }
-    `,
+  const [result] = useGetStudentByIdQuery({
     variables: { id },
   });
 
-  const [, setName] = useMutation(gql`
-    mutation SetStudentName($id: uuid!, $name: String!) {
-      update_student_by_pk(pk_columns: { id: $id }, _set: { name: $name }) {
-        id
-        name
-      }
-    }
-  `);
-
-  const [, setBirthday] = useMutation(gql`
-    mutation SetStudentBirthday($id: uuid!, $birthday: date!) {
-      update_student_by_pk(
-        pk_columns: { id: $id }
-        _set: { birthday: $birthday }
-      ) {
-        id
-        birthday
-      }
-    }
-  `);
+  const [, setName] = useSetStudentNameMutation();
+  const [, setBirthday] = useSetStudentBirthdayMutation();
 
   const student = result.data?.student_by_pk;
 

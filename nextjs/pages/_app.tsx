@@ -1,17 +1,9 @@
 import App, { AppContext, AppProps } from "next/app";
-import {
-  CtxOrReq,
-  getSession,
-  Provider as AuthProvider,
-} from "next-auth/client";
+import { getSession, Provider as AuthProvider } from "next-auth/client";
 import { GraphQLProvider } from "../src/components/graphql-provider";
-import { FC } from "react";
 import "../src/styles.css";
-import { Layout } from "../src/components/layout";
-import app from "next/app";
 import { Session } from "next-auth";
 import { NotificationContextProvider } from "../src/hooks/notification-hook";
-//import "../styles.css";
 
 function MyApp({ Component, pageProps }: AppProps) {
   return (

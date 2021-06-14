@@ -1,21 +1,13 @@
 import { useFormik } from "formik";
 import { useRouter } from "next/dist/client/router";
-import { gql, useMutation } from "urql";
 import { Layout } from "../../src/components/layout";
+import { useAddStudentMutation } from "../../src/generated-graphql";
 import { useNotification } from "../../src/hooks/notification-hook";
 import { gqlErrorCheck } from "../../src/lib/errors";
 
 function NewStudent() {
   const router = useRouter();
-  const [, addUser] = useMutation(gql`
-    mutation AddStudent($birthday: date, $name: String!) {
-      insert_student_one(object: { birthday: $birthday, name: $name }) {
-        id
-        name
-        birthday
-      }
-    }
-  `);
+  const [, addUser] = useAddStudentMutation();
 
   const [addNotification] = useNotification();
 
