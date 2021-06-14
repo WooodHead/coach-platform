@@ -1,0 +1,13 @@
+
+query SearchStudent($name: String = "") {
+  student(
+    where: { name: { _ilike: $name } }
+    limit: 5
+    order_by: { name: asc }
+  ) {
+    id
+    name
+    birthday
+  }
+}
+    

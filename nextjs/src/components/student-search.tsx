@@ -1,6 +1,5 @@
 import React, { FC, ReactElement, useState } from "react";
-import { gql, useQuery } from "urql";
-import { AttendanceButton } from "./attendance-buttons";
+import { useSearchStudentQuery } from "../generated-graphql";
 
 export const StudentSearch: FC = ({
   children,
@@ -9,22 +8,7 @@ export const StudentSearch: FC = ({
 }) => {
   const [searchText, setSearchText] = useState("");
 
-  let child;
-
-  const [result] = useQuery({
-    query: gql`
-      query SearchStudent($name: String = "") {
-        student(
-          where: { name: { _ilike: $name } }
-          limit: 5
-          order_by: { name: asc }
-        ) {
-          id
-          name
-          birthday
-        }
-      }
-    `,
+  const [result] = useSearchStudentQuery({
     pause: searchText === "",
     variables: { name: `%${searchText}%` },
   });

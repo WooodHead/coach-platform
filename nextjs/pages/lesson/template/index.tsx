@@ -1,23 +1,10 @@
-import { useFormik } from "formik";
 import Link from "next/link";
 import React, { FC } from "react";
-import { gql, useMutation, useQuery } from "urql";
 import { Layout } from "../../../src/components/layout";
+import { useGetLessonTemplatesQuery } from "../../../src/generated-graphql";
 
 function StudentsPage() {
-  const [result] = useQuery({
-    query: gql`
-      query GetLessonTemplates {
-        lesson_template {
-          id
-          duration
-          day
-          name
-          start_time
-        }
-      }
-    `,
-  });
+  const [result] = useGetLessonTemplatesQuery();
 
   if (!result.data) {
     return <div>loading</div>;

@@ -1,6 +1,9 @@
 import { FC } from "react";
-import { gql, useMutation } from "urql";
-//import "../styles.css";
+import {
+  useAddStudentAttendanceMutation,
+  useDeleteStudentAttendanceMutation,
+  useSetStudentAttendanceMutation,
+} from "../generated-graphql";
 
 type ExistingProp = { attendance_id: string; state: string };
 type NewProp = { lesson_id: string; student_id: string };
@@ -8,47 +11,9 @@ type NewProp = { lesson_id: string; student_id: string };
 export const AttendanceButton: FC<
   (ExistingProp | NewProp) & { reload: () => void }
 > = (props) => {
-  const [, setAttendanceState] = useMutation(gql`
-    mutation SetStudentAttendance($id: uuid!, $state: attendance_state_enum!) {
-      update_student_attendance_by_pk(
-        pk_columns: { id: $id }
-        _set: { state: $state }
-      ) {
-        id
-        state
-        student_id
-      }
-    }
-  `);
-
-  const [, addAttendance] = useMutation(gql`
-    mutation AddStudentAttendance(
-      $state: attendance_state_enum!
-      $lesson_id: uuid!
-      $student_id: uuid!
-    ) {
-      insert_student_attendance_one(
-        object: {
-          lesson_id: $lesson_id
-          student_id: $student_id
-          state: $state
-        }
-      ) {
-        id
-        lesson_id
-        state
-        student_id
-      }
-    }
-  `);
-
-  const [, removeAttendace] = useMutation(gql`
-    mutation DeleteStudentAttendance($id: uuid!) {
-      delete_student_attendance_by_pk(id: $id) {
-        id
-      }
-    }
-  `);
+  const [, setAttendanceState] = useSetStudentAttendanceMutation();
+  const [, addAttendance] = useAddStudentAttendanceMutation();
+  const [, removeAttendace] = useDeleteStudentAttendanceMutation();
 
   const active = {
     present: !("state" in props) || props.state === "present" ? "active" : "",

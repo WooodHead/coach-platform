@@ -1,21 +1,9 @@
-import { signIn } from "next-auth/client";
 import Link from "next/link";
-import { gql, useQuery } from "urql";
 import { Layout } from "../../src/components/layout";
+import { useGetLessonsSmallQuery } from "../../src/generated-graphql";
 
 function LessonPage() {
-  const [result] = useQuery({
-    query: gql`
-      query GetLessonsSmall {
-        lesson(order_by: { start_time: desc }) {
-          id
-          name
-          duration
-          start_time
-        }
-      }
-    `,
-  });
+  const [result] = useGetLessonsSmallQuery();
 
   return (
     <Layout>

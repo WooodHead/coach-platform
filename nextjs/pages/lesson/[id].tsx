@@ -1,8 +1,7 @@
 import Link from "next/link";
 import { add } from "date-fns";
 import { useRouter } from "next/dist/client/router";
-import React, { FC, useState } from "react";
-import { gql, useMutation, useQuery } from "urql";
+import React, { FC } from "react";
 import { AttendanceButton } from "../../src/components/attendance-buttons";
 import { Layout } from "../../src/components/layout";
 import {
@@ -11,65 +10,24 @@ import {
   EditableTime,
 } from "../../src/components/editable";
 import { StudentSearch } from "../../src/components/student-search";
+import {
+  useGetLessonByIdQuery,
+  useSetLessonDateMutation,
+  useSetLessonDurationMutation,
+  useSetLessonNameMutation,
+} from "../../src/generated-graphql";
 
 function LessonPage() {
   const router = useRouter();
   const { id } = router.query;
 
-  const [result, reloadLesson] = useQuery({
-    query: gql`
-      query GetLessonById($id: uuid!) {
-        lesson_by_pk(id: $id) {
-          id
-          name
-          duration
-          plan
-          start_time
-          student_attendances(order_by: { student: { name: asc } }) {
-            id
-            state
-            student {
-              id
-              name
-              birthday
-            }
-          }
-        }
-      }
-    `,
+  const [result, reloadLesson] = useGetLessonByIdQuery({
     variables: { id },
   });
 
-  const [, setName] = useMutation(gql`
-    mutation SetLessonName($id: uuid!, $name: String!) {
-      update_lesson_by_pk(pk_columns: { id: $id }, _set: { name: $name }) {
-        id
-        name
-      }
-    }
-  `);
-  const [, setDate] = useMutation(gql`
-    mutation SetLessonDate($id: uuid!, $date: timestamptz!) {
-      update_lesson_by_pk(
-        pk_columns: { id: $id }
-        _set: { start_time: $date }
-      ) {
-        id
-        start_time
-      }
-    }
-  `);
-  const [, setDuration] = useMutation(gql`
-    mutation SetLessonDuration($id: uuid!, $duration: interval!) {
-      update_lesson_by_pk(
-        pk_columns: { id: $id }
-        _set: { duration: $duration }
-      ) {
-        id
-        duration
-      }
-    }
-  `);
+  const [, setName] = useSetLessonNameMutation();
+  const [, setDate] = useSetLessonDateMutation();
+  const [, setDuration] = useSetLessonDurationMutation();
 
   const lesson = result.data?.lesson_by_pk;
 

@@ -1,31 +1,13 @@
 import { useFormik } from "formik";
 import { useRouter } from "next/dist/client/router";
 import React, { FC } from "react";
-import { gql, useMutation } from "urql";
 import { Layout } from "../../../src/components/layout";
 import { DAYS } from "../../../src/days";
+import { useAddLessonTemplateMutation } from "../../../src/generated-graphql";
 
 function NewLessonPage() {
   const router = useRouter();
-  const [, insertTemplate] = useMutation(gql`
-    mutation AddLessonTemplate(
-      $name: String!
-      $time: time!
-      $duration: interval!
-      $day: Int!
-    ) {
-      insert_lesson_template_one(
-        object: {
-          name: $name
-          start_time: $time
-          duration: $duration
-          day: $day
-        }
-      ) {
-        id
-      }
-    }
-  `);
+  const [, insertTemplate] = useAddLessonTemplateMutation();
 
   const formik = useFormik({
     initialValues: {

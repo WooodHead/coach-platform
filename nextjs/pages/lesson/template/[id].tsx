@@ -1,6 +1,5 @@
 import { useRouter } from "next/dist/client/router";
 import React, { FC } from "react";
-import { gql, useMutation, useQuery } from "urql";
 import {
   EditableSelect,
   EditableString,
@@ -9,100 +8,32 @@ import {
 import { Layout } from "../../../src/components/layout";
 import { StudentSearch } from "../../../src/components/student-search";
 import { DAYS } from "../../../src/days";
+import {
+  useAddLessonTemplateStudentMutation,
+  useGetLessonTemplateByIdQuery,
+  useRemoveLessonTemplateStudentMutation,
+  useUpdateLessonTemplateDayMutation,
+  useUpdateLessonTemplateDurationMutation,
+  useUpdateLessonTemplateNameMutation,
+  useUpdateLessonTemplateTimeMutation,
+} from "../../../src/generated-graphql";
 import { durationString } from "../../../src/lib/time-fmt";
 
 function LessonTemplatePage() {
   const router = useRouter();
   const { id } = router.query;
 
-  const [result, reloadLesson] = useQuery({
-    query: gql`
-      query GetLessonTemplateById($id: uuid!) {
-        lesson_template_by_pk(id: $id) {
-          id
-          name
-          duration
-          start_time
-          day
-          template_students {
-            id
-            student {
-              id
-              name
-            }
-          }
-        }
-      }
-    `,
+  const [result, reloadLesson] = useGetLessonTemplateByIdQuery({
     variables: { id },
   });
 
-  const [, setName] = useMutation(gql`
-    mutation UpdateLessonTemplateName($id: uuid!, $name: String!) {
-      update_lesson_template_by_pk(
-        pk_columns: { id: $id }
-        _set: { name: $name }
-      ) {
-        name
-        id
-      }
-    }
-  `);
+  const [, setName] = useUpdateLessonTemplateNameMutation();
+  const [, setDay] = useUpdateLessonTemplateDayMutation();
+  const [, setTime] = useUpdateLessonTemplateTimeMutation();
+  const [, setDuration] = useUpdateLessonTemplateDurationMutation();
+  const [, addStudent] = useAddLessonTemplateStudentMutation();
+  const [, removeStudent] = useRemoveLessonTemplateStudentMutation();
 
-  const [, setDay] = useMutation(gql`
-    mutation UpdateLessonTemplateDay($id: uuid!, $day: Int!) {
-      update_lesson_template_by_pk(
-        pk_columns: { id: $id }
-        _set: { day: $day }
-      ) {
-        name
-        id
-      }
-    }
-  `);
-  const [, setTime] = useMutation(gql`
-    mutation UpdateLessonTemplateTime($id: uuid!, $time: time!) {
-      update_lesson_template_by_pk(
-        pk_columns: { id: $id }
-        _set: { start_time: $time }
-      ) {
-        name
-        id
-      }
-    }
-  `);
-  const [, setDuration] = useMutation(gql`
-    mutation UpdateLessonTemplateDuration($id: uuid!, $duration: interval!) {
-      update_lesson_template_by_pk(
-        pk_columns: { id: $id }
-        _set: { duration: $duration }
-      ) {
-        name
-        id
-      }
-    }
-  `);
-
-  const [, addStudent] = useMutation(gql`
-    mutation AddLessonTemplateStudent($template_id: uuid!, $student_id: uuid!) {
-      insert_lesson_template_student_one(
-        object: { lesson_template_id: $template_id, student_id: $student_id }
-      ) {
-        id
-        lesson_template_id
-        student_id
-      }
-    }
-  `);
-  const [, removeStudent] = useMutation(gql`
-    mutation RemoveLessonTemplateStudent($id: uuid!) {
-      delete_lesson_template_student_by_pk(id: $id) {
-        id
-        student_id
-        lesson_template_id
-      }
-    }
-  `);
   const lessont = result.data?.lesson_template_by_pk;
 
   if (!lessont) {

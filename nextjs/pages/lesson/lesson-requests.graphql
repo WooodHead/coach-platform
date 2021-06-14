@@ -1,0 +1,74 @@
+mutation AddLesson(
+  $name: String!
+  $start_time: timestamptz!
+  $duration: interval!
+) {
+  insert_lesson_one(
+    object: { name: $name, start_time: $start_time, duration: $duration }
+  ) {
+    id
+  }
+}
+
+
+query GetLessonsSmall {
+  lesson(order_by: { start_time: desc }) {
+    id
+    name
+    duration
+    start_time
+  }
+}
+    
+
+
+query GetLessonById($id: uuid!) {
+  lesson_by_pk(id: $id) {
+    id
+    name
+    duration
+    plan
+    start_time
+    student_attendances(order_by: { student: { name: asc } }) {
+      id
+      state
+      student {
+        id
+        name
+        birthday
+      }
+    }
+  }
+}
+    
+mutation SetLessonName($id: uuid!, $name: String!) {
+  update_lesson_by_pk(pk_columns: { id: $id }, _set: { name: $name }) {
+    id
+    name
+  }
+}
+
+
+mutation SetLessonDate($id: uuid!, $date: timestamptz!) {
+  update_lesson_by_pk(
+    pk_columns: { id: $id }
+    _set: { start_time: $date }
+  ) {
+    id
+    start_time
+  }
+}
+
+
+mutation SetLessonDuration($id: uuid!, $duration: interval!) {
+  update_lesson_by_pk(
+    pk_columns: { id: $id }
+    _set: { duration: $duration }
+  ) {
+    id
+    duration
+  }
+}
+  
+  
+  
