@@ -3370,39 +3370,6 @@ export type Uuid_Comparison_Exp = {
   _nin?: Maybe<Array<Scalars["uuid"]>>;
 };
 
-export type SetLessonNameMutationVariables = Exact<{
-  id: Scalars["uuid"];
-  name: Scalars["String"];
-}>;
-
-export type SetLessonNameMutation = { __typename?: "mutation_root" } & {
-  update_lesson_by_pk?: Maybe<
-    { __typename?: "lesson" } & Pick<Lesson, "id" | "name">
-  >;
-};
-
-export type SetLessonDateMutationVariables = Exact<{
-  id: Scalars["uuid"];
-  date: Scalars["timestamptz"];
-}>;
-
-export type SetLessonDateMutation = { __typename?: "mutation_root" } & {
-  update_lesson_by_pk?: Maybe<
-    { __typename?: "lesson" } & Pick<Lesson, "id" | "start_time">
-  >;
-};
-
-export type SetLessonDurationMutationVariables = Exact<{
-  id: Scalars["uuid"];
-  duration: Scalars["interval"];
-}>;
-
-export type SetLessonDurationMutation = { __typename?: "mutation_root" } & {
-  update_lesson_by_pk?: Maybe<
-    { __typename?: "lesson" } & Pick<Lesson, "id" | "duration">
-  >;
-};
-
 export type AddLessonMutationVariables = Exact<{
   name: Scalars["String"];
   start_time: Scalars["timestamptz"];
@@ -3446,6 +3413,50 @@ export type GetLessonByIdQuery = { __typename?: "query_root" } & {
             }
         >;
       }
+  >;
+};
+
+export type SetLessonNameMutationVariables = Exact<{
+  id: Scalars["uuid"];
+  name: Scalars["String"];
+}>;
+
+export type SetLessonNameMutation = { __typename?: "mutation_root" } & {
+  update_lesson_by_pk?: Maybe<
+    { __typename?: "lesson" } & Pick<Lesson, "id" | "name">
+  >;
+};
+
+export type SetLessonDateMutationVariables = Exact<{
+  id: Scalars["uuid"];
+  date: Scalars["timestamptz"];
+}>;
+
+export type SetLessonDateMutation = { __typename?: "mutation_root" } & {
+  update_lesson_by_pk?: Maybe<
+    { __typename?: "lesson" } & Pick<Lesson, "id" | "start_time">
+  >;
+};
+
+export type SetLessonDurationMutationVariables = Exact<{
+  id: Scalars["uuid"];
+  duration: Scalars["interval"];
+}>;
+
+export type SetLessonDurationMutation = { __typename?: "mutation_root" } & {
+  update_lesson_by_pk?: Maybe<
+    { __typename?: "lesson" } & Pick<Lesson, "id" | "duration">
+  >;
+};
+
+export type GetLessonTemplatesQueryVariables = Exact<{ [key: string]: never }>;
+
+export type GetLessonTemplatesQuery = { __typename?: "query_root" } & {
+  lesson_template: Array<
+    { __typename?: "lesson_template" } & Pick<
+      Lesson_Template,
+      "id" | "duration" | "day" | "name" | "start_time"
+    >
   >;
 };
 
@@ -3553,17 +3564,6 @@ export type RemoveLessonTemplateStudentMutation = {
     { __typename?: "lesson_template_student" } & Pick<
       Lesson_Template_Student,
       "id" | "student_id" | "lesson_template_id"
-    >
-  >;
-};
-
-export type GetLessonTemplatesQueryVariables = Exact<{ [key: string]: never }>;
-
-export type GetLessonTemplatesQuery = { __typename?: "query_root" } & {
-  lesson_template: Array<
-    { __typename?: "lesson_template" } & Pick<
-      Lesson_Template,
-      "id" | "duration" | "day" | "name" | "start_time"
     >
   >;
 };
@@ -3760,33 +3760,6 @@ export type SearchStudentQuery = { __typename?: "query_root" } & {
   >;
 };
 
-export const SetLessonName = gql`
-  mutation SetLessonName($id: uuid!, $name: String!) {
-    update_lesson_by_pk(pk_columns: { id: $id }, _set: { name: $name }) {
-      id
-      name
-    }
-  }
-`;
-export const SetLessonDate = gql`
-  mutation SetLessonDate($id: uuid!, $date: timestamptz!) {
-    update_lesson_by_pk(pk_columns: { id: $id }, _set: { start_time: $date }) {
-      id
-      start_time
-    }
-  }
-`;
-export const SetLessonDuration = gql`
-  mutation SetLessonDuration($id: uuid!, $duration: interval!) {
-    update_lesson_by_pk(
-      pk_columns: { id: $id }
-      _set: { duration: $duration }
-    ) {
-      id
-      duration
-    }
-  }
-`;
 export const AddLesson = gql`
   mutation AddLesson(
     $name: String!
@@ -3827,6 +3800,44 @@ export const GetLessonById = gql`
           birthday
         }
       }
+    }
+  }
+`;
+export const SetLessonName = gql`
+  mutation SetLessonName($id: uuid!, $name: String!) {
+    update_lesson_by_pk(pk_columns: { id: $id }, _set: { name: $name }) {
+      id
+      name
+    }
+  }
+`;
+export const SetLessonDate = gql`
+  mutation SetLessonDate($id: uuid!, $date: timestamptz!) {
+    update_lesson_by_pk(pk_columns: { id: $id }, _set: { start_time: $date }) {
+      id
+      start_time
+    }
+  }
+`;
+export const SetLessonDuration = gql`
+  mutation SetLessonDuration($id: uuid!, $duration: interval!) {
+    update_lesson_by_pk(
+      pk_columns: { id: $id }
+      _set: { duration: $duration }
+    ) {
+      id
+      duration
+    }
+  }
+`;
+export const GetLessonTemplates = gql`
+  query GetLessonTemplates {
+    lesson_template {
+      id
+      duration
+      day
+      name
+      start_time
     }
   }
 `;
@@ -3906,17 +3917,6 @@ export const RemoveLessonTemplateStudent = gql`
       id
       student_id
       lesson_template_id
-    }
-  }
-`;
-export const GetLessonTemplates = gql`
-  query GetLessonTemplates {
-    lesson_template {
-      id
-      duration
-      day
-      name
-      start_time
     }
   }
 `;
@@ -12416,54 +12416,6 @@ export default ({
   },
 } as unknown) as IntrospectionQuery;
 
-export const SetLessonNameDocument = gql`
-  mutation SetLessonName($id: uuid!, $name: String!) {
-    update_lesson_by_pk(pk_columns: { id: $id }, _set: { name: $name }) {
-      id
-      name
-    }
-  }
-`;
-
-export function useSetLessonNameMutation() {
-  return Urql.useMutation<
-    SetLessonNameMutation,
-    SetLessonNameMutationVariables
-  >(SetLessonNameDocument);
-}
-export const SetLessonDateDocument = gql`
-  mutation SetLessonDate($id: uuid!, $date: timestamptz!) {
-    update_lesson_by_pk(pk_columns: { id: $id }, _set: { start_time: $date }) {
-      id
-      start_time
-    }
-  }
-`;
-
-export function useSetLessonDateMutation() {
-  return Urql.useMutation<
-    SetLessonDateMutation,
-    SetLessonDateMutationVariables
-  >(SetLessonDateDocument);
-}
-export const SetLessonDurationDocument = gql`
-  mutation SetLessonDuration($id: uuid!, $duration: interval!) {
-    update_lesson_by_pk(
-      pk_columns: { id: $id }
-      _set: { duration: $duration }
-    ) {
-      id
-      duration
-    }
-  }
-`;
-
-export function useSetLessonDurationMutation() {
-  return Urql.useMutation<
-    SetLessonDurationMutation,
-    SetLessonDurationMutationVariables
-  >(SetLessonDurationDocument);
-}
 export const AddLessonDocument = gql`
   mutation AddLesson(
     $name: String!
@@ -12528,6 +12480,77 @@ export function useGetLessonByIdQuery(
 ) {
   return Urql.useQuery<GetLessonByIdQuery>({
     query: GetLessonByIdDocument,
+    ...options,
+  });
+}
+export const SetLessonNameDocument = gql`
+  mutation SetLessonName($id: uuid!, $name: String!) {
+    update_lesson_by_pk(pk_columns: { id: $id }, _set: { name: $name }) {
+      id
+      name
+    }
+  }
+`;
+
+export function useSetLessonNameMutation() {
+  return Urql.useMutation<
+    SetLessonNameMutation,
+    SetLessonNameMutationVariables
+  >(SetLessonNameDocument);
+}
+export const SetLessonDateDocument = gql`
+  mutation SetLessonDate($id: uuid!, $date: timestamptz!) {
+    update_lesson_by_pk(pk_columns: { id: $id }, _set: { start_time: $date }) {
+      id
+      start_time
+    }
+  }
+`;
+
+export function useSetLessonDateMutation() {
+  return Urql.useMutation<
+    SetLessonDateMutation,
+    SetLessonDateMutationVariables
+  >(SetLessonDateDocument);
+}
+export const SetLessonDurationDocument = gql`
+  mutation SetLessonDuration($id: uuid!, $duration: interval!) {
+    update_lesson_by_pk(
+      pk_columns: { id: $id }
+      _set: { duration: $duration }
+    ) {
+      id
+      duration
+    }
+  }
+`;
+
+export function useSetLessonDurationMutation() {
+  return Urql.useMutation<
+    SetLessonDurationMutation,
+    SetLessonDurationMutationVariables
+  >(SetLessonDurationDocument);
+}
+export const GetLessonTemplatesDocument = gql`
+  query GetLessonTemplates {
+    lesson_template {
+      id
+      duration
+      day
+      name
+      start_time
+    }
+  }
+`;
+
+export function useGetLessonTemplatesQuery(
+  options: Omit<
+    Urql.UseQueryArgs<GetLessonTemplatesQueryVariables>,
+    "query"
+  > = {}
+) {
+  return Urql.useQuery<GetLessonTemplatesQuery>({
+    query: GetLessonTemplatesDocument,
     ...options,
   });
 }
@@ -12663,29 +12686,6 @@ export function useRemoveLessonTemplateStudentMutation() {
     RemoveLessonTemplateStudentMutation,
     RemoveLessonTemplateStudentMutationVariables
   >(RemoveLessonTemplateStudentDocument);
-}
-export const GetLessonTemplatesDocument = gql`
-  query GetLessonTemplates {
-    lesson_template {
-      id
-      duration
-      day
-      name
-      start_time
-    }
-  }
-`;
-
-export function useGetLessonTemplatesQuery(
-  options: Omit<
-    Urql.UseQueryArgs<GetLessonTemplatesQueryVariables>,
-    "query"
-  > = {}
-) {
-  return Urql.useQuery<GetLessonTemplatesQuery>({
-    query: GetLessonTemplatesDocument,
-    ...options,
-  });
 }
 export const AddLessonTemplateDocument = gql`
   mutation AddLessonTemplate(
