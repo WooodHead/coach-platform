@@ -4,11 +4,11 @@
   is_enum: true
 - table:
     schema: public
+    name: group
+- table:
+    schema: public
     name: lesson
   object_relationships:
-  - name: lesson_template
-    using:
-      foreign_key_constraint_on: template_id
   - name: organisation
     using:
       foreign_key_constraint_on: organisation_id
@@ -20,62 +20,6 @@
         table:
           schema: public
           name: student_attendance
-  insert_permissions:
-  - role: manager
-    permission:
-      check:
-        organisation:
-          id:
-            _eq: X-Hasura-Org-Id
-      set:
-        organisation_id: x-hasura-Org-Id
-      columns:
-      - duration
-      - name
-      - plan
-      - start_time
-      - template_id
-      backend_only: false
-  - role: user
-    permission:
-      check:
-        organisation:
-          id:
-            _eq: X-Hasura-Org-Id
-      set:
-        organisation_id: x-hasura-Org-Id
-      columns:
-      - duration
-      - name
-      - plan
-      - start_time
-      - template_id
-      backend_only: false
-  select_permissions:
-  - role: manager
-    permission:
-      columns:
-      - duration
-      - id
-      - name
-      - plan
-      - start_time
-      - template_id
-      filter:
-        organisation_id:
-          _eq: X-Hasura-Org-Id
-  - role: user
-    permission:
-      columns:
-      - duration
-      - id
-      - name
-      - plan
-      - start_time
-      - template_id
-      filter:
-        organisation_id:
-          _eq: X-Hasura-Org-Id
   update_permissions:
   - role: manager
     permission:
@@ -122,148 +66,6 @@
         organisation:
           id:
             _eq: X-Hasura-Org-Id
-- table:
-    schema: public
-    name: lesson_template
-  array_relationships:
-  - name: lessons
-    using:
-      foreign_key_constraint_on:
-        column: template_id
-        table:
-          schema: public
-          name: lesson
-  - name: template_students
-    using:
-      foreign_key_constraint_on:
-        column: lesson_template_id
-        table:
-          schema: public
-          name: lesson_template_student
-  insert_permissions:
-  - role: manager
-    permission:
-      check:
-        organisation_id:
-          _eq: X-Hasura-Org-Id
-      set:
-        organisation_id: x-hasura-Org-Id
-      columns:
-      - day
-      - duration
-      - name
-      - start_time
-      backend_only: false
-  select_permissions:
-  - role: manager
-    permission:
-      columns:
-      - day
-      - duration
-      - id
-      - name
-      - start_time
-      filter:
-        organisation_id:
-          _eq: X-Hasura-Org-Id
-  - role: user
-    permission:
-      columns:
-      - day
-      - duration
-      - id
-      - name
-      - start_time
-      filter:
-        organisation_id:
-          _eq: X-Hasura-Org-Id
-  update_permissions:
-  - role: manager
-    permission:
-      columns:
-      - day
-      - duration
-      - name
-      - start_time
-      filter:
-        organisation_id:
-          _eq: X-Hasura-Org-Id
-      check:
-        organisation_id:
-          _eq: X-Hasura-Org-Id
-      set:
-        organisation_id: x-hasura-Org-Id
-  delete_permissions:
-  - role: manager
-    permission:
-      filter:
-        organisation_id:
-          _eq: X-Hasura-Org-Id
-- table:
-    schema: public
-    name: lesson_template_student
-  object_relationships:
-  - name: lesson_template
-    using:
-      foreign_key_constraint_on: lesson_template_id
-  - name: student
-    using:
-      foreign_key_constraint_on: student_id
-  insert_permissions:
-  - role: manager
-    permission:
-      check:
-        _and:
-        - lesson_template:
-            organisation_id:
-              _eq: X-Hasura-Org-Id
-        - student:
-            organisation_id:
-              _eq: X-Hasura-Org-Id
-      columns:
-      - lesson_template_id
-      - student_id
-      backend_only: false
-  select_permissions:
-  - role: manager
-    permission:
-      columns:
-      - id
-      - lesson_template_id
-      - student_id
-      filter:
-        _and:
-        - lesson_template:
-            organisation_id:
-              _eq: X-Hasura-Org-Id
-        - student:
-            organisation_id:
-              _eq: X-Hasura-Org-Id
-  - role: user
-    permission:
-      columns:
-      - id
-      - lesson_template_id
-      - student_id
-      filter:
-        _and:
-        - lesson_template:
-            organisation_id:
-              _eq: X-Hasura-Org-Id
-        - student:
-            organisation_id:
-              _eq: X-Hasura-Org-Id
-  delete_permissions:
-  - role: manager
-    permission:
-      filter:
-        _and:
-        - lesson_template:
-            organisation_id:
-              _eq: X-Hasura-Org-Id
-        - student:
-            organisation_id:
-              _eq: X-Hasura-Org-Id
 - table:
     schema: public
     name: organisation
@@ -531,6 +333,12 @@
         - lesson:
             organisation_id:
               _eq: X-Hasura-Org-Id
+- table:
+    schema: public
+    name: student_group
+- table:
+    schema: public
+    name: timetable
 - table:
     schema: public
     name: url_token
