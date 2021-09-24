@@ -1,10 +1,10 @@
 import Link from "next/link";
 import React, { FC } from "react";
 import { Layout } from "../../../src/components/layout";
-import { useGetLessonTemplatesQuery } from "../../../src/generated-graphql";
+import { useGetTimeTableEntriesQuery } from "../../../src/generated-graphql";
 
 function StudentsPage() {
-  const [result] = useGetLessonTemplatesQuery();
+  const [result] = useGetTimeTableEntriesQuery();
 
   if (!result.data) {
     return <div>loading</div>;
@@ -15,8 +15,8 @@ function StudentsPage() {
       <div>
         <h1>Lesson Templates</h1>
         <div>
-          <Link href="/lesson/template/new">
-            <a className="button">New Template</a>
+          <Link href="/lesson/timetable/new">
+            <a className="button">New Timetable</a>
           </Link>
         </div>
         <table>
@@ -29,11 +29,11 @@ function StudentsPage() {
             </tr>
           </thead>
           <tbody>
-            {result.data.lesson_template.map((t) => (
+            {result.data.timetable.map((t) => (
               <tr key={t.id}>
                 <td>
-                  <Link href={`/lesson/template/${t.id}`}>
-                    <a>{t.name}</a>
+                  <Link href={`/lesson/timetable/${t.id}`}>
+                    <a>{t.group.name}</a>
                   </Link>
                 </td>
                 <td>{t.day}</td>

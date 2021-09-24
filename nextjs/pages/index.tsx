@@ -12,7 +12,7 @@ import { endOfDay } from "date-fns";
 import { map } from "lodash";
 import { useRouter } from "next/dist/client/router";
 import { useState } from "react";
-import { Calendar } from "../src/components/calendar";
+import { Calendar, CalendarEvent } from "../src/components/calendar";
 import { Layout } from "../src/components/layout";
 import { Modal } from "../src/components/modal";
 
@@ -62,24 +62,26 @@ function Today() {
 }
 
 function TimeTable() {
+  type TimetableElement = typeof timetableLessons[0] & typeof lessons[0];
+  
   const [offset, setOffset] = useState(0);
   const week = addWeeks(new Date(), offset);
 
-  const [openTemplate, setOpenTemplate] = useState(null);
   const [result] = useAllLessonsInWeekQuery({
     variables: {
       weekStart: startOfWeek(week, { weekStartsOn: 1 }).toISOString(),
       weekEnd: endOfWeek(week, { weekStartsOn: 1 }).toISOString(),
     },
   });
-
+  
   const [, createLesson] = useCreateLessonMutation();
-
-  const templates =
-    result.data?.lesson_template?.map((t) => ({ ...t, type: "template" })) ??
-    [];
-
-  const templateIds = new Set(map(templates, "id"));
+  
+  const timetableLessons =
+  result.data?.timetable?.map((t) => ({ ...t, type: "timetable", name: t.group.name })) ??
+  [];
+  
+  const [openTimeTable, setOpenTimeTable] = useState<TimetableElement>(null);
+  const timetableIds: Set<string> = new Set(map(timetableLessons, "id"));
 
   const lessons =
     result?.data?.lesson
@@ -89,39 +91,41 @@ function TimeTable() {
         time: format(new Date(l.start_time), "HH:mm:00"),
         type: "lesson",
       }))
-      ?.filter((l) => !(l.template_id in templateIds)) ?? [];
+      ?.filter((l) => !(l.timetable_id in timetableIds)) ?? [];
 
   const router = useRouter();
-  function clickEvent(e) {
+
+
+  function clickEvent(e: TimetableElement) {
     if (e.type === "lesson") {
       router.push(`/lesson/${e.id}`);
     } else {
-      setOpenTemplate(e);
+      setOpenTimeTable(e);
     }
   }
 
-  async function onCreateLesson(e) {
-    const d = setDay(week, openTemplate.day, {
+  async function onCreateLesson(e: TimetableElement) {
+    const d = setDay(week, openTimeTable.day, {
       weekStartsOn: 1,
     });
-    const t = e.time.split(":");
+    const t = e.start_time.split(":");
     const start_time = new Date(
       d.getFullYear(),
       d.getMonth(),
       d.getDate(),
-      t[0],
-      t[1],
+      Number(t[0]),
+      Number(t[1]),
       0
     );
+
     const result = await createLesson({
-      template_id: e.id,
+      timetable_id: e.id,
       start_time,
       name: e.name,
       duration: e.duration,
       student_attendances: {
-        data: e.template_students.map((ts) => ({
-          student_id: ts.student.id,
-          state: "absent",
+        data: e.group?.students.map((ts) => ({
+          student_id: ts.id,
         })),
       },
     });
@@ -134,7 +138,7 @@ function TimeTable() {
     <div>
       <div className="date-strip">
         <button onClick={() => setOffset(offset - 1)}>Last Week</button>
-        <span>Week {getWeek(week, { weekStartsOn: 1 })}</span>
+        <span>Week {getWeek(week, { firstWeekContainsDate: 4 ,weekStartsOn: 1 })}</span>
         <span>
           {startOfWeek(week, { weekStartsOn: 1 }).toLocaleDateString()}
         </span>
@@ -143,37 +147,37 @@ function TimeTable() {
         <button onClick={() => setOffset(offset + 1)}>Next Week</button>
       </div>
       <Calendar
-        events={[...templates, ...lessons]}
+        events={[...timetableLessons, ...lessons]}
         onClick={clickEvent}
         typeMap={{
           lesson: "var(--color-green-2)",
-          template: "var(--color-red-2)",
+          timetable: "var(--color-red-2)",
         }}
       />
-      {openTemplate && (
-        <Modal onClose={() => setOpenTemplate(null)}>
+      {openTimeTable && (
+        <Modal onClose={() => setOpenTimeTable(null)}>
           <h2>Create Lesson</h2>
           <div>
             <ul>
               <li>
                 day:
-                {setDay(week, openTemplate.day, {
+                {setDay(week, openTimeTable.day, {
                   weekStartsOn: 1,
                 }).toLocaleDateString()}
               </li>
-              <li>name: {openTemplate.name}</li>
-              <li>time: {openTemplate.time}</li>
-              <li>duration: {openTemplate.duration}</li>
+              <li>name: {openTimeTable.name}</li>
+              <li>time: {openTimeTable.start_time}</li>
+              <li>duration: {openTimeTable.duration}</li>
               <li>
                 Students:
                 <ul>
-                  {openTemplate.template_students.map((ts) => (
-                    <li key={ts.id}>{ts.student.name}</li>
+                  {openTimeTable.group.students.map((ts) => (
+                    <li key={ts.id}>{ts.id}</li>
                   ))}
                 </ul>
               </li>
             </ul>
-            <button onClick={() => onCreateLesson(openTemplate)}>Create</button>
+            <button onClick={() => onCreateLesson(openTimeTable)}>Create</button>
           </div>
         </Modal>
       )}

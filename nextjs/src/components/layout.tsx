@@ -266,8 +266,8 @@ const SideNav: FC<{ mobileOpen: boolean; disabled: boolean }> = ({
           </Link>
         </li>
         <li>
-          <Link href="/lesson/template">
-            <a>Templates</a>
+          <Link href="/lesson/timetable">
+            <a>Timetable</a>
           </Link>
         </li>
         <li>

@@ -5,6 +5,70 @@
 - table:
     schema: public
     name: group
+  object_relationships:
+  - name: organisation
+    using:
+      foreign_key_constraint_on: organisation_id
+  array_relationships:
+  - name: students
+    using:
+      foreign_key_constraint_on:
+        column: group_id
+        table:
+          schema: public
+          name: student_group
+  - name: timetables
+    using:
+      foreign_key_constraint_on:
+        column: group_id
+        table:
+          schema: public
+          name: timetable
+  insert_permissions:
+  - role: manager
+    permission:
+      check:
+        organisation_id:
+          _eq: X-Hasura-Org-Id
+      set:
+        organisation_id: x-hasura-Org-Id
+      columns:
+      - id
+      - name
+      backend_only: false
+  select_permissions:
+  - role: manager
+    permission:
+      columns:
+      - id
+      - name
+      filter:
+        organisation_id:
+          _eq: X-Hasura-Org-Id
+  - role: user
+    permission:
+      columns:
+      - id
+      - name
+      filter:
+        organisation_id:
+          _eq: X-Hasura-Org-Id
+  update_permissions:
+  - role: manager
+    permission:
+      columns:
+      - id
+      - name
+      filter:
+        organisation_id:
+          _eq: X-Hasura-Org-Id
+      check: {}
+  delete_permissions:
+  - role: manager
+    permission:
+      filter:
+        organisation_id:
+          _eq: X-Hasura-Org-Id
 - table:
     schema: public
     name: lesson
@@ -20,6 +84,66 @@
         table:
           schema: public
           name: student_attendance
+  insert_permissions:
+  - role: manager
+    permission:
+      check:
+        organisation:
+          id:
+            _eq: X-Hasura-Org-Id
+      set:
+        organisation_id: x-hasura-Org-Id
+      columns:
+      - duration
+      - id
+      - name
+      - plan
+      - start_time
+      - timetable_id
+      backend_only: false
+  - role: user
+    permission:
+      check:
+        organisation:
+          id:
+            _eq: X-Hasura-Org-Id
+      set:
+        organisation_id: x-hasura-Org-Id
+      columns:
+      - duration
+      - id
+      - name
+      - plan
+      - start_time
+      - timetable_id
+      backend_only: false
+  select_permissions:
+  - role: manager
+    permission:
+      columns:
+      - duration
+      - id
+      - name
+      - plan
+      - start_time
+      - timetable_id
+      filter:
+        organisation:
+          id:
+            _eq: X-Hasura-Org-Id
+  - role: user
+    permission:
+      columns:
+      - duration
+      - id
+      - name
+      - plan
+      - start_time
+      - timetable_id
+      filter:
+        organisation:
+          id:
+            _eq: X-Hasura-Org-Id
   update_permissions:
   - role: manager
     permission:
@@ -336,9 +460,158 @@
 - table:
     schema: public
     name: student_group
+  object_relationships:
+  - name: group
+    using:
+      foreign_key_constraint_on: group_id
+  - name: student
+    using:
+      foreign_key_constraint_on: student_id
+  insert_permissions:
+  - role: manager
+    permission:
+      check:
+        _and:
+        - student:
+            organisation_id:
+              _eq: X-Hasura-Org-Id
+        - group:
+            organisation_id:
+              _eq: X-Hasura-Org-Id
+      columns:
+      - group_id
+      - student_id
+      backend_only: false
+  select_permissions:
+  - role: manager
+    permission:
+      columns:
+      - group_id
+      - id
+      - student_id
+      filter:
+        _and:
+        - student:
+            organisation_id:
+              _eq: X-Hasura-Org-Id
+        - group:
+            organisation_id:
+              _eq: X-Hasura-Org-Id
+  - role: user
+    permission:
+      columns:
+      - group_id
+      - id
+      - student_id
+      filter:
+        _and:
+        - student:
+            organisation_id:
+              _eq: X-Hasura-Org-Id
+        - group:
+            organisation_id:
+              _eq: X-Hasura-Org-Id
+  update_permissions:
+  - role: manager
+    permission:
+      columns:
+      - group_id
+      - student_id
+      filter:
+        _and:
+        - student:
+            organisation_id:
+              _eq: X-Hasura-Org-Id
+        - group:
+            organisation_id:
+              _eq: X-Hasura-Org-Id
+      check:
+        _and:
+        - student:
+            organisation_id:
+              _eq: X-Hasura-Org-Id
+        - group:
+            organisation_id:
+              _eq: X-Hasura-Org-Id
+  delete_permissions:
+  - role: manager
+    permission:
+      filter:
+        _and:
+        - student:
+            organisation_id:
+              _eq: X-Hasura-Org-Id
+        - group:
+            organisation_id:
+              _eq: X-Hasura-Org-Id
 - table:
     schema: public
     name: timetable
+  object_relationships:
+  - name: group
+    using:
+      foreign_key_constraint_on: group_id
+  - name: organisation
+    using:
+      foreign_key_constraint_on: organisation_id
+  insert_permissions:
+  - role: manager
+    permission:
+      check:
+        organisation_id:
+          _eq: X-Hasura-Org-Id
+      set:
+        organisation_id: x-hasura-Org-Id
+      columns:
+      - day
+      - duration
+      - group_id
+      - start_time
+      backend_only: false
+  select_permissions:
+  - role: manager
+    permission:
+      columns:
+      - day
+      - duration
+      - group_id
+      - id
+      - start_time
+      filter:
+        organisation_id:
+          _eq: X-Hasura-Org-Id
+  - role: user
+    permission:
+      columns:
+      - day
+      - duration
+      - group_id
+      - id
+      - start_time
+      filter:
+        organisation_id:
+          _eq: X-Hasura-Org-Id
+  update_permissions:
+  - role: manager
+    permission:
+      columns:
+      - day
+      - duration
+      - group_id
+      - id
+      - start_time
+      filter:
+        organisation_id:
+          _eq: X-Hasura-Org-Id
+      check: null
+      set:
+        organisation_id: x-hasura-Org-Id
+  delete_permissions:
+  - role: manager
+    permission:
+      filter:
+        organisation_id:
+          _eq: X-Hasura-Org-Id
 - table:
     schema: public
     name: url_token

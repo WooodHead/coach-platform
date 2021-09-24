@@ -19,9 +19,9 @@ export type Scalars = {
   date: any;
   interval: any;
   jsonb: any;
-  time: any;
   timestamp: any;
   timestamptz: any;
+  timetz: any;
   uuid: any;
 };
 
@@ -244,6 +244,217 @@ export type Date_Comparison_Exp = {
   _nin?: Maybe<Array<Scalars["date"]>>;
 };
 
+/** columns and relationships of "group" */
+export type Group = {
+  __typename?: "group";
+  id: Scalars["uuid"];
+  name: Scalars["String"];
+  /** An object relationship */
+  organisation: Organisation;
+  organisation_id: Scalars["uuid"];
+  /** An array relationship */
+  students: Array<Student_Group>;
+  /** An aggregated array relationship */
+  students_aggregate: Student_Group_Aggregate;
+  /** An array relationship */
+  timetables: Array<Timetable>;
+  /** An aggregated array relationship */
+  timetables_aggregate: Timetable_Aggregate;
+};
+
+/** columns and relationships of "group" */
+export type GroupStudentsArgs = {
+  distinct_on?: Maybe<Array<Student_Group_Select_Column>>;
+  limit?: Maybe<Scalars["Int"]>;
+  offset?: Maybe<Scalars["Int"]>;
+  order_by?: Maybe<Array<Student_Group_Order_By>>;
+  where?: Maybe<Student_Group_Bool_Exp>;
+};
+
+/** columns and relationships of "group" */
+export type GroupStudents_AggregateArgs = {
+  distinct_on?: Maybe<Array<Student_Group_Select_Column>>;
+  limit?: Maybe<Scalars["Int"]>;
+  offset?: Maybe<Scalars["Int"]>;
+  order_by?: Maybe<Array<Student_Group_Order_By>>;
+  where?: Maybe<Student_Group_Bool_Exp>;
+};
+
+/** columns and relationships of "group" */
+export type GroupTimetablesArgs = {
+  distinct_on?: Maybe<Array<Timetable_Select_Column>>;
+  limit?: Maybe<Scalars["Int"]>;
+  offset?: Maybe<Scalars["Int"]>;
+  order_by?: Maybe<Array<Timetable_Order_By>>;
+  where?: Maybe<Timetable_Bool_Exp>;
+};
+
+/** columns and relationships of "group" */
+export type GroupTimetables_AggregateArgs = {
+  distinct_on?: Maybe<Array<Timetable_Select_Column>>;
+  limit?: Maybe<Scalars["Int"]>;
+  offset?: Maybe<Scalars["Int"]>;
+  order_by?: Maybe<Array<Timetable_Order_By>>;
+  where?: Maybe<Timetable_Bool_Exp>;
+};
+
+/** aggregated selection of "group" */
+export type Group_Aggregate = {
+  __typename?: "group_aggregate";
+  aggregate?: Maybe<Group_Aggregate_Fields>;
+  nodes: Array<Group>;
+};
+
+/** aggregate fields of "group" */
+export type Group_Aggregate_Fields = {
+  __typename?: "group_aggregate_fields";
+  count?: Maybe<Scalars["Int"]>;
+  max?: Maybe<Group_Max_Fields>;
+  min?: Maybe<Group_Min_Fields>;
+};
+
+/** aggregate fields of "group" */
+export type Group_Aggregate_FieldsCountArgs = {
+  columns?: Maybe<Array<Group_Select_Column>>;
+  distinct?: Maybe<Scalars["Boolean"]>;
+};
+
+/** order by aggregate values of table "group" */
+export type Group_Aggregate_Order_By = {
+  count?: Maybe<Order_By>;
+  max?: Maybe<Group_Max_Order_By>;
+  min?: Maybe<Group_Min_Order_By>;
+};
+
+/** input type for inserting array relation for remote table "group" */
+export type Group_Arr_Rel_Insert_Input = {
+  data: Array<Group_Insert_Input>;
+  on_conflict?: Maybe<Group_On_Conflict>;
+};
+
+/** Boolean expression to filter rows from the table "group". All fields are combined with a logical 'AND'. */
+export type Group_Bool_Exp = {
+  _and?: Maybe<Array<Maybe<Group_Bool_Exp>>>;
+  _not?: Maybe<Group_Bool_Exp>;
+  _or?: Maybe<Array<Maybe<Group_Bool_Exp>>>;
+  id?: Maybe<Uuid_Comparison_Exp>;
+  name?: Maybe<String_Comparison_Exp>;
+  organisation?: Maybe<Organisation_Bool_Exp>;
+  organisation_id?: Maybe<Uuid_Comparison_Exp>;
+  students?: Maybe<Student_Group_Bool_Exp>;
+  timetables?: Maybe<Timetable_Bool_Exp>;
+};
+
+/** unique or primary key constraints on table "group" */
+export enum Group_Constraint {
+  /** unique or primary key constraint */
+  GroupPkey = "group_pkey",
+}
+
+/** input type for inserting data into table "group" */
+export type Group_Insert_Input = {
+  id?: Maybe<Scalars["uuid"]>;
+  name?: Maybe<Scalars["String"]>;
+  organisation?: Maybe<Organisation_Obj_Rel_Insert_Input>;
+  organisation_id?: Maybe<Scalars["uuid"]>;
+  students?: Maybe<Student_Group_Arr_Rel_Insert_Input>;
+  timetables?: Maybe<Timetable_Arr_Rel_Insert_Input>;
+};
+
+/** aggregate max on columns */
+export type Group_Max_Fields = {
+  __typename?: "group_max_fields";
+  id?: Maybe<Scalars["uuid"]>;
+  name?: Maybe<Scalars["String"]>;
+  organisation_id?: Maybe<Scalars["uuid"]>;
+};
+
+/** order by max() on columns of table "group" */
+export type Group_Max_Order_By = {
+  id?: Maybe<Order_By>;
+  name?: Maybe<Order_By>;
+  organisation_id?: Maybe<Order_By>;
+};
+
+/** aggregate min on columns */
+export type Group_Min_Fields = {
+  __typename?: "group_min_fields";
+  id?: Maybe<Scalars["uuid"]>;
+  name?: Maybe<Scalars["String"]>;
+  organisation_id?: Maybe<Scalars["uuid"]>;
+};
+
+/** order by min() on columns of table "group" */
+export type Group_Min_Order_By = {
+  id?: Maybe<Order_By>;
+  name?: Maybe<Order_By>;
+  organisation_id?: Maybe<Order_By>;
+};
+
+/** response of any mutation on the table "group" */
+export type Group_Mutation_Response = {
+  __typename?: "group_mutation_response";
+  /** number of affected rows by the mutation */
+  affected_rows: Scalars["Int"];
+  /** data of the affected rows by the mutation */
+  returning: Array<Group>;
+};
+
+/** input type for inserting object relation for remote table "group" */
+export type Group_Obj_Rel_Insert_Input = {
+  data: Group_Insert_Input;
+  on_conflict?: Maybe<Group_On_Conflict>;
+};
+
+/** on conflict condition type for table "group" */
+export type Group_On_Conflict = {
+  constraint: Group_Constraint;
+  update_columns: Array<Group_Update_Column>;
+  where?: Maybe<Group_Bool_Exp>;
+};
+
+/** ordering options when selecting data from "group" */
+export type Group_Order_By = {
+  id?: Maybe<Order_By>;
+  name?: Maybe<Order_By>;
+  organisation?: Maybe<Organisation_Order_By>;
+  organisation_id?: Maybe<Order_By>;
+  students_aggregate?: Maybe<Student_Group_Aggregate_Order_By>;
+  timetables_aggregate?: Maybe<Timetable_Aggregate_Order_By>;
+};
+
+/** primary key columns input for table: "group" */
+export type Group_Pk_Columns_Input = {
+  id: Scalars["uuid"];
+};
+
+/** select columns of table "group" */
+export enum Group_Select_Column {
+  /** column name */
+  Id = "id",
+  /** column name */
+  Name = "name",
+  /** column name */
+  OrganisationId = "organisation_id",
+}
+
+/** input type for updating data in table "group" */
+export type Group_Set_Input = {
+  id?: Maybe<Scalars["uuid"]>;
+  name?: Maybe<Scalars["String"]>;
+  organisation_id?: Maybe<Scalars["uuid"]>;
+};
+
+/** update columns of table "group" */
+export enum Group_Update_Column {
+  /** column name */
+  Id = "id",
+  /** column name */
+  Name = "name",
+  /** column name */
+  OrganisationId = "organisation_id",
+}
+
 /** expression to compare columns of type interval. All fields are combined with logical 'AND'. */
 export type Interval_Comparison_Exp = {
   _eq?: Maybe<Scalars["interval"]>;
@@ -285,8 +496,6 @@ export type Lesson = {
   __typename?: "lesson";
   duration: Scalars["interval"];
   id: Scalars["uuid"];
-  /** An object relationship */
-  lesson_template?: Maybe<Lesson_Template>;
   name: Scalars["String"];
   /** An object relationship */
   organisation: Organisation;
@@ -297,7 +506,7 @@ export type Lesson = {
   student_attendances: Array<Student_Attendance>;
   /** An aggregated array relationship */
   student_attendances_aggregate: Student_Attendance_Aggregate;
-  template_id?: Maybe<Scalars["uuid"]>;
+  timetable_id?: Maybe<Scalars["uuid"]>;
 };
 
 /** columns and relationships of "lesson" */
@@ -359,14 +568,13 @@ export type Lesson_Bool_Exp = {
   _or?: Maybe<Array<Maybe<Lesson_Bool_Exp>>>;
   duration?: Maybe<Interval_Comparison_Exp>;
   id?: Maybe<Uuid_Comparison_Exp>;
-  lesson_template?: Maybe<Lesson_Template_Bool_Exp>;
   name?: Maybe<String_Comparison_Exp>;
   organisation?: Maybe<Organisation_Bool_Exp>;
   organisation_id?: Maybe<Uuid_Comparison_Exp>;
   plan?: Maybe<String_Comparison_Exp>;
   start_time?: Maybe<Timestamptz_Comparison_Exp>;
   student_attendances?: Maybe<Student_Attendance_Bool_Exp>;
-  template_id?: Maybe<Uuid_Comparison_Exp>;
+  timetable_id?: Maybe<Uuid_Comparison_Exp>;
 };
 
 /** unique or primary key constraints on table "lesson" */
@@ -379,14 +587,13 @@ export enum Lesson_Constraint {
 export type Lesson_Insert_Input = {
   duration?: Maybe<Scalars["interval"]>;
   id?: Maybe<Scalars["uuid"]>;
-  lesson_template?: Maybe<Lesson_Template_Obj_Rel_Insert_Input>;
   name?: Maybe<Scalars["String"]>;
   organisation?: Maybe<Organisation_Obj_Rel_Insert_Input>;
   organisation_id?: Maybe<Scalars["uuid"]>;
   plan?: Maybe<Scalars["String"]>;
   start_time?: Maybe<Scalars["timestamptz"]>;
   student_attendances?: Maybe<Student_Attendance_Arr_Rel_Insert_Input>;
-  template_id?: Maybe<Scalars["uuid"]>;
+  timetable_id?: Maybe<Scalars["uuid"]>;
 };
 
 /** aggregate max on columns */
@@ -397,7 +604,7 @@ export type Lesson_Max_Fields = {
   organisation_id?: Maybe<Scalars["uuid"]>;
   plan?: Maybe<Scalars["String"]>;
   start_time?: Maybe<Scalars["timestamptz"]>;
-  template_id?: Maybe<Scalars["uuid"]>;
+  timetable_id?: Maybe<Scalars["uuid"]>;
 };
 
 /** order by max() on columns of table "lesson" */
@@ -407,7 +614,7 @@ export type Lesson_Max_Order_By = {
   organisation_id?: Maybe<Order_By>;
   plan?: Maybe<Order_By>;
   start_time?: Maybe<Order_By>;
-  template_id?: Maybe<Order_By>;
+  timetable_id?: Maybe<Order_By>;
 };
 
 /** aggregate min on columns */
@@ -418,7 +625,7 @@ export type Lesson_Min_Fields = {
   organisation_id?: Maybe<Scalars["uuid"]>;
   plan?: Maybe<Scalars["String"]>;
   start_time?: Maybe<Scalars["timestamptz"]>;
-  template_id?: Maybe<Scalars["uuid"]>;
+  timetable_id?: Maybe<Scalars["uuid"]>;
 };
 
 /** order by min() on columns of table "lesson" */
@@ -428,7 +635,7 @@ export type Lesson_Min_Order_By = {
   organisation_id?: Maybe<Order_By>;
   plan?: Maybe<Order_By>;
   start_time?: Maybe<Order_By>;
-  template_id?: Maybe<Order_By>;
+  timetable_id?: Maybe<Order_By>;
 };
 
 /** response of any mutation on the table "lesson" */
@@ -457,14 +664,13 @@ export type Lesson_On_Conflict = {
 export type Lesson_Order_By = {
   duration?: Maybe<Order_By>;
   id?: Maybe<Order_By>;
-  lesson_template?: Maybe<Lesson_Template_Order_By>;
   name?: Maybe<Order_By>;
   organisation?: Maybe<Organisation_Order_By>;
   organisation_id?: Maybe<Order_By>;
   plan?: Maybe<Order_By>;
   start_time?: Maybe<Order_By>;
   student_attendances_aggregate?: Maybe<Student_Attendance_Aggregate_Order_By>;
-  template_id?: Maybe<Order_By>;
+  timetable_id?: Maybe<Order_By>;
 };
 
 /** primary key columns input for table: "lesson" */
@@ -487,7 +693,7 @@ export enum Lesson_Select_Column {
   /** column name */
   StartTime = "start_time",
   /** column name */
-  TemplateId = "template_id",
+  TimetableId = "timetable_id",
 }
 
 /** input type for updating data in table "lesson" */
@@ -498,521 +704,7 @@ export type Lesson_Set_Input = {
   organisation_id?: Maybe<Scalars["uuid"]>;
   plan?: Maybe<Scalars["String"]>;
   start_time?: Maybe<Scalars["timestamptz"]>;
-  template_id?: Maybe<Scalars["uuid"]>;
-};
-
-/** columns and relationships of "lesson_template" */
-export type Lesson_Template = {
-  __typename?: "lesson_template";
-  day: Scalars["Int"];
-  duration: Scalars["interval"];
-  id: Scalars["uuid"];
-  /** An array relationship */
-  lessons: Array<Lesson>;
-  /** An aggregated array relationship */
-  lessons_aggregate: Lesson_Aggregate;
-  name: Scalars["String"];
-  organisation_id: Scalars["uuid"];
-  start_time: Scalars["time"];
-  /** An array relationship */
-  template_students: Array<Lesson_Template_Student>;
-  /** An aggregated array relationship */
-  template_students_aggregate: Lesson_Template_Student_Aggregate;
-};
-
-/** columns and relationships of "lesson_template" */
-export type Lesson_TemplateLessonsArgs = {
-  distinct_on?: Maybe<Array<Lesson_Select_Column>>;
-  limit?: Maybe<Scalars["Int"]>;
-  offset?: Maybe<Scalars["Int"]>;
-  order_by?: Maybe<Array<Lesson_Order_By>>;
-  where?: Maybe<Lesson_Bool_Exp>;
-};
-
-/** columns and relationships of "lesson_template" */
-export type Lesson_TemplateLessons_AggregateArgs = {
-  distinct_on?: Maybe<Array<Lesson_Select_Column>>;
-  limit?: Maybe<Scalars["Int"]>;
-  offset?: Maybe<Scalars["Int"]>;
-  order_by?: Maybe<Array<Lesson_Order_By>>;
-  where?: Maybe<Lesson_Bool_Exp>;
-};
-
-/** columns and relationships of "lesson_template" */
-export type Lesson_TemplateTemplate_StudentsArgs = {
-  distinct_on?: Maybe<Array<Lesson_Template_Student_Select_Column>>;
-  limit?: Maybe<Scalars["Int"]>;
-  offset?: Maybe<Scalars["Int"]>;
-  order_by?: Maybe<Array<Lesson_Template_Student_Order_By>>;
-  where?: Maybe<Lesson_Template_Student_Bool_Exp>;
-};
-
-/** columns and relationships of "lesson_template" */
-export type Lesson_TemplateTemplate_Students_AggregateArgs = {
-  distinct_on?: Maybe<Array<Lesson_Template_Student_Select_Column>>;
-  limit?: Maybe<Scalars["Int"]>;
-  offset?: Maybe<Scalars["Int"]>;
-  order_by?: Maybe<Array<Lesson_Template_Student_Order_By>>;
-  where?: Maybe<Lesson_Template_Student_Bool_Exp>;
-};
-
-/** aggregated selection of "lesson_template" */
-export type Lesson_Template_Aggregate = {
-  __typename?: "lesson_template_aggregate";
-  aggregate?: Maybe<Lesson_Template_Aggregate_Fields>;
-  nodes: Array<Lesson_Template>;
-};
-
-/** aggregate fields of "lesson_template" */
-export type Lesson_Template_Aggregate_Fields = {
-  __typename?: "lesson_template_aggregate_fields";
-  avg?: Maybe<Lesson_Template_Avg_Fields>;
-  count?: Maybe<Scalars["Int"]>;
-  max?: Maybe<Lesson_Template_Max_Fields>;
-  min?: Maybe<Lesson_Template_Min_Fields>;
-  stddev?: Maybe<Lesson_Template_Stddev_Fields>;
-  stddev_pop?: Maybe<Lesson_Template_Stddev_Pop_Fields>;
-  stddev_samp?: Maybe<Lesson_Template_Stddev_Samp_Fields>;
-  sum?: Maybe<Lesson_Template_Sum_Fields>;
-  var_pop?: Maybe<Lesson_Template_Var_Pop_Fields>;
-  var_samp?: Maybe<Lesson_Template_Var_Samp_Fields>;
-  variance?: Maybe<Lesson_Template_Variance_Fields>;
-};
-
-/** aggregate fields of "lesson_template" */
-export type Lesson_Template_Aggregate_FieldsCountArgs = {
-  columns?: Maybe<Array<Lesson_Template_Select_Column>>;
-  distinct?: Maybe<Scalars["Boolean"]>;
-};
-
-/** order by aggregate values of table "lesson_template" */
-export type Lesson_Template_Aggregate_Order_By = {
-  avg?: Maybe<Lesson_Template_Avg_Order_By>;
-  count?: Maybe<Order_By>;
-  max?: Maybe<Lesson_Template_Max_Order_By>;
-  min?: Maybe<Lesson_Template_Min_Order_By>;
-  stddev?: Maybe<Lesson_Template_Stddev_Order_By>;
-  stddev_pop?: Maybe<Lesson_Template_Stddev_Pop_Order_By>;
-  stddev_samp?: Maybe<Lesson_Template_Stddev_Samp_Order_By>;
-  sum?: Maybe<Lesson_Template_Sum_Order_By>;
-  var_pop?: Maybe<Lesson_Template_Var_Pop_Order_By>;
-  var_samp?: Maybe<Lesson_Template_Var_Samp_Order_By>;
-  variance?: Maybe<Lesson_Template_Variance_Order_By>;
-};
-
-/** input type for inserting array relation for remote table "lesson_template" */
-export type Lesson_Template_Arr_Rel_Insert_Input = {
-  data: Array<Lesson_Template_Insert_Input>;
-  on_conflict?: Maybe<Lesson_Template_On_Conflict>;
-};
-
-/** aggregate avg on columns */
-export type Lesson_Template_Avg_Fields = {
-  __typename?: "lesson_template_avg_fields";
-  day?: Maybe<Scalars["Float"]>;
-};
-
-/** order by avg() on columns of table "lesson_template" */
-export type Lesson_Template_Avg_Order_By = {
-  day?: Maybe<Order_By>;
-};
-
-/** Boolean expression to filter rows from the table "lesson_template". All fields are combined with a logical 'AND'. */
-export type Lesson_Template_Bool_Exp = {
-  _and?: Maybe<Array<Maybe<Lesson_Template_Bool_Exp>>>;
-  _not?: Maybe<Lesson_Template_Bool_Exp>;
-  _or?: Maybe<Array<Maybe<Lesson_Template_Bool_Exp>>>;
-  day?: Maybe<Int_Comparison_Exp>;
-  duration?: Maybe<Interval_Comparison_Exp>;
-  id?: Maybe<Uuid_Comparison_Exp>;
-  lessons?: Maybe<Lesson_Bool_Exp>;
-  name?: Maybe<String_Comparison_Exp>;
-  organisation_id?: Maybe<Uuid_Comparison_Exp>;
-  start_time?: Maybe<Time_Comparison_Exp>;
-  template_students?: Maybe<Lesson_Template_Student_Bool_Exp>;
-};
-
-/** unique or primary key constraints on table "lesson_template" */
-export enum Lesson_Template_Constraint {
-  /** unique or primary key constraint */
-  LessonTemplatePkey = "lesson_template_pkey",
-}
-
-/** input type for incrementing integer column in table "lesson_template" */
-export type Lesson_Template_Inc_Input = {
-  day?: Maybe<Scalars["Int"]>;
-};
-
-/** input type for inserting data into table "lesson_template" */
-export type Lesson_Template_Insert_Input = {
-  day?: Maybe<Scalars["Int"]>;
-  duration?: Maybe<Scalars["interval"]>;
-  id?: Maybe<Scalars["uuid"]>;
-  lessons?: Maybe<Lesson_Arr_Rel_Insert_Input>;
-  name?: Maybe<Scalars["String"]>;
-  organisation_id?: Maybe<Scalars["uuid"]>;
-  start_time?: Maybe<Scalars["time"]>;
-  template_students?: Maybe<Lesson_Template_Student_Arr_Rel_Insert_Input>;
-};
-
-/** aggregate max on columns */
-export type Lesson_Template_Max_Fields = {
-  __typename?: "lesson_template_max_fields";
-  day?: Maybe<Scalars["Int"]>;
-  id?: Maybe<Scalars["uuid"]>;
-  name?: Maybe<Scalars["String"]>;
-  organisation_id?: Maybe<Scalars["uuid"]>;
-};
-
-/** order by max() on columns of table "lesson_template" */
-export type Lesson_Template_Max_Order_By = {
-  day?: Maybe<Order_By>;
-  id?: Maybe<Order_By>;
-  name?: Maybe<Order_By>;
-  organisation_id?: Maybe<Order_By>;
-};
-
-/** aggregate min on columns */
-export type Lesson_Template_Min_Fields = {
-  __typename?: "lesson_template_min_fields";
-  day?: Maybe<Scalars["Int"]>;
-  id?: Maybe<Scalars["uuid"]>;
-  name?: Maybe<Scalars["String"]>;
-  organisation_id?: Maybe<Scalars["uuid"]>;
-};
-
-/** order by min() on columns of table "lesson_template" */
-export type Lesson_Template_Min_Order_By = {
-  day?: Maybe<Order_By>;
-  id?: Maybe<Order_By>;
-  name?: Maybe<Order_By>;
-  organisation_id?: Maybe<Order_By>;
-};
-
-/** response of any mutation on the table "lesson_template" */
-export type Lesson_Template_Mutation_Response = {
-  __typename?: "lesson_template_mutation_response";
-  /** number of affected rows by the mutation */
-  affected_rows: Scalars["Int"];
-  /** data of the affected rows by the mutation */
-  returning: Array<Lesson_Template>;
-};
-
-/** input type for inserting object relation for remote table "lesson_template" */
-export type Lesson_Template_Obj_Rel_Insert_Input = {
-  data: Lesson_Template_Insert_Input;
-  on_conflict?: Maybe<Lesson_Template_On_Conflict>;
-};
-
-/** on conflict condition type for table "lesson_template" */
-export type Lesson_Template_On_Conflict = {
-  constraint: Lesson_Template_Constraint;
-  update_columns: Array<Lesson_Template_Update_Column>;
-  where?: Maybe<Lesson_Template_Bool_Exp>;
-};
-
-/** ordering options when selecting data from "lesson_template" */
-export type Lesson_Template_Order_By = {
-  day?: Maybe<Order_By>;
-  duration?: Maybe<Order_By>;
-  id?: Maybe<Order_By>;
-  lessons_aggregate?: Maybe<Lesson_Aggregate_Order_By>;
-  name?: Maybe<Order_By>;
-  organisation_id?: Maybe<Order_By>;
-  start_time?: Maybe<Order_By>;
-  template_students_aggregate?: Maybe<Lesson_Template_Student_Aggregate_Order_By>;
-};
-
-/** primary key columns input for table: "lesson_template" */
-export type Lesson_Template_Pk_Columns_Input = {
-  id: Scalars["uuid"];
-};
-
-/** select columns of table "lesson_template" */
-export enum Lesson_Template_Select_Column {
-  /** column name */
-  Day = "day",
-  /** column name */
-  Duration = "duration",
-  /** column name */
-  Id = "id",
-  /** column name */
-  Name = "name",
-  /** column name */
-  OrganisationId = "organisation_id",
-  /** column name */
-  StartTime = "start_time",
-}
-
-/** input type for updating data in table "lesson_template" */
-export type Lesson_Template_Set_Input = {
-  day?: Maybe<Scalars["Int"]>;
-  duration?: Maybe<Scalars["interval"]>;
-  id?: Maybe<Scalars["uuid"]>;
-  name?: Maybe<Scalars["String"]>;
-  organisation_id?: Maybe<Scalars["uuid"]>;
-  start_time?: Maybe<Scalars["time"]>;
-};
-
-/** aggregate stddev on columns */
-export type Lesson_Template_Stddev_Fields = {
-  __typename?: "lesson_template_stddev_fields";
-  day?: Maybe<Scalars["Float"]>;
-};
-
-/** order by stddev() on columns of table "lesson_template" */
-export type Lesson_Template_Stddev_Order_By = {
-  day?: Maybe<Order_By>;
-};
-
-/** aggregate stddev_pop on columns */
-export type Lesson_Template_Stddev_Pop_Fields = {
-  __typename?: "lesson_template_stddev_pop_fields";
-  day?: Maybe<Scalars["Float"]>;
-};
-
-/** order by stddev_pop() on columns of table "lesson_template" */
-export type Lesson_Template_Stddev_Pop_Order_By = {
-  day?: Maybe<Order_By>;
-};
-
-/** aggregate stddev_samp on columns */
-export type Lesson_Template_Stddev_Samp_Fields = {
-  __typename?: "lesson_template_stddev_samp_fields";
-  day?: Maybe<Scalars["Float"]>;
-};
-
-/** order by stddev_samp() on columns of table "lesson_template" */
-export type Lesson_Template_Stddev_Samp_Order_By = {
-  day?: Maybe<Order_By>;
-};
-
-/** columns and relationships of "lesson_template_student" */
-export type Lesson_Template_Student = {
-  __typename?: "lesson_template_student";
-  id: Scalars["uuid"];
-  /** An object relationship */
-  lesson_template: Lesson_Template;
-  lesson_template_id: Scalars["uuid"];
-  /** An object relationship */
-  student: Student;
-  student_id: Scalars["uuid"];
-};
-
-/** aggregated selection of "lesson_template_student" */
-export type Lesson_Template_Student_Aggregate = {
-  __typename?: "lesson_template_student_aggregate";
-  aggregate?: Maybe<Lesson_Template_Student_Aggregate_Fields>;
-  nodes: Array<Lesson_Template_Student>;
-};
-
-/** aggregate fields of "lesson_template_student" */
-export type Lesson_Template_Student_Aggregate_Fields = {
-  __typename?: "lesson_template_student_aggregate_fields";
-  count?: Maybe<Scalars["Int"]>;
-  max?: Maybe<Lesson_Template_Student_Max_Fields>;
-  min?: Maybe<Lesson_Template_Student_Min_Fields>;
-};
-
-/** aggregate fields of "lesson_template_student" */
-export type Lesson_Template_Student_Aggregate_FieldsCountArgs = {
-  columns?: Maybe<Array<Lesson_Template_Student_Select_Column>>;
-  distinct?: Maybe<Scalars["Boolean"]>;
-};
-
-/** order by aggregate values of table "lesson_template_student" */
-export type Lesson_Template_Student_Aggregate_Order_By = {
-  count?: Maybe<Order_By>;
-  max?: Maybe<Lesson_Template_Student_Max_Order_By>;
-  min?: Maybe<Lesson_Template_Student_Min_Order_By>;
-};
-
-/** input type for inserting array relation for remote table "lesson_template_student" */
-export type Lesson_Template_Student_Arr_Rel_Insert_Input = {
-  data: Array<Lesson_Template_Student_Insert_Input>;
-  on_conflict?: Maybe<Lesson_Template_Student_On_Conflict>;
-};
-
-/** Boolean expression to filter rows from the table "lesson_template_student". All fields are combined with a logical 'AND'. */
-export type Lesson_Template_Student_Bool_Exp = {
-  _and?: Maybe<Array<Maybe<Lesson_Template_Student_Bool_Exp>>>;
-  _not?: Maybe<Lesson_Template_Student_Bool_Exp>;
-  _or?: Maybe<Array<Maybe<Lesson_Template_Student_Bool_Exp>>>;
-  id?: Maybe<Uuid_Comparison_Exp>;
-  lesson_template?: Maybe<Lesson_Template_Bool_Exp>;
-  lesson_template_id?: Maybe<Uuid_Comparison_Exp>;
-  student?: Maybe<Student_Bool_Exp>;
-  student_id?: Maybe<Uuid_Comparison_Exp>;
-};
-
-/** unique or primary key constraints on table "lesson_template_student" */
-export enum Lesson_Template_Student_Constraint {
-  /** unique or primary key constraint */
-  LessonTemplateStudentLessonTemplateIdStudentIdKey = "lesson_template_student_lesson_template_id_student_id_key",
-  /** unique or primary key constraint */
-  LessonTemplateStudentPkey = "lesson_template_student_pkey",
-}
-
-/** input type for inserting data into table "lesson_template_student" */
-export type Lesson_Template_Student_Insert_Input = {
-  id?: Maybe<Scalars["uuid"]>;
-  lesson_template?: Maybe<Lesson_Template_Obj_Rel_Insert_Input>;
-  lesson_template_id?: Maybe<Scalars["uuid"]>;
-  student?: Maybe<Student_Obj_Rel_Insert_Input>;
-  student_id?: Maybe<Scalars["uuid"]>;
-};
-
-/** aggregate max on columns */
-export type Lesson_Template_Student_Max_Fields = {
-  __typename?: "lesson_template_student_max_fields";
-  id?: Maybe<Scalars["uuid"]>;
-  lesson_template_id?: Maybe<Scalars["uuid"]>;
-  student_id?: Maybe<Scalars["uuid"]>;
-};
-
-/** order by max() on columns of table "lesson_template_student" */
-export type Lesson_Template_Student_Max_Order_By = {
-  id?: Maybe<Order_By>;
-  lesson_template_id?: Maybe<Order_By>;
-  student_id?: Maybe<Order_By>;
-};
-
-/** aggregate min on columns */
-export type Lesson_Template_Student_Min_Fields = {
-  __typename?: "lesson_template_student_min_fields";
-  id?: Maybe<Scalars["uuid"]>;
-  lesson_template_id?: Maybe<Scalars["uuid"]>;
-  student_id?: Maybe<Scalars["uuid"]>;
-};
-
-/** order by min() on columns of table "lesson_template_student" */
-export type Lesson_Template_Student_Min_Order_By = {
-  id?: Maybe<Order_By>;
-  lesson_template_id?: Maybe<Order_By>;
-  student_id?: Maybe<Order_By>;
-};
-
-/** response of any mutation on the table "lesson_template_student" */
-export type Lesson_Template_Student_Mutation_Response = {
-  __typename?: "lesson_template_student_mutation_response";
-  /** number of affected rows by the mutation */
-  affected_rows: Scalars["Int"];
-  /** data of the affected rows by the mutation */
-  returning: Array<Lesson_Template_Student>;
-};
-
-/** input type for inserting object relation for remote table "lesson_template_student" */
-export type Lesson_Template_Student_Obj_Rel_Insert_Input = {
-  data: Lesson_Template_Student_Insert_Input;
-  on_conflict?: Maybe<Lesson_Template_Student_On_Conflict>;
-};
-
-/** on conflict condition type for table "lesson_template_student" */
-export type Lesson_Template_Student_On_Conflict = {
-  constraint: Lesson_Template_Student_Constraint;
-  update_columns: Array<Lesson_Template_Student_Update_Column>;
-  where?: Maybe<Lesson_Template_Student_Bool_Exp>;
-};
-
-/** ordering options when selecting data from "lesson_template_student" */
-export type Lesson_Template_Student_Order_By = {
-  id?: Maybe<Order_By>;
-  lesson_template?: Maybe<Lesson_Template_Order_By>;
-  lesson_template_id?: Maybe<Order_By>;
-  student?: Maybe<Student_Order_By>;
-  student_id?: Maybe<Order_By>;
-};
-
-/** primary key columns input for table: "lesson_template_student" */
-export type Lesson_Template_Student_Pk_Columns_Input = {
-  id: Scalars["uuid"];
-};
-
-/** select columns of table "lesson_template_student" */
-export enum Lesson_Template_Student_Select_Column {
-  /** column name */
-  Id = "id",
-  /** column name */
-  LessonTemplateId = "lesson_template_id",
-  /** column name */
-  StudentId = "student_id",
-}
-
-/** input type for updating data in table "lesson_template_student" */
-export type Lesson_Template_Student_Set_Input = {
-  id?: Maybe<Scalars["uuid"]>;
-  lesson_template_id?: Maybe<Scalars["uuid"]>;
-  student_id?: Maybe<Scalars["uuid"]>;
-};
-
-/** update columns of table "lesson_template_student" */
-export enum Lesson_Template_Student_Update_Column {
-  /** column name */
-  Id = "id",
-  /** column name */
-  LessonTemplateId = "lesson_template_id",
-  /** column name */
-  StudentId = "student_id",
-}
-
-/** aggregate sum on columns */
-export type Lesson_Template_Sum_Fields = {
-  __typename?: "lesson_template_sum_fields";
-  day?: Maybe<Scalars["Int"]>;
-};
-
-/** order by sum() on columns of table "lesson_template" */
-export type Lesson_Template_Sum_Order_By = {
-  day?: Maybe<Order_By>;
-};
-
-/** update columns of table "lesson_template" */
-export enum Lesson_Template_Update_Column {
-  /** column name */
-  Day = "day",
-  /** column name */
-  Duration = "duration",
-  /** column name */
-  Id = "id",
-  /** column name */
-  Name = "name",
-  /** column name */
-  OrganisationId = "organisation_id",
-  /** column name */
-  StartTime = "start_time",
-}
-
-/** aggregate var_pop on columns */
-export type Lesson_Template_Var_Pop_Fields = {
-  __typename?: "lesson_template_var_pop_fields";
-  day?: Maybe<Scalars["Float"]>;
-};
-
-/** order by var_pop() on columns of table "lesson_template" */
-export type Lesson_Template_Var_Pop_Order_By = {
-  day?: Maybe<Order_By>;
-};
-
-/** aggregate var_samp on columns */
-export type Lesson_Template_Var_Samp_Fields = {
-  __typename?: "lesson_template_var_samp_fields";
-  day?: Maybe<Scalars["Float"]>;
-};
-
-/** order by var_samp() on columns of table "lesson_template" */
-export type Lesson_Template_Var_Samp_Order_By = {
-  day?: Maybe<Order_By>;
-};
-
-/** aggregate variance on columns */
-export type Lesson_Template_Variance_Fields = {
-  __typename?: "lesson_template_variance_fields";
-  day?: Maybe<Scalars["Float"]>;
-};
-
-/** order by variance() on columns of table "lesson_template" */
-export type Lesson_Template_Variance_Order_By = {
-  day?: Maybe<Order_By>;
+  timetable_id?: Maybe<Scalars["uuid"]>;
 };
 
 /** update columns of table "lesson" */
@@ -1030,7 +722,7 @@ export enum Lesson_Update_Column {
   /** column name */
   StartTime = "start_time",
   /** column name */
-  TemplateId = "template_id",
+  TimetableId = "timetable_id",
 }
 
 /** mutation root */
@@ -1040,18 +732,14 @@ export type Mutation_Root = {
   delete_attendance_state?: Maybe<Attendance_State_Mutation_Response>;
   /** delete single row from the table: "attendance_state" */
   delete_attendance_state_by_pk?: Maybe<Attendance_State>;
+  /** delete data from the table: "group" */
+  delete_group?: Maybe<Group_Mutation_Response>;
+  /** delete single row from the table: "group" */
+  delete_group_by_pk?: Maybe<Group>;
   /** delete data from the table: "lesson" */
   delete_lesson?: Maybe<Lesson_Mutation_Response>;
   /** delete single row from the table: "lesson" */
   delete_lesson_by_pk?: Maybe<Lesson>;
-  /** delete data from the table: "lesson_template" */
-  delete_lesson_template?: Maybe<Lesson_Template_Mutation_Response>;
-  /** delete single row from the table: "lesson_template" */
-  delete_lesson_template_by_pk?: Maybe<Lesson_Template>;
-  /** delete data from the table: "lesson_template_student" */
-  delete_lesson_template_student?: Maybe<Lesson_Template_Student_Mutation_Response>;
-  /** delete single row from the table: "lesson_template_student" */
-  delete_lesson_template_student_by_pk?: Maybe<Lesson_Template_Student>;
   /** delete data from the table: "organisation" */
   delete_organisation?: Maybe<Organisation_Mutation_Response>;
   /** delete single row from the table: "organisation" */
@@ -1064,6 +752,14 @@ export type Mutation_Root = {
   delete_student_attendance_by_pk?: Maybe<Student_Attendance>;
   /** delete single row from the table: "student" */
   delete_student_by_pk?: Maybe<Student>;
+  /** delete data from the table: "student_group" */
+  delete_student_group?: Maybe<Student_Group_Mutation_Response>;
+  /** delete single row from the table: "student_group" */
+  delete_student_group_by_pk?: Maybe<Student_Group>;
+  /** delete data from the table: "timetable" */
+  delete_timetable?: Maybe<Timetable_Mutation_Response>;
+  /** delete single row from the table: "timetable" */
+  delete_timetable_by_pk?: Maybe<Timetable>;
   /** delete data from the table: "url_token" */
   delete_url_token?: Maybe<Url_Token_Mutation_Response>;
   /** delete single row from the table: "url_token" */
@@ -1080,18 +776,14 @@ export type Mutation_Root = {
   insert_attendance_state?: Maybe<Attendance_State_Mutation_Response>;
   /** insert a single row into the table: "attendance_state" */
   insert_attendance_state_one?: Maybe<Attendance_State>;
+  /** insert data into the table: "group" */
+  insert_group?: Maybe<Group_Mutation_Response>;
+  /** insert a single row into the table: "group" */
+  insert_group_one?: Maybe<Group>;
   /** insert data into the table: "lesson" */
   insert_lesson?: Maybe<Lesson_Mutation_Response>;
   /** insert a single row into the table: "lesson" */
   insert_lesson_one?: Maybe<Lesson>;
-  /** insert data into the table: "lesson_template" */
-  insert_lesson_template?: Maybe<Lesson_Template_Mutation_Response>;
-  /** insert a single row into the table: "lesson_template" */
-  insert_lesson_template_one?: Maybe<Lesson_Template>;
-  /** insert data into the table: "lesson_template_student" */
-  insert_lesson_template_student?: Maybe<Lesson_Template_Student_Mutation_Response>;
-  /** insert a single row into the table: "lesson_template_student" */
-  insert_lesson_template_student_one?: Maybe<Lesson_Template_Student>;
   /** insert data into the table: "organisation" */
   insert_organisation?: Maybe<Organisation_Mutation_Response>;
   /** insert a single row into the table: "organisation" */
@@ -1102,8 +794,16 @@ export type Mutation_Root = {
   insert_student_attendance?: Maybe<Student_Attendance_Mutation_Response>;
   /** insert a single row into the table: "student_attendance" */
   insert_student_attendance_one?: Maybe<Student_Attendance>;
+  /** insert data into the table: "student_group" */
+  insert_student_group?: Maybe<Student_Group_Mutation_Response>;
+  /** insert a single row into the table: "student_group" */
+  insert_student_group_one?: Maybe<Student_Group>;
   /** insert a single row into the table: "student" */
   insert_student_one?: Maybe<Student>;
+  /** insert data into the table: "timetable" */
+  insert_timetable?: Maybe<Timetable_Mutation_Response>;
+  /** insert a single row into the table: "timetable" */
+  insert_timetable_one?: Maybe<Timetable>;
   /** insert data into the table: "url_token" */
   insert_url_token?: Maybe<Url_Token_Mutation_Response>;
   /** insert a single row into the table: "url_token" */
@@ -1120,18 +820,14 @@ export type Mutation_Root = {
   update_attendance_state?: Maybe<Attendance_State_Mutation_Response>;
   /** update single row of the table: "attendance_state" */
   update_attendance_state_by_pk?: Maybe<Attendance_State>;
+  /** update data of the table: "group" */
+  update_group?: Maybe<Group_Mutation_Response>;
+  /** update single row of the table: "group" */
+  update_group_by_pk?: Maybe<Group>;
   /** update data of the table: "lesson" */
   update_lesson?: Maybe<Lesson_Mutation_Response>;
   /** update single row of the table: "lesson" */
   update_lesson_by_pk?: Maybe<Lesson>;
-  /** update data of the table: "lesson_template" */
-  update_lesson_template?: Maybe<Lesson_Template_Mutation_Response>;
-  /** update single row of the table: "lesson_template" */
-  update_lesson_template_by_pk?: Maybe<Lesson_Template>;
-  /** update data of the table: "lesson_template_student" */
-  update_lesson_template_student?: Maybe<Lesson_Template_Student_Mutation_Response>;
-  /** update single row of the table: "lesson_template_student" */
-  update_lesson_template_student_by_pk?: Maybe<Lesson_Template_Student>;
   /** update data of the table: "organisation" */
   update_organisation?: Maybe<Organisation_Mutation_Response>;
   /** update single row of the table: "organisation" */
@@ -1144,6 +840,14 @@ export type Mutation_Root = {
   update_student_attendance_by_pk?: Maybe<Student_Attendance>;
   /** update single row of the table: "student" */
   update_student_by_pk?: Maybe<Student>;
+  /** update data of the table: "student_group" */
+  update_student_group?: Maybe<Student_Group_Mutation_Response>;
+  /** update single row of the table: "student_group" */
+  update_student_group_by_pk?: Maybe<Student_Group>;
+  /** update data of the table: "timetable" */
+  update_timetable?: Maybe<Timetable_Mutation_Response>;
+  /** update single row of the table: "timetable" */
+  update_timetable_by_pk?: Maybe<Timetable>;
   /** update data of the table: "url_token" */
   update_url_token?: Maybe<Url_Token_Mutation_Response>;
   /** update single row of the table: "url_token" */
@@ -1169,32 +873,22 @@ export type Mutation_RootDelete_Attendance_State_By_PkArgs = {
 };
 
 /** mutation root */
+export type Mutation_RootDelete_GroupArgs = {
+  where: Group_Bool_Exp;
+};
+
+/** mutation root */
+export type Mutation_RootDelete_Group_By_PkArgs = {
+  id: Scalars["uuid"];
+};
+
+/** mutation root */
 export type Mutation_RootDelete_LessonArgs = {
   where: Lesson_Bool_Exp;
 };
 
 /** mutation root */
 export type Mutation_RootDelete_Lesson_By_PkArgs = {
-  id: Scalars["uuid"];
-};
-
-/** mutation root */
-export type Mutation_RootDelete_Lesson_TemplateArgs = {
-  where: Lesson_Template_Bool_Exp;
-};
-
-/** mutation root */
-export type Mutation_RootDelete_Lesson_Template_By_PkArgs = {
-  id: Scalars["uuid"];
-};
-
-/** mutation root */
-export type Mutation_RootDelete_Lesson_Template_StudentArgs = {
-  where: Lesson_Template_Student_Bool_Exp;
-};
-
-/** mutation root */
-export type Mutation_RootDelete_Lesson_Template_Student_By_PkArgs = {
   id: Scalars["uuid"];
 };
 
@@ -1225,6 +919,26 @@ export type Mutation_RootDelete_Student_Attendance_By_PkArgs = {
 
 /** mutation root */
 export type Mutation_RootDelete_Student_By_PkArgs = {
+  id: Scalars["uuid"];
+};
+
+/** mutation root */
+export type Mutation_RootDelete_Student_GroupArgs = {
+  where: Student_Group_Bool_Exp;
+};
+
+/** mutation root */
+export type Mutation_RootDelete_Student_Group_By_PkArgs = {
+  id: Scalars["uuid"];
+};
+
+/** mutation root */
+export type Mutation_RootDelete_TimetableArgs = {
+  where: Timetable_Bool_Exp;
+};
+
+/** mutation root */
+export type Mutation_RootDelete_Timetable_By_PkArgs = {
   id: Scalars["uuid"];
 };
 
@@ -1271,6 +985,18 @@ export type Mutation_RootInsert_Attendance_State_OneArgs = {
 };
 
 /** mutation root */
+export type Mutation_RootInsert_GroupArgs = {
+  objects: Array<Group_Insert_Input>;
+  on_conflict?: Maybe<Group_On_Conflict>;
+};
+
+/** mutation root */
+export type Mutation_RootInsert_Group_OneArgs = {
+  object: Group_Insert_Input;
+  on_conflict?: Maybe<Group_On_Conflict>;
+};
+
+/** mutation root */
 export type Mutation_RootInsert_LessonArgs = {
   objects: Array<Lesson_Insert_Input>;
   on_conflict?: Maybe<Lesson_On_Conflict>;
@@ -1280,30 +1006,6 @@ export type Mutation_RootInsert_LessonArgs = {
 export type Mutation_RootInsert_Lesson_OneArgs = {
   object: Lesson_Insert_Input;
   on_conflict?: Maybe<Lesson_On_Conflict>;
-};
-
-/** mutation root */
-export type Mutation_RootInsert_Lesson_TemplateArgs = {
-  objects: Array<Lesson_Template_Insert_Input>;
-  on_conflict?: Maybe<Lesson_Template_On_Conflict>;
-};
-
-/** mutation root */
-export type Mutation_RootInsert_Lesson_Template_OneArgs = {
-  object: Lesson_Template_Insert_Input;
-  on_conflict?: Maybe<Lesson_Template_On_Conflict>;
-};
-
-/** mutation root */
-export type Mutation_RootInsert_Lesson_Template_StudentArgs = {
-  objects: Array<Lesson_Template_Student_Insert_Input>;
-  on_conflict?: Maybe<Lesson_Template_Student_On_Conflict>;
-};
-
-/** mutation root */
-export type Mutation_RootInsert_Lesson_Template_Student_OneArgs = {
-  object: Lesson_Template_Student_Insert_Input;
-  on_conflict?: Maybe<Lesson_Template_Student_On_Conflict>;
 };
 
 /** mutation root */
@@ -1337,9 +1039,33 @@ export type Mutation_RootInsert_Student_Attendance_OneArgs = {
 };
 
 /** mutation root */
+export type Mutation_RootInsert_Student_GroupArgs = {
+  objects: Array<Student_Group_Insert_Input>;
+  on_conflict?: Maybe<Student_Group_On_Conflict>;
+};
+
+/** mutation root */
+export type Mutation_RootInsert_Student_Group_OneArgs = {
+  object: Student_Group_Insert_Input;
+  on_conflict?: Maybe<Student_Group_On_Conflict>;
+};
+
+/** mutation root */
 export type Mutation_RootInsert_Student_OneArgs = {
   object: Student_Insert_Input;
   on_conflict?: Maybe<Student_On_Conflict>;
+};
+
+/** mutation root */
+export type Mutation_RootInsert_TimetableArgs = {
+  objects: Array<Timetable_Insert_Input>;
+  on_conflict?: Maybe<Timetable_On_Conflict>;
+};
+
+/** mutation root */
+export type Mutation_RootInsert_Timetable_OneArgs = {
+  object: Timetable_Insert_Input;
+  on_conflict?: Maybe<Timetable_On_Conflict>;
 };
 
 /** mutation root */
@@ -1391,6 +1117,18 @@ export type Mutation_RootUpdate_Attendance_State_By_PkArgs = {
 };
 
 /** mutation root */
+export type Mutation_RootUpdate_GroupArgs = {
+  _set?: Maybe<Group_Set_Input>;
+  where: Group_Bool_Exp;
+};
+
+/** mutation root */
+export type Mutation_RootUpdate_Group_By_PkArgs = {
+  _set?: Maybe<Group_Set_Input>;
+  pk_columns: Group_Pk_Columns_Input;
+};
+
+/** mutation root */
 export type Mutation_RootUpdate_LessonArgs = {
   _set?: Maybe<Lesson_Set_Input>;
   where: Lesson_Bool_Exp;
@@ -1400,32 +1138,6 @@ export type Mutation_RootUpdate_LessonArgs = {
 export type Mutation_RootUpdate_Lesson_By_PkArgs = {
   _set?: Maybe<Lesson_Set_Input>;
   pk_columns: Lesson_Pk_Columns_Input;
-};
-
-/** mutation root */
-export type Mutation_RootUpdate_Lesson_TemplateArgs = {
-  _inc?: Maybe<Lesson_Template_Inc_Input>;
-  _set?: Maybe<Lesson_Template_Set_Input>;
-  where: Lesson_Template_Bool_Exp;
-};
-
-/** mutation root */
-export type Mutation_RootUpdate_Lesson_Template_By_PkArgs = {
-  _inc?: Maybe<Lesson_Template_Inc_Input>;
-  _set?: Maybe<Lesson_Template_Set_Input>;
-  pk_columns: Lesson_Template_Pk_Columns_Input;
-};
-
-/** mutation root */
-export type Mutation_RootUpdate_Lesson_Template_StudentArgs = {
-  _set?: Maybe<Lesson_Template_Student_Set_Input>;
-  where: Lesson_Template_Student_Bool_Exp;
-};
-
-/** mutation root */
-export type Mutation_RootUpdate_Lesson_Template_Student_By_PkArgs = {
-  _set?: Maybe<Lesson_Template_Student_Set_Input>;
-  pk_columns: Lesson_Template_Student_Pk_Columns_Input;
 };
 
 /** mutation root */
@@ -1462,6 +1174,32 @@ export type Mutation_RootUpdate_Student_Attendance_By_PkArgs = {
 export type Mutation_RootUpdate_Student_By_PkArgs = {
   _set?: Maybe<Student_Set_Input>;
   pk_columns: Student_Pk_Columns_Input;
+};
+
+/** mutation root */
+export type Mutation_RootUpdate_Student_GroupArgs = {
+  _set?: Maybe<Student_Group_Set_Input>;
+  where: Student_Group_Bool_Exp;
+};
+
+/** mutation root */
+export type Mutation_RootUpdate_Student_Group_By_PkArgs = {
+  _set?: Maybe<Student_Group_Set_Input>;
+  pk_columns: Student_Group_Pk_Columns_Input;
+};
+
+/** mutation root */
+export type Mutation_RootUpdate_TimetableArgs = {
+  _inc?: Maybe<Timetable_Inc_Input>;
+  _set?: Maybe<Timetable_Set_Input>;
+  where: Timetable_Bool_Exp;
+};
+
+/** mutation root */
+export type Mutation_RootUpdate_Timetable_By_PkArgs = {
+  _inc?: Maybe<Timetable_Inc_Input>;
+  _set?: Maybe<Timetable_Set_Input>;
+  pk_columns: Timetable_Pk_Columns_Input;
 };
 
 /** mutation root */
@@ -1763,24 +1501,18 @@ export type Query_Root = {
   attendance_state_aggregate: Attendance_State_Aggregate;
   /** fetch data from the table: "attendance_state" using primary key columns */
   attendance_state_by_pk?: Maybe<Attendance_State>;
+  /** fetch data from the table: "group" */
+  group: Array<Group>;
+  /** fetch aggregated fields from the table: "group" */
+  group_aggregate: Group_Aggregate;
+  /** fetch data from the table: "group" using primary key columns */
+  group_by_pk?: Maybe<Group>;
   /** fetch data from the table: "lesson" */
   lesson: Array<Lesson>;
   /** fetch aggregated fields from the table: "lesson" */
   lesson_aggregate: Lesson_Aggregate;
   /** fetch data from the table: "lesson" using primary key columns */
   lesson_by_pk?: Maybe<Lesson>;
-  /** fetch data from the table: "lesson_template" */
-  lesson_template: Array<Lesson_Template>;
-  /** fetch aggregated fields from the table: "lesson_template" */
-  lesson_template_aggregate: Lesson_Template_Aggregate;
-  /** fetch data from the table: "lesson_template" using primary key columns */
-  lesson_template_by_pk?: Maybe<Lesson_Template>;
-  /** fetch data from the table: "lesson_template_student" */
-  lesson_template_student: Array<Lesson_Template_Student>;
-  /** fetch aggregated fields from the table: "lesson_template_student" */
-  lesson_template_student_aggregate: Lesson_Template_Student_Aggregate;
-  /** fetch data from the table: "lesson_template_student" using primary key columns */
-  lesson_template_student_by_pk?: Maybe<Lesson_Template_Student>;
   /** fetch data from the table: "organisation" */
   organisation: Array<Organisation>;
   /** fetch aggregated fields from the table: "organisation" */
@@ -1799,6 +1531,18 @@ export type Query_Root = {
   student_attendance_by_pk?: Maybe<Student_Attendance>;
   /** fetch data from the table: "student" using primary key columns */
   student_by_pk?: Maybe<Student>;
+  /** fetch data from the table: "student_group" */
+  student_group: Array<Student_Group>;
+  /** fetch aggregated fields from the table: "student_group" */
+  student_group_aggregate: Student_Group_Aggregate;
+  /** fetch data from the table: "student_group" using primary key columns */
+  student_group_by_pk?: Maybe<Student_Group>;
+  /** fetch data from the table: "timetable" */
+  timetable: Array<Timetable>;
+  /** fetch aggregated fields from the table: "timetable" */
+  timetable_aggregate: Timetable_Aggregate;
+  /** fetch data from the table: "timetable" using primary key columns */
+  timetable_by_pk?: Maybe<Timetable>;
   /** fetch data from the table: "url_token" */
   url_token: Array<Url_Token>;
   /** fetch aggregated fields from the table: "url_token" */
@@ -1843,6 +1587,29 @@ export type Query_RootAttendance_State_By_PkArgs = {
 };
 
 /** query root */
+export type Query_RootGroupArgs = {
+  distinct_on?: Maybe<Array<Group_Select_Column>>;
+  limit?: Maybe<Scalars["Int"]>;
+  offset?: Maybe<Scalars["Int"]>;
+  order_by?: Maybe<Array<Group_Order_By>>;
+  where?: Maybe<Group_Bool_Exp>;
+};
+
+/** query root */
+export type Query_RootGroup_AggregateArgs = {
+  distinct_on?: Maybe<Array<Group_Select_Column>>;
+  limit?: Maybe<Scalars["Int"]>;
+  offset?: Maybe<Scalars["Int"]>;
+  order_by?: Maybe<Array<Group_Order_By>>;
+  where?: Maybe<Group_Bool_Exp>;
+};
+
+/** query root */
+export type Query_RootGroup_By_PkArgs = {
+  id: Scalars["uuid"];
+};
+
+/** query root */
 export type Query_RootLessonArgs = {
   distinct_on?: Maybe<Array<Lesson_Select_Column>>;
   limit?: Maybe<Scalars["Int"]>;
@@ -1862,52 +1629,6 @@ export type Query_RootLesson_AggregateArgs = {
 
 /** query root */
 export type Query_RootLesson_By_PkArgs = {
-  id: Scalars["uuid"];
-};
-
-/** query root */
-export type Query_RootLesson_TemplateArgs = {
-  distinct_on?: Maybe<Array<Lesson_Template_Select_Column>>;
-  limit?: Maybe<Scalars["Int"]>;
-  offset?: Maybe<Scalars["Int"]>;
-  order_by?: Maybe<Array<Lesson_Template_Order_By>>;
-  where?: Maybe<Lesson_Template_Bool_Exp>;
-};
-
-/** query root */
-export type Query_RootLesson_Template_AggregateArgs = {
-  distinct_on?: Maybe<Array<Lesson_Template_Select_Column>>;
-  limit?: Maybe<Scalars["Int"]>;
-  offset?: Maybe<Scalars["Int"]>;
-  order_by?: Maybe<Array<Lesson_Template_Order_By>>;
-  where?: Maybe<Lesson_Template_Bool_Exp>;
-};
-
-/** query root */
-export type Query_RootLesson_Template_By_PkArgs = {
-  id: Scalars["uuid"];
-};
-
-/** query root */
-export type Query_RootLesson_Template_StudentArgs = {
-  distinct_on?: Maybe<Array<Lesson_Template_Student_Select_Column>>;
-  limit?: Maybe<Scalars["Int"]>;
-  offset?: Maybe<Scalars["Int"]>;
-  order_by?: Maybe<Array<Lesson_Template_Student_Order_By>>;
-  where?: Maybe<Lesson_Template_Student_Bool_Exp>;
-};
-
-/** query root */
-export type Query_RootLesson_Template_Student_AggregateArgs = {
-  distinct_on?: Maybe<Array<Lesson_Template_Student_Select_Column>>;
-  limit?: Maybe<Scalars["Int"]>;
-  offset?: Maybe<Scalars["Int"]>;
-  order_by?: Maybe<Array<Lesson_Template_Student_Order_By>>;
-  where?: Maybe<Lesson_Template_Student_Bool_Exp>;
-};
-
-/** query root */
-export type Query_RootLesson_Template_Student_By_PkArgs = {
   id: Scalars["uuid"];
 };
 
@@ -1977,6 +1698,52 @@ export type Query_RootStudent_Attendance_By_PkArgs = {
 
 /** query root */
 export type Query_RootStudent_By_PkArgs = {
+  id: Scalars["uuid"];
+};
+
+/** query root */
+export type Query_RootStudent_GroupArgs = {
+  distinct_on?: Maybe<Array<Student_Group_Select_Column>>;
+  limit?: Maybe<Scalars["Int"]>;
+  offset?: Maybe<Scalars["Int"]>;
+  order_by?: Maybe<Array<Student_Group_Order_By>>;
+  where?: Maybe<Student_Group_Bool_Exp>;
+};
+
+/** query root */
+export type Query_RootStudent_Group_AggregateArgs = {
+  distinct_on?: Maybe<Array<Student_Group_Select_Column>>;
+  limit?: Maybe<Scalars["Int"]>;
+  offset?: Maybe<Scalars["Int"]>;
+  order_by?: Maybe<Array<Student_Group_Order_By>>;
+  where?: Maybe<Student_Group_Bool_Exp>;
+};
+
+/** query root */
+export type Query_RootStudent_Group_By_PkArgs = {
+  id: Scalars["uuid"];
+};
+
+/** query root */
+export type Query_RootTimetableArgs = {
+  distinct_on?: Maybe<Array<Timetable_Select_Column>>;
+  limit?: Maybe<Scalars["Int"]>;
+  offset?: Maybe<Scalars["Int"]>;
+  order_by?: Maybe<Array<Timetable_Order_By>>;
+  where?: Maybe<Timetable_Bool_Exp>;
+};
+
+/** query root */
+export type Query_RootTimetable_AggregateArgs = {
+  distinct_on?: Maybe<Array<Timetable_Select_Column>>;
+  limit?: Maybe<Scalars["Int"]>;
+  offset?: Maybe<Scalars["Int"]>;
+  order_by?: Maybe<Array<Timetable_Order_By>>;
+  where?: Maybe<Timetable_Bool_Exp>;
+};
+
+/** query root */
+export type Query_RootTimetable_By_PkArgs = {
   id: Scalars["uuid"];
 };
 
@@ -2319,6 +2086,172 @@ export enum Student_Constraint {
   StudentPkey = "student_pkey",
 }
 
+/** columns and relationships of "student_group" */
+export type Student_Group = {
+  __typename?: "student_group";
+  /** An object relationship */
+  group: Group;
+  group_id: Scalars["uuid"];
+  id: Scalars["uuid"];
+  /** An object relationship */
+  student: Student;
+  student_id: Scalars["uuid"];
+};
+
+/** aggregated selection of "student_group" */
+export type Student_Group_Aggregate = {
+  __typename?: "student_group_aggregate";
+  aggregate?: Maybe<Student_Group_Aggregate_Fields>;
+  nodes: Array<Student_Group>;
+};
+
+/** aggregate fields of "student_group" */
+export type Student_Group_Aggregate_Fields = {
+  __typename?: "student_group_aggregate_fields";
+  count?: Maybe<Scalars["Int"]>;
+  max?: Maybe<Student_Group_Max_Fields>;
+  min?: Maybe<Student_Group_Min_Fields>;
+};
+
+/** aggregate fields of "student_group" */
+export type Student_Group_Aggregate_FieldsCountArgs = {
+  columns?: Maybe<Array<Student_Group_Select_Column>>;
+  distinct?: Maybe<Scalars["Boolean"]>;
+};
+
+/** order by aggregate values of table "student_group" */
+export type Student_Group_Aggregate_Order_By = {
+  count?: Maybe<Order_By>;
+  max?: Maybe<Student_Group_Max_Order_By>;
+  min?: Maybe<Student_Group_Min_Order_By>;
+};
+
+/** input type for inserting array relation for remote table "student_group" */
+export type Student_Group_Arr_Rel_Insert_Input = {
+  data: Array<Student_Group_Insert_Input>;
+  on_conflict?: Maybe<Student_Group_On_Conflict>;
+};
+
+/** Boolean expression to filter rows from the table "student_group". All fields are combined with a logical 'AND'. */
+export type Student_Group_Bool_Exp = {
+  _and?: Maybe<Array<Maybe<Student_Group_Bool_Exp>>>;
+  _not?: Maybe<Student_Group_Bool_Exp>;
+  _or?: Maybe<Array<Maybe<Student_Group_Bool_Exp>>>;
+  group?: Maybe<Group_Bool_Exp>;
+  group_id?: Maybe<Uuid_Comparison_Exp>;
+  id?: Maybe<Uuid_Comparison_Exp>;
+  student?: Maybe<Student_Bool_Exp>;
+  student_id?: Maybe<Uuid_Comparison_Exp>;
+};
+
+/** unique or primary key constraints on table "student_group" */
+export enum Student_Group_Constraint {
+  /** unique or primary key constraint */
+  StudentGroupPkey = "student_group_pkey",
+}
+
+/** input type for inserting data into table "student_group" */
+export type Student_Group_Insert_Input = {
+  group?: Maybe<Group_Obj_Rel_Insert_Input>;
+  group_id?: Maybe<Scalars["uuid"]>;
+  id?: Maybe<Scalars["uuid"]>;
+  student?: Maybe<Student_Obj_Rel_Insert_Input>;
+  student_id?: Maybe<Scalars["uuid"]>;
+};
+
+/** aggregate max on columns */
+export type Student_Group_Max_Fields = {
+  __typename?: "student_group_max_fields";
+  group_id?: Maybe<Scalars["uuid"]>;
+  id?: Maybe<Scalars["uuid"]>;
+  student_id?: Maybe<Scalars["uuid"]>;
+};
+
+/** order by max() on columns of table "student_group" */
+export type Student_Group_Max_Order_By = {
+  group_id?: Maybe<Order_By>;
+  id?: Maybe<Order_By>;
+  student_id?: Maybe<Order_By>;
+};
+
+/** aggregate min on columns */
+export type Student_Group_Min_Fields = {
+  __typename?: "student_group_min_fields";
+  group_id?: Maybe<Scalars["uuid"]>;
+  id?: Maybe<Scalars["uuid"]>;
+  student_id?: Maybe<Scalars["uuid"]>;
+};
+
+/** order by min() on columns of table "student_group" */
+export type Student_Group_Min_Order_By = {
+  group_id?: Maybe<Order_By>;
+  id?: Maybe<Order_By>;
+  student_id?: Maybe<Order_By>;
+};
+
+/** response of any mutation on the table "student_group" */
+export type Student_Group_Mutation_Response = {
+  __typename?: "student_group_mutation_response";
+  /** number of affected rows by the mutation */
+  affected_rows: Scalars["Int"];
+  /** data of the affected rows by the mutation */
+  returning: Array<Student_Group>;
+};
+
+/** input type for inserting object relation for remote table "student_group" */
+export type Student_Group_Obj_Rel_Insert_Input = {
+  data: Student_Group_Insert_Input;
+  on_conflict?: Maybe<Student_Group_On_Conflict>;
+};
+
+/** on conflict condition type for table "student_group" */
+export type Student_Group_On_Conflict = {
+  constraint: Student_Group_Constraint;
+  update_columns: Array<Student_Group_Update_Column>;
+  where?: Maybe<Student_Group_Bool_Exp>;
+};
+
+/** ordering options when selecting data from "student_group" */
+export type Student_Group_Order_By = {
+  group?: Maybe<Group_Order_By>;
+  group_id?: Maybe<Order_By>;
+  id?: Maybe<Order_By>;
+  student?: Maybe<Student_Order_By>;
+  student_id?: Maybe<Order_By>;
+};
+
+/** primary key columns input for table: "student_group" */
+export type Student_Group_Pk_Columns_Input = {
+  id: Scalars["uuid"];
+};
+
+/** select columns of table "student_group" */
+export enum Student_Group_Select_Column {
+  /** column name */
+  GroupId = "group_id",
+  /** column name */
+  Id = "id",
+  /** column name */
+  StudentId = "student_id",
+}
+
+/** input type for updating data in table "student_group" */
+export type Student_Group_Set_Input = {
+  group_id?: Maybe<Scalars["uuid"]>;
+  id?: Maybe<Scalars["uuid"]>;
+  student_id?: Maybe<Scalars["uuid"]>;
+};
+
+/** update columns of table "student_group" */
+export enum Student_Group_Update_Column {
+  /** column name */
+  GroupId = "group_id",
+  /** column name */
+  Id = "id",
+  /** column name */
+  StudentId = "student_id",
+}
+
 /** input type for inserting data into table "student" */
 export type Student_Insert_Input = {
   birthday?: Maybe<Scalars["date"]>;
@@ -2441,24 +2374,18 @@ export type Subscription_Root = {
   attendance_state_aggregate: Attendance_State_Aggregate;
   /** fetch data from the table: "attendance_state" using primary key columns */
   attendance_state_by_pk?: Maybe<Attendance_State>;
+  /** fetch data from the table: "group" */
+  group: Array<Group>;
+  /** fetch aggregated fields from the table: "group" */
+  group_aggregate: Group_Aggregate;
+  /** fetch data from the table: "group" using primary key columns */
+  group_by_pk?: Maybe<Group>;
   /** fetch data from the table: "lesson" */
   lesson: Array<Lesson>;
   /** fetch aggregated fields from the table: "lesson" */
   lesson_aggregate: Lesson_Aggregate;
   /** fetch data from the table: "lesson" using primary key columns */
   lesson_by_pk?: Maybe<Lesson>;
-  /** fetch data from the table: "lesson_template" */
-  lesson_template: Array<Lesson_Template>;
-  /** fetch aggregated fields from the table: "lesson_template" */
-  lesson_template_aggregate: Lesson_Template_Aggregate;
-  /** fetch data from the table: "lesson_template" using primary key columns */
-  lesson_template_by_pk?: Maybe<Lesson_Template>;
-  /** fetch data from the table: "lesson_template_student" */
-  lesson_template_student: Array<Lesson_Template_Student>;
-  /** fetch aggregated fields from the table: "lesson_template_student" */
-  lesson_template_student_aggregate: Lesson_Template_Student_Aggregate;
-  /** fetch data from the table: "lesson_template_student" using primary key columns */
-  lesson_template_student_by_pk?: Maybe<Lesson_Template_Student>;
   /** fetch data from the table: "organisation" */
   organisation: Array<Organisation>;
   /** fetch aggregated fields from the table: "organisation" */
@@ -2477,6 +2404,18 @@ export type Subscription_Root = {
   student_attendance_by_pk?: Maybe<Student_Attendance>;
   /** fetch data from the table: "student" using primary key columns */
   student_by_pk?: Maybe<Student>;
+  /** fetch data from the table: "student_group" */
+  student_group: Array<Student_Group>;
+  /** fetch aggregated fields from the table: "student_group" */
+  student_group_aggregate: Student_Group_Aggregate;
+  /** fetch data from the table: "student_group" using primary key columns */
+  student_group_by_pk?: Maybe<Student_Group>;
+  /** fetch data from the table: "timetable" */
+  timetable: Array<Timetable>;
+  /** fetch aggregated fields from the table: "timetable" */
+  timetable_aggregate: Timetable_Aggregate;
+  /** fetch data from the table: "timetable" using primary key columns */
+  timetable_by_pk?: Maybe<Timetable>;
   /** fetch data from the table: "url_token" */
   url_token: Array<Url_Token>;
   /** fetch aggregated fields from the table: "url_token" */
@@ -2521,6 +2460,29 @@ export type Subscription_RootAttendance_State_By_PkArgs = {
 };
 
 /** subscription root */
+export type Subscription_RootGroupArgs = {
+  distinct_on?: Maybe<Array<Group_Select_Column>>;
+  limit?: Maybe<Scalars["Int"]>;
+  offset?: Maybe<Scalars["Int"]>;
+  order_by?: Maybe<Array<Group_Order_By>>;
+  where?: Maybe<Group_Bool_Exp>;
+};
+
+/** subscription root */
+export type Subscription_RootGroup_AggregateArgs = {
+  distinct_on?: Maybe<Array<Group_Select_Column>>;
+  limit?: Maybe<Scalars["Int"]>;
+  offset?: Maybe<Scalars["Int"]>;
+  order_by?: Maybe<Array<Group_Order_By>>;
+  where?: Maybe<Group_Bool_Exp>;
+};
+
+/** subscription root */
+export type Subscription_RootGroup_By_PkArgs = {
+  id: Scalars["uuid"];
+};
+
+/** subscription root */
 export type Subscription_RootLessonArgs = {
   distinct_on?: Maybe<Array<Lesson_Select_Column>>;
   limit?: Maybe<Scalars["Int"]>;
@@ -2540,52 +2502,6 @@ export type Subscription_RootLesson_AggregateArgs = {
 
 /** subscription root */
 export type Subscription_RootLesson_By_PkArgs = {
-  id: Scalars["uuid"];
-};
-
-/** subscription root */
-export type Subscription_RootLesson_TemplateArgs = {
-  distinct_on?: Maybe<Array<Lesson_Template_Select_Column>>;
-  limit?: Maybe<Scalars["Int"]>;
-  offset?: Maybe<Scalars["Int"]>;
-  order_by?: Maybe<Array<Lesson_Template_Order_By>>;
-  where?: Maybe<Lesson_Template_Bool_Exp>;
-};
-
-/** subscription root */
-export type Subscription_RootLesson_Template_AggregateArgs = {
-  distinct_on?: Maybe<Array<Lesson_Template_Select_Column>>;
-  limit?: Maybe<Scalars["Int"]>;
-  offset?: Maybe<Scalars["Int"]>;
-  order_by?: Maybe<Array<Lesson_Template_Order_By>>;
-  where?: Maybe<Lesson_Template_Bool_Exp>;
-};
-
-/** subscription root */
-export type Subscription_RootLesson_Template_By_PkArgs = {
-  id: Scalars["uuid"];
-};
-
-/** subscription root */
-export type Subscription_RootLesson_Template_StudentArgs = {
-  distinct_on?: Maybe<Array<Lesson_Template_Student_Select_Column>>;
-  limit?: Maybe<Scalars["Int"]>;
-  offset?: Maybe<Scalars["Int"]>;
-  order_by?: Maybe<Array<Lesson_Template_Student_Order_By>>;
-  where?: Maybe<Lesson_Template_Student_Bool_Exp>;
-};
-
-/** subscription root */
-export type Subscription_RootLesson_Template_Student_AggregateArgs = {
-  distinct_on?: Maybe<Array<Lesson_Template_Student_Select_Column>>;
-  limit?: Maybe<Scalars["Int"]>;
-  offset?: Maybe<Scalars["Int"]>;
-  order_by?: Maybe<Array<Lesson_Template_Student_Order_By>>;
-  where?: Maybe<Lesson_Template_Student_Bool_Exp>;
-};
-
-/** subscription root */
-export type Subscription_RootLesson_Template_Student_By_PkArgs = {
   id: Scalars["uuid"];
 };
 
@@ -2659,6 +2575,52 @@ export type Subscription_RootStudent_By_PkArgs = {
 };
 
 /** subscription root */
+export type Subscription_RootStudent_GroupArgs = {
+  distinct_on?: Maybe<Array<Student_Group_Select_Column>>;
+  limit?: Maybe<Scalars["Int"]>;
+  offset?: Maybe<Scalars["Int"]>;
+  order_by?: Maybe<Array<Student_Group_Order_By>>;
+  where?: Maybe<Student_Group_Bool_Exp>;
+};
+
+/** subscription root */
+export type Subscription_RootStudent_Group_AggregateArgs = {
+  distinct_on?: Maybe<Array<Student_Group_Select_Column>>;
+  limit?: Maybe<Scalars["Int"]>;
+  offset?: Maybe<Scalars["Int"]>;
+  order_by?: Maybe<Array<Student_Group_Order_By>>;
+  where?: Maybe<Student_Group_Bool_Exp>;
+};
+
+/** subscription root */
+export type Subscription_RootStudent_Group_By_PkArgs = {
+  id: Scalars["uuid"];
+};
+
+/** subscription root */
+export type Subscription_RootTimetableArgs = {
+  distinct_on?: Maybe<Array<Timetable_Select_Column>>;
+  limit?: Maybe<Scalars["Int"]>;
+  offset?: Maybe<Scalars["Int"]>;
+  order_by?: Maybe<Array<Timetable_Order_By>>;
+  where?: Maybe<Timetable_Bool_Exp>;
+};
+
+/** subscription root */
+export type Subscription_RootTimetable_AggregateArgs = {
+  distinct_on?: Maybe<Array<Timetable_Select_Column>>;
+  limit?: Maybe<Scalars["Int"]>;
+  offset?: Maybe<Scalars["Int"]>;
+  order_by?: Maybe<Array<Timetable_Order_By>>;
+  where?: Maybe<Timetable_Bool_Exp>;
+};
+
+/** subscription root */
+export type Subscription_RootTimetable_By_PkArgs = {
+  id: Scalars["uuid"];
+};
+
+/** subscription root */
 export type Subscription_RootUrl_TokenArgs = {
   distinct_on?: Maybe<Array<Url_Token_Select_Column>>;
   limit?: Maybe<Scalars["Int"]>;
@@ -2727,19 +2689,6 @@ export type Subscription_RootUser_By_PkArgs = {
   id: Scalars["uuid"];
 };
 
-/** expression to compare columns of type time. All fields are combined with logical 'AND'. */
-export type Time_Comparison_Exp = {
-  _eq?: Maybe<Scalars["time"]>;
-  _gt?: Maybe<Scalars["time"]>;
-  _gte?: Maybe<Scalars["time"]>;
-  _in?: Maybe<Array<Scalars["time"]>>;
-  _is_null?: Maybe<Scalars["Boolean"]>;
-  _lt?: Maybe<Scalars["time"]>;
-  _lte?: Maybe<Scalars["time"]>;
-  _neq?: Maybe<Scalars["time"]>;
-  _nin?: Maybe<Array<Scalars["time"]>>;
-};
-
 /** expression to compare columns of type timestamp. All fields are combined with logical 'AND'. */
 export type Timestamp_Comparison_Exp = {
   _eq?: Maybe<Scalars["timestamp"]>;
@@ -2764,6 +2713,329 @@ export type Timestamptz_Comparison_Exp = {
   _lte?: Maybe<Scalars["timestamptz"]>;
   _neq?: Maybe<Scalars["timestamptz"]>;
   _nin?: Maybe<Array<Scalars["timestamptz"]>>;
+};
+
+/** columns and relationships of "timetable" */
+export type Timetable = {
+  __typename?: "timetable";
+  day: Scalars["Int"];
+  duration: Scalars["interval"];
+  /** An object relationship */
+  group?: Maybe<Group>;
+  group_id?: Maybe<Scalars["uuid"]>;
+  id: Scalars["uuid"];
+  /** An object relationship */
+  organisation: Organisation;
+  organisation_id: Scalars["uuid"];
+  start_time: Scalars["timetz"];
+};
+
+/** aggregated selection of "timetable" */
+export type Timetable_Aggregate = {
+  __typename?: "timetable_aggregate";
+  aggregate?: Maybe<Timetable_Aggregate_Fields>;
+  nodes: Array<Timetable>;
+};
+
+/** aggregate fields of "timetable" */
+export type Timetable_Aggregate_Fields = {
+  __typename?: "timetable_aggregate_fields";
+  avg?: Maybe<Timetable_Avg_Fields>;
+  count?: Maybe<Scalars["Int"]>;
+  max?: Maybe<Timetable_Max_Fields>;
+  min?: Maybe<Timetable_Min_Fields>;
+  stddev?: Maybe<Timetable_Stddev_Fields>;
+  stddev_pop?: Maybe<Timetable_Stddev_Pop_Fields>;
+  stddev_samp?: Maybe<Timetable_Stddev_Samp_Fields>;
+  sum?: Maybe<Timetable_Sum_Fields>;
+  var_pop?: Maybe<Timetable_Var_Pop_Fields>;
+  var_samp?: Maybe<Timetable_Var_Samp_Fields>;
+  variance?: Maybe<Timetable_Variance_Fields>;
+};
+
+/** aggregate fields of "timetable" */
+export type Timetable_Aggregate_FieldsCountArgs = {
+  columns?: Maybe<Array<Timetable_Select_Column>>;
+  distinct?: Maybe<Scalars["Boolean"]>;
+};
+
+/** order by aggregate values of table "timetable" */
+export type Timetable_Aggregate_Order_By = {
+  avg?: Maybe<Timetable_Avg_Order_By>;
+  count?: Maybe<Order_By>;
+  max?: Maybe<Timetable_Max_Order_By>;
+  min?: Maybe<Timetable_Min_Order_By>;
+  stddev?: Maybe<Timetable_Stddev_Order_By>;
+  stddev_pop?: Maybe<Timetable_Stddev_Pop_Order_By>;
+  stddev_samp?: Maybe<Timetable_Stddev_Samp_Order_By>;
+  sum?: Maybe<Timetable_Sum_Order_By>;
+  var_pop?: Maybe<Timetable_Var_Pop_Order_By>;
+  var_samp?: Maybe<Timetable_Var_Samp_Order_By>;
+  variance?: Maybe<Timetable_Variance_Order_By>;
+};
+
+/** input type for inserting array relation for remote table "timetable" */
+export type Timetable_Arr_Rel_Insert_Input = {
+  data: Array<Timetable_Insert_Input>;
+  on_conflict?: Maybe<Timetable_On_Conflict>;
+};
+
+/** aggregate avg on columns */
+export type Timetable_Avg_Fields = {
+  __typename?: "timetable_avg_fields";
+  day?: Maybe<Scalars["Float"]>;
+};
+
+/** order by avg() on columns of table "timetable" */
+export type Timetable_Avg_Order_By = {
+  day?: Maybe<Order_By>;
+};
+
+/** Boolean expression to filter rows from the table "timetable". All fields are combined with a logical 'AND'. */
+export type Timetable_Bool_Exp = {
+  _and?: Maybe<Array<Maybe<Timetable_Bool_Exp>>>;
+  _not?: Maybe<Timetable_Bool_Exp>;
+  _or?: Maybe<Array<Maybe<Timetable_Bool_Exp>>>;
+  day?: Maybe<Int_Comparison_Exp>;
+  duration?: Maybe<Interval_Comparison_Exp>;
+  group?: Maybe<Group_Bool_Exp>;
+  group_id?: Maybe<Uuid_Comparison_Exp>;
+  id?: Maybe<Uuid_Comparison_Exp>;
+  organisation?: Maybe<Organisation_Bool_Exp>;
+  organisation_id?: Maybe<Uuid_Comparison_Exp>;
+  start_time?: Maybe<Timetz_Comparison_Exp>;
+};
+
+/** unique or primary key constraints on table "timetable" */
+export enum Timetable_Constraint {
+  /** unique or primary key constraint */
+  TimetablePkey = "timetable_pkey",
+}
+
+/** input type for incrementing integer column in table "timetable" */
+export type Timetable_Inc_Input = {
+  day?: Maybe<Scalars["Int"]>;
+};
+
+/** input type for inserting data into table "timetable" */
+export type Timetable_Insert_Input = {
+  day?: Maybe<Scalars["Int"]>;
+  duration?: Maybe<Scalars["interval"]>;
+  group?: Maybe<Group_Obj_Rel_Insert_Input>;
+  group_id?: Maybe<Scalars["uuid"]>;
+  id?: Maybe<Scalars["uuid"]>;
+  organisation?: Maybe<Organisation_Obj_Rel_Insert_Input>;
+  organisation_id?: Maybe<Scalars["uuid"]>;
+  start_time?: Maybe<Scalars["timetz"]>;
+};
+
+/** aggregate max on columns */
+export type Timetable_Max_Fields = {
+  __typename?: "timetable_max_fields";
+  day?: Maybe<Scalars["Int"]>;
+  group_id?: Maybe<Scalars["uuid"]>;
+  id?: Maybe<Scalars["uuid"]>;
+  organisation_id?: Maybe<Scalars["uuid"]>;
+  start_time?: Maybe<Scalars["timetz"]>;
+};
+
+/** order by max() on columns of table "timetable" */
+export type Timetable_Max_Order_By = {
+  day?: Maybe<Order_By>;
+  group_id?: Maybe<Order_By>;
+  id?: Maybe<Order_By>;
+  organisation_id?: Maybe<Order_By>;
+  start_time?: Maybe<Order_By>;
+};
+
+/** aggregate min on columns */
+export type Timetable_Min_Fields = {
+  __typename?: "timetable_min_fields";
+  day?: Maybe<Scalars["Int"]>;
+  group_id?: Maybe<Scalars["uuid"]>;
+  id?: Maybe<Scalars["uuid"]>;
+  organisation_id?: Maybe<Scalars["uuid"]>;
+  start_time?: Maybe<Scalars["timetz"]>;
+};
+
+/** order by min() on columns of table "timetable" */
+export type Timetable_Min_Order_By = {
+  day?: Maybe<Order_By>;
+  group_id?: Maybe<Order_By>;
+  id?: Maybe<Order_By>;
+  organisation_id?: Maybe<Order_By>;
+  start_time?: Maybe<Order_By>;
+};
+
+/** response of any mutation on the table "timetable" */
+export type Timetable_Mutation_Response = {
+  __typename?: "timetable_mutation_response";
+  /** number of affected rows by the mutation */
+  affected_rows: Scalars["Int"];
+  /** data of the affected rows by the mutation */
+  returning: Array<Timetable>;
+};
+
+/** input type for inserting object relation for remote table "timetable" */
+export type Timetable_Obj_Rel_Insert_Input = {
+  data: Timetable_Insert_Input;
+  on_conflict?: Maybe<Timetable_On_Conflict>;
+};
+
+/** on conflict condition type for table "timetable" */
+export type Timetable_On_Conflict = {
+  constraint: Timetable_Constraint;
+  update_columns: Array<Timetable_Update_Column>;
+  where?: Maybe<Timetable_Bool_Exp>;
+};
+
+/** ordering options when selecting data from "timetable" */
+export type Timetable_Order_By = {
+  day?: Maybe<Order_By>;
+  duration?: Maybe<Order_By>;
+  group?: Maybe<Group_Order_By>;
+  group_id?: Maybe<Order_By>;
+  id?: Maybe<Order_By>;
+  organisation?: Maybe<Organisation_Order_By>;
+  organisation_id?: Maybe<Order_By>;
+  start_time?: Maybe<Order_By>;
+};
+
+/** primary key columns input for table: "timetable" */
+export type Timetable_Pk_Columns_Input = {
+  id: Scalars["uuid"];
+};
+
+/** select columns of table "timetable" */
+export enum Timetable_Select_Column {
+  /** column name */
+  Day = "day",
+  /** column name */
+  Duration = "duration",
+  /** column name */
+  GroupId = "group_id",
+  /** column name */
+  Id = "id",
+  /** column name */
+  OrganisationId = "organisation_id",
+  /** column name */
+  StartTime = "start_time",
+}
+
+/** input type for updating data in table "timetable" */
+export type Timetable_Set_Input = {
+  day?: Maybe<Scalars["Int"]>;
+  duration?: Maybe<Scalars["interval"]>;
+  group_id?: Maybe<Scalars["uuid"]>;
+  id?: Maybe<Scalars["uuid"]>;
+  organisation_id?: Maybe<Scalars["uuid"]>;
+  start_time?: Maybe<Scalars["timetz"]>;
+};
+
+/** aggregate stddev on columns */
+export type Timetable_Stddev_Fields = {
+  __typename?: "timetable_stddev_fields";
+  day?: Maybe<Scalars["Float"]>;
+};
+
+/** order by stddev() on columns of table "timetable" */
+export type Timetable_Stddev_Order_By = {
+  day?: Maybe<Order_By>;
+};
+
+/** aggregate stddev_pop on columns */
+export type Timetable_Stddev_Pop_Fields = {
+  __typename?: "timetable_stddev_pop_fields";
+  day?: Maybe<Scalars["Float"]>;
+};
+
+/** order by stddev_pop() on columns of table "timetable" */
+export type Timetable_Stddev_Pop_Order_By = {
+  day?: Maybe<Order_By>;
+};
+
+/** aggregate stddev_samp on columns */
+export type Timetable_Stddev_Samp_Fields = {
+  __typename?: "timetable_stddev_samp_fields";
+  day?: Maybe<Scalars["Float"]>;
+};
+
+/** order by stddev_samp() on columns of table "timetable" */
+export type Timetable_Stddev_Samp_Order_By = {
+  day?: Maybe<Order_By>;
+};
+
+/** aggregate sum on columns */
+export type Timetable_Sum_Fields = {
+  __typename?: "timetable_sum_fields";
+  day?: Maybe<Scalars["Int"]>;
+};
+
+/** order by sum() on columns of table "timetable" */
+export type Timetable_Sum_Order_By = {
+  day?: Maybe<Order_By>;
+};
+
+/** update columns of table "timetable" */
+export enum Timetable_Update_Column {
+  /** column name */
+  Day = "day",
+  /** column name */
+  Duration = "duration",
+  /** column name */
+  GroupId = "group_id",
+  /** column name */
+  Id = "id",
+  /** column name */
+  OrganisationId = "organisation_id",
+  /** column name */
+  StartTime = "start_time",
+}
+
+/** aggregate var_pop on columns */
+export type Timetable_Var_Pop_Fields = {
+  __typename?: "timetable_var_pop_fields";
+  day?: Maybe<Scalars["Float"]>;
+};
+
+/** order by var_pop() on columns of table "timetable" */
+export type Timetable_Var_Pop_Order_By = {
+  day?: Maybe<Order_By>;
+};
+
+/** aggregate var_samp on columns */
+export type Timetable_Var_Samp_Fields = {
+  __typename?: "timetable_var_samp_fields";
+  day?: Maybe<Scalars["Float"]>;
+};
+
+/** order by var_samp() on columns of table "timetable" */
+export type Timetable_Var_Samp_Order_By = {
+  day?: Maybe<Order_By>;
+};
+
+/** aggregate variance on columns */
+export type Timetable_Variance_Fields = {
+  __typename?: "timetable_variance_fields";
+  day?: Maybe<Scalars["Float"]>;
+};
+
+/** order by variance() on columns of table "timetable" */
+export type Timetable_Variance_Order_By = {
+  day?: Maybe<Order_By>;
+};
+
+/** expression to compare columns of type timetz. All fields are combined with logical 'AND'. */
+export type Timetz_Comparison_Exp = {
+  _eq?: Maybe<Scalars["timetz"]>;
+  _gt?: Maybe<Scalars["timetz"]>;
+  _gte?: Maybe<Scalars["timetz"]>;
+  _in?: Maybe<Array<Scalars["timetz"]>>;
+  _is_null?: Maybe<Scalars["Boolean"]>;
+  _lt?: Maybe<Scalars["timetz"]>;
+  _lte?: Maybe<Scalars["timetz"]>;
+  _neq?: Maybe<Scalars["timetz"]>;
+  _nin?: Maybe<Array<Scalars["timetz"]>>;
 };
 
 /** columns and relationships of "url_token" */
@@ -3449,136 +3721,37 @@ export type SetLessonDurationMutation = { __typename?: "mutation_root" } & {
   >;
 };
 
-export type GetLessonTemplatesQueryVariables = Exact<{ [key: string]: never }>;
+export type GetTimeTableEntriesQueryVariables = Exact<{ [key: string]: never }>;
 
-export type GetLessonTemplatesQuery = { __typename?: "query_root" } & {
-  lesson_template: Array<
-    { __typename?: "lesson_template" } & Pick<
-      Lesson_Template,
-      "id" | "duration" | "day" | "name" | "start_time"
-    >
+export type GetTimeTableEntriesQuery = { __typename?: "query_root" } & {
+  timetable: Array<
+    { __typename?: "timetable" } & Pick<
+      Timetable,
+      "id" | "day" | "start_time" | "duration"
+    > & { group?: Maybe<{ __typename?: "group" } & Pick<Group, "name">> }
   >;
 };
 
-export type GetLessonTemplateByIdQueryVariables = Exact<{
-  id: Scalars["uuid"];
-}>;
-
-export type GetLessonTemplateByIdQuery = { __typename?: "query_root" } & {
-  lesson_template_by_pk?: Maybe<
-    { __typename?: "lesson_template" } & Pick<
-      Lesson_Template,
-      "id" | "name" | "duration" | "start_time" | "day"
-    > & {
-        template_students: Array<
-          { __typename?: "lesson_template_student" } & Pick<
-            Lesson_Template_Student,
-            "id"
-          > & {
-              student: { __typename?: "student" } & Pick<
-                Student,
-                "id" | "name"
-              >;
-            }
-        >;
-      }
-  >;
-};
-
-export type UpdateLessonTemplateNameMutationVariables = Exact<{
-  id: Scalars["uuid"];
-  name: Scalars["String"];
-}>;
-
-export type UpdateLessonTemplateNameMutation = {
-  __typename?: "mutation_root";
-} & {
-  update_lesson_template_by_pk?: Maybe<
-    { __typename?: "lesson_template" } & Pick<Lesson_Template, "name" | "id">
-  >;
-};
-
-export type UpdateLessonTemplateDayMutationVariables = Exact<{
-  id: Scalars["uuid"];
+export type AddTimeTableEntriesMutationVariables = Exact<{
   day: Scalars["Int"];
-}>;
-
-export type UpdateLessonTemplateDayMutation = {
-  __typename?: "mutation_root";
-} & {
-  update_lesson_template_by_pk?: Maybe<
-    { __typename?: "lesson_template" } & Pick<Lesson_Template, "name" | "id">
-  >;
-};
-
-export type UpdateLessonTemplateTimeMutationVariables = Exact<{
-  id: Scalars["uuid"];
-  time: Scalars["time"];
-}>;
-
-export type UpdateLessonTemplateTimeMutation = {
-  __typename?: "mutation_root";
-} & {
-  update_lesson_template_by_pk?: Maybe<
-    { __typename?: "lesson_template" } & Pick<Lesson_Template, "name" | "id">
-  >;
-};
-
-export type UpdateLessonTemplateDurationMutationVariables = Exact<{
-  id: Scalars["uuid"];
   duration: Scalars["interval"];
+  group_id: Scalars["uuid"];
+  start_time: Scalars["timetz"];
 }>;
 
-export type UpdateLessonTemplateDurationMutation = {
-  __typename?: "mutation_root";
-} & {
-  update_lesson_template_by_pk?: Maybe<
-    { __typename?: "lesson_template" } & Pick<Lesson_Template, "name" | "id">
-  >;
-};
-
-export type AddLessonTemplateStudentMutationVariables = Exact<{
-  template_id: Scalars["uuid"];
-  student_id: Scalars["uuid"];
-}>;
-
-export type AddLessonTemplateStudentMutation = {
-  __typename?: "mutation_root";
-} & {
-  insert_lesson_template_student_one?: Maybe<
-    { __typename?: "lesson_template_student" } & Pick<
-      Lesson_Template_Student,
-      "id" | "lesson_template_id" | "student_id"
+export type AddTimeTableEntriesMutation = { __typename?: "mutation_root" } & {
+  insert_timetable_one?: Maybe<
+    { __typename?: "timetable" } & Pick<
+      Timetable,
+      "day" | "duration" | "group_id" | "id" | "start_time"
     >
   >;
 };
 
-export type RemoveLessonTemplateStudentMutationVariables = Exact<{
-  id: Scalars["uuid"];
-}>;
+export type GetGroupNamesQueryVariables = Exact<{ [key: string]: never }>;
 
-export type RemoveLessonTemplateStudentMutation = {
-  __typename?: "mutation_root";
-} & {
-  delete_lesson_template_student_by_pk?: Maybe<
-    { __typename?: "lesson_template_student" } & Pick<
-      Lesson_Template_Student,
-      "id" | "student_id" | "lesson_template_id"
-    >
-  >;
-};
-
-export type AddLessonTemplateMutationVariables = Exact<{
-  name: Scalars["String"];
-  time: Scalars["time"];
-  duration: Scalars["interval"];
-  day: Scalars["Int"];
-}>;
-
-export type AddLessonTemplateMutation = { __typename?: "mutation_root" } & {
-  insert_lesson_template_one?: Maybe<
-    { __typename?: "lesson_template" } & Pick<Lesson_Template, "id">
-  >;
+export type GetGroupNamesQuery = { __typename?: "query_root" } & {
+  group: Array<{ __typename?: "group" } & Pick<Group, "id" | "name">>;
 };
 
 export type LessonsTodayQueryVariables = Exact<{
@@ -3598,19 +3771,15 @@ export type AllLessonsInWeekQueryVariables = Exact<{
 }>;
 
 export type AllLessonsInWeekQuery = { __typename?: "query_root" } & {
-  lesson_template: Array<
-    { __typename?: "lesson_template" } & Pick<
-      Lesson_Template,
-      "id" | "day" | "duration" | "name"
-    > & { time: Lesson_Template["start_time"] } & {
-        template_students: Array<
-          { __typename?: "lesson_template_student" } & Pick<
-            Lesson_Template_Student,
-            "id"
-          > & {
-              student: { __typename?: "student" } & Pick<
-                Student,
-                "id" | "name"
+  timetable: Array<
+    { __typename?: "timetable" } & Pick<
+      Timetable,
+      "id" | "start_time" | "duration" | "day"
+    > & {
+        group?: Maybe<
+          { __typename?: "group" } & Pick<Group, "name"> & {
+              students: Array<
+                { __typename?: "student_group" } & Pick<Student_Group, "id">
               >;
             }
         >;
@@ -3619,13 +3788,13 @@ export type AllLessonsInWeekQuery = { __typename?: "query_root" } & {
   lesson: Array<
     { __typename?: "lesson" } & Pick<
       Lesson,
-      "id" | "name" | "start_time" | "duration" | "template_id"
+      "id" | "name" | "start_time" | "duration" | "timetable_id"
     >
   >;
 };
 
 export type CreateLessonMutationVariables = Exact<{
-  template_id: Scalars["uuid"];
+  timetable_id?: Maybe<Scalars["uuid"]>;
   start_time: Scalars["timestamptz"];
   name: Scalars["String"];
   duration: Scalars["interval"];
@@ -3830,107 +3999,47 @@ export const SetLessonDuration = gql`
     }
   }
 `;
-export const GetLessonTemplates = gql`
-  query GetLessonTemplates {
-    lesson_template {
+export const GetTimeTableEntries = gql`
+  query GetTimeTableEntries {
+    timetable {
       id
-      duration
-      day
-      name
-      start_time
-    }
-  }
-`;
-export const GetLessonTemplateById = gql`
-  query GetLessonTemplateById($id: uuid!) {
-    lesson_template_by_pk(id: $id) {
-      id
-      name
-      duration
-      start_time
-      day
-      template_students {
-        id
-        student {
-          id
-          name
-        }
+      group {
+        name
       }
+      day
+      start_time
+      duration
     }
   }
 `;
-export const UpdateLessonTemplateName = gql`
-  mutation UpdateLessonTemplateName($id: uuid!, $name: String!) {
-    update_lesson_template_by_pk(
-      pk_columns: { id: $id }
-      _set: { name: $name }
-    ) {
-      name
-      id
-    }
-  }
-`;
-export const UpdateLessonTemplateDay = gql`
-  mutation UpdateLessonTemplateDay($id: uuid!, $day: Int!) {
-    update_lesson_template_by_pk(pk_columns: { id: $id }, _set: { day: $day }) {
-      name
-      id
-    }
-  }
-`;
-export const UpdateLessonTemplateTime = gql`
-  mutation UpdateLessonTemplateTime($id: uuid!, $time: time!) {
-    update_lesson_template_by_pk(
-      pk_columns: { id: $id }
-      _set: { start_time: $time }
-    ) {
-      name
-      id
-    }
-  }
-`;
-export const UpdateLessonTemplateDuration = gql`
-  mutation UpdateLessonTemplateDuration($id: uuid!, $duration: interval!) {
-    update_lesson_template_by_pk(
-      pk_columns: { id: $id }
-      _set: { duration: $duration }
-    ) {
-      name
-      id
-    }
-  }
-`;
-export const AddLessonTemplateStudent = gql`
-  mutation AddLessonTemplateStudent($template_id: uuid!, $student_id: uuid!) {
-    insert_lesson_template_student_one(
-      object: { lesson_template_id: $template_id, student_id: $student_id }
-    ) {
-      id
-      lesson_template_id
-      student_id
-    }
-  }
-`;
-export const RemoveLessonTemplateStudent = gql`
-  mutation RemoveLessonTemplateStudent($id: uuid!) {
-    delete_lesson_template_student_by_pk(id: $id) {
-      id
-      student_id
-      lesson_template_id
-    }
-  }
-`;
-export const AddLessonTemplate = gql`
-  mutation AddLessonTemplate(
-    $name: String!
-    $time: time!
-    $duration: interval!
+export const AddTimeTableEntries = gql`
+  mutation AddTimeTableEntries(
     $day: Int!
+    $duration: interval!
+    $group_id: uuid!
+    $start_time: timetz!
   ) {
-    insert_lesson_template_one(
-      object: { name: $name, start_time: $time, duration: $duration, day: $day }
+    insert_timetable_one(
+      object: {
+        day: $day
+        duration: $duration
+        group_id: $group_id
+        start_time: $start_time
+      }
     ) {
+      day
+      duration
+      group_id
       id
+      start_time
+    }
+  }
+`;
+export const GetGroupNames = gql`
+  query GetGroupNames {
+    group {
+      id
+      name
     }
   }
 `;
@@ -3948,36 +4057,30 @@ export const LessonsToday = gql`
 `;
 export const AllLessonsInWeek = gql`
   query AllLessonsInWeek($weekStart: timestamptz!, $weekEnd: timestamptz!) {
-    lesson_template(
-      where: {
-        _not: { lessons: { start_time: { _gte: $weekStart, _lte: $weekEnd } } }
-      }
-    ) {
+    timetable {
       id
-      day
-      duration
-      name
-      time: start_time
-      template_students(order_by: { student: { name: asc } }) {
-        id
-        student {
+      group {
+        name
+        students {
           id
-          name
         }
       }
+      start_time
+      duration
+      day
     }
     lesson(where: { start_time: { _gte: $weekStart, _lte: $weekEnd } }) {
       id
       name
       start_time
       duration
-      template_id
+      timetable_id
     }
   }
 `;
 export const CreateLesson = gql`
   mutation CreateLesson(
-    $template_id: uuid!
+    $timetable_id: uuid
     $start_time: timestamptz!
     $name: String!
     $duration: interval!
@@ -3988,7 +4091,7 @@ export const CreateLesson = gql`
         duration: $duration
         name: $name
         start_time: $start_time
-        template_id: $template_id
+        timetable_id: $timetable_id
         student_attendances: $student_attendances
       }
     ) {
@@ -4321,6 +4424,496 @@ export default ({
       },
       {
         kind: "OBJECT",
+        name: "group",
+        fields: [
+          {
+            name: "id",
+            type: {
+              kind: "NON_NULL",
+              ofType: {
+                kind: "SCALAR",
+                name: "Any",
+              },
+            },
+            args: [],
+          },
+          {
+            name: "name",
+            type: {
+              kind: "NON_NULL",
+              ofType: {
+                kind: "SCALAR",
+                name: "Any",
+              },
+            },
+            args: [],
+          },
+          {
+            name: "organisation",
+            type: {
+              kind: "NON_NULL",
+              ofType: {
+                kind: "OBJECT",
+                name: "organisation",
+                ofType: null,
+              },
+            },
+            args: [],
+          },
+          {
+            name: "organisation_id",
+            type: {
+              kind: "NON_NULL",
+              ofType: {
+                kind: "SCALAR",
+                name: "Any",
+              },
+            },
+            args: [],
+          },
+          {
+            name: "students",
+            type: {
+              kind: "NON_NULL",
+              ofType: {
+                kind: "LIST",
+                ofType: {
+                  kind: "NON_NULL",
+                  ofType: {
+                    kind: "OBJECT",
+                    name: "student_group",
+                    ofType: null,
+                  },
+                },
+              },
+            },
+            args: [
+              {
+                name: "distinct_on",
+                type: {
+                  kind: "LIST",
+                  ofType: {
+                    kind: "NON_NULL",
+                    ofType: {
+                      kind: "SCALAR",
+                      name: "Any",
+                    },
+                  },
+                },
+              },
+              {
+                name: "limit",
+                type: {
+                  kind: "SCALAR",
+                  name: "Any",
+                },
+              },
+              {
+                name: "offset",
+                type: {
+                  kind: "SCALAR",
+                  name: "Any",
+                },
+              },
+              {
+                name: "order_by",
+                type: {
+                  kind: "LIST",
+                  ofType: {
+                    kind: "NON_NULL",
+                    ofType: {
+                      kind: "SCALAR",
+                      name: "Any",
+                    },
+                  },
+                },
+              },
+              {
+                name: "where",
+                type: {
+                  kind: "SCALAR",
+                  name: "Any",
+                },
+              },
+            ],
+          },
+          {
+            name: "students_aggregate",
+            type: {
+              kind: "NON_NULL",
+              ofType: {
+                kind: "OBJECT",
+                name: "student_group_aggregate",
+                ofType: null,
+              },
+            },
+            args: [
+              {
+                name: "distinct_on",
+                type: {
+                  kind: "LIST",
+                  ofType: {
+                    kind: "NON_NULL",
+                    ofType: {
+                      kind: "SCALAR",
+                      name: "Any",
+                    },
+                  },
+                },
+              },
+              {
+                name: "limit",
+                type: {
+                  kind: "SCALAR",
+                  name: "Any",
+                },
+              },
+              {
+                name: "offset",
+                type: {
+                  kind: "SCALAR",
+                  name: "Any",
+                },
+              },
+              {
+                name: "order_by",
+                type: {
+                  kind: "LIST",
+                  ofType: {
+                    kind: "NON_NULL",
+                    ofType: {
+                      kind: "SCALAR",
+                      name: "Any",
+                    },
+                  },
+                },
+              },
+              {
+                name: "where",
+                type: {
+                  kind: "SCALAR",
+                  name: "Any",
+                },
+              },
+            ],
+          },
+          {
+            name: "timetables",
+            type: {
+              kind: "NON_NULL",
+              ofType: {
+                kind: "LIST",
+                ofType: {
+                  kind: "NON_NULL",
+                  ofType: {
+                    kind: "OBJECT",
+                    name: "timetable",
+                    ofType: null,
+                  },
+                },
+              },
+            },
+            args: [
+              {
+                name: "distinct_on",
+                type: {
+                  kind: "LIST",
+                  ofType: {
+                    kind: "NON_NULL",
+                    ofType: {
+                      kind: "SCALAR",
+                      name: "Any",
+                    },
+                  },
+                },
+              },
+              {
+                name: "limit",
+                type: {
+                  kind: "SCALAR",
+                  name: "Any",
+                },
+              },
+              {
+                name: "offset",
+                type: {
+                  kind: "SCALAR",
+                  name: "Any",
+                },
+              },
+              {
+                name: "order_by",
+                type: {
+                  kind: "LIST",
+                  ofType: {
+                    kind: "NON_NULL",
+                    ofType: {
+                      kind: "SCALAR",
+                      name: "Any",
+                    },
+                  },
+                },
+              },
+              {
+                name: "where",
+                type: {
+                  kind: "SCALAR",
+                  name: "Any",
+                },
+              },
+            ],
+          },
+          {
+            name: "timetables_aggregate",
+            type: {
+              kind: "NON_NULL",
+              ofType: {
+                kind: "OBJECT",
+                name: "timetable_aggregate",
+                ofType: null,
+              },
+            },
+            args: [
+              {
+                name: "distinct_on",
+                type: {
+                  kind: "LIST",
+                  ofType: {
+                    kind: "NON_NULL",
+                    ofType: {
+                      kind: "SCALAR",
+                      name: "Any",
+                    },
+                  },
+                },
+              },
+              {
+                name: "limit",
+                type: {
+                  kind: "SCALAR",
+                  name: "Any",
+                },
+              },
+              {
+                name: "offset",
+                type: {
+                  kind: "SCALAR",
+                  name: "Any",
+                },
+              },
+              {
+                name: "order_by",
+                type: {
+                  kind: "LIST",
+                  ofType: {
+                    kind: "NON_NULL",
+                    ofType: {
+                      kind: "SCALAR",
+                      name: "Any",
+                    },
+                  },
+                },
+              },
+              {
+                name: "where",
+                type: {
+                  kind: "SCALAR",
+                  name: "Any",
+                },
+              },
+            ],
+          },
+        ],
+        interfaces: [],
+      },
+      {
+        kind: "OBJECT",
+        name: "group_aggregate",
+        fields: [
+          {
+            name: "aggregate",
+            type: {
+              kind: "OBJECT",
+              name: "group_aggregate_fields",
+              ofType: null,
+            },
+            args: [],
+          },
+          {
+            name: "nodes",
+            type: {
+              kind: "NON_NULL",
+              ofType: {
+                kind: "LIST",
+                ofType: {
+                  kind: "NON_NULL",
+                  ofType: {
+                    kind: "OBJECT",
+                    name: "group",
+                    ofType: null,
+                  },
+                },
+              },
+            },
+            args: [],
+          },
+        ],
+        interfaces: [],
+      },
+      {
+        kind: "OBJECT",
+        name: "group_aggregate_fields",
+        fields: [
+          {
+            name: "count",
+            type: {
+              kind: "SCALAR",
+              name: "Any",
+            },
+            args: [
+              {
+                name: "columns",
+                type: {
+                  kind: "LIST",
+                  ofType: {
+                    kind: "NON_NULL",
+                    ofType: {
+                      kind: "SCALAR",
+                      name: "Any",
+                    },
+                  },
+                },
+              },
+              {
+                name: "distinct",
+                type: {
+                  kind: "SCALAR",
+                  name: "Any",
+                },
+              },
+            ],
+          },
+          {
+            name: "max",
+            type: {
+              kind: "OBJECT",
+              name: "group_max_fields",
+              ofType: null,
+            },
+            args: [],
+          },
+          {
+            name: "min",
+            type: {
+              kind: "OBJECT",
+              name: "group_min_fields",
+              ofType: null,
+            },
+            args: [],
+          },
+        ],
+        interfaces: [],
+      },
+      {
+        kind: "OBJECT",
+        name: "group_max_fields",
+        fields: [
+          {
+            name: "id",
+            type: {
+              kind: "SCALAR",
+              name: "Any",
+            },
+            args: [],
+          },
+          {
+            name: "name",
+            type: {
+              kind: "SCALAR",
+              name: "Any",
+            },
+            args: [],
+          },
+          {
+            name: "organisation_id",
+            type: {
+              kind: "SCALAR",
+              name: "Any",
+            },
+            args: [],
+          },
+        ],
+        interfaces: [],
+      },
+      {
+        kind: "OBJECT",
+        name: "group_min_fields",
+        fields: [
+          {
+            name: "id",
+            type: {
+              kind: "SCALAR",
+              name: "Any",
+            },
+            args: [],
+          },
+          {
+            name: "name",
+            type: {
+              kind: "SCALAR",
+              name: "Any",
+            },
+            args: [],
+          },
+          {
+            name: "organisation_id",
+            type: {
+              kind: "SCALAR",
+              name: "Any",
+            },
+            args: [],
+          },
+        ],
+        interfaces: [],
+      },
+      {
+        kind: "OBJECT",
+        name: "group_mutation_response",
+        fields: [
+          {
+            name: "affected_rows",
+            type: {
+              kind: "NON_NULL",
+              ofType: {
+                kind: "SCALAR",
+                name: "Any",
+              },
+            },
+            args: [],
+          },
+          {
+            name: "returning",
+            type: {
+              kind: "NON_NULL",
+              ofType: {
+                kind: "LIST",
+                ofType: {
+                  kind: "NON_NULL",
+                  ofType: {
+                    kind: "OBJECT",
+                    name: "group",
+                    ofType: null,
+                  },
+                },
+              },
+            },
+            args: [],
+          },
+        ],
+        interfaces: [],
+      },
+      {
+        kind: "OBJECT",
         name: "lesson",
         fields: [
           {
@@ -4342,15 +4935,6 @@ export default ({
                 kind: "SCALAR",
                 name: "Any",
               },
-            },
-            args: [],
-          },
-          {
-            name: "lesson_template",
-            type: {
-              kind: "OBJECT",
-              name: "lesson_template",
-              ofType: null,
             },
             args: [],
           },
@@ -4534,7 +5118,7 @@ export default ({
             ],
           },
           {
-            name: "template_id",
+            name: "timetable_id",
             type: {
               kind: "SCALAR",
               name: "Any",
@@ -4677,7 +5261,7 @@ export default ({
             args: [],
           },
           {
-            name: "template_id",
+            name: "timetable_id",
             type: {
               kind: "SCALAR",
               name: "Any",
@@ -4732,7 +5316,7 @@ export default ({
             args: [],
           },
           {
-            name: "template_id",
+            name: "timetable_id",
             type: {
               kind: "SCALAR",
               name: "Any",
@@ -4772,975 +5356,6 @@ export default ({
                   },
                 },
               },
-            },
-            args: [],
-          },
-        ],
-        interfaces: [],
-      },
-      {
-        kind: "OBJECT",
-        name: "lesson_template",
-        fields: [
-          {
-            name: "day",
-            type: {
-              kind: "NON_NULL",
-              ofType: {
-                kind: "SCALAR",
-                name: "Any",
-              },
-            },
-            args: [],
-          },
-          {
-            name: "duration",
-            type: {
-              kind: "NON_NULL",
-              ofType: {
-                kind: "SCALAR",
-                name: "Any",
-              },
-            },
-            args: [],
-          },
-          {
-            name: "id",
-            type: {
-              kind: "NON_NULL",
-              ofType: {
-                kind: "SCALAR",
-                name: "Any",
-              },
-            },
-            args: [],
-          },
-          {
-            name: "lessons",
-            type: {
-              kind: "NON_NULL",
-              ofType: {
-                kind: "LIST",
-                ofType: {
-                  kind: "NON_NULL",
-                  ofType: {
-                    kind: "OBJECT",
-                    name: "lesson",
-                    ofType: null,
-                  },
-                },
-              },
-            },
-            args: [
-              {
-                name: "distinct_on",
-                type: {
-                  kind: "LIST",
-                  ofType: {
-                    kind: "NON_NULL",
-                    ofType: {
-                      kind: "SCALAR",
-                      name: "Any",
-                    },
-                  },
-                },
-              },
-              {
-                name: "limit",
-                type: {
-                  kind: "SCALAR",
-                  name: "Any",
-                },
-              },
-              {
-                name: "offset",
-                type: {
-                  kind: "SCALAR",
-                  name: "Any",
-                },
-              },
-              {
-                name: "order_by",
-                type: {
-                  kind: "LIST",
-                  ofType: {
-                    kind: "NON_NULL",
-                    ofType: {
-                      kind: "SCALAR",
-                      name: "Any",
-                    },
-                  },
-                },
-              },
-              {
-                name: "where",
-                type: {
-                  kind: "SCALAR",
-                  name: "Any",
-                },
-              },
-            ],
-          },
-          {
-            name: "lessons_aggregate",
-            type: {
-              kind: "NON_NULL",
-              ofType: {
-                kind: "OBJECT",
-                name: "lesson_aggregate",
-                ofType: null,
-              },
-            },
-            args: [
-              {
-                name: "distinct_on",
-                type: {
-                  kind: "LIST",
-                  ofType: {
-                    kind: "NON_NULL",
-                    ofType: {
-                      kind: "SCALAR",
-                      name: "Any",
-                    },
-                  },
-                },
-              },
-              {
-                name: "limit",
-                type: {
-                  kind: "SCALAR",
-                  name: "Any",
-                },
-              },
-              {
-                name: "offset",
-                type: {
-                  kind: "SCALAR",
-                  name: "Any",
-                },
-              },
-              {
-                name: "order_by",
-                type: {
-                  kind: "LIST",
-                  ofType: {
-                    kind: "NON_NULL",
-                    ofType: {
-                      kind: "SCALAR",
-                      name: "Any",
-                    },
-                  },
-                },
-              },
-              {
-                name: "where",
-                type: {
-                  kind: "SCALAR",
-                  name: "Any",
-                },
-              },
-            ],
-          },
-          {
-            name: "name",
-            type: {
-              kind: "NON_NULL",
-              ofType: {
-                kind: "SCALAR",
-                name: "Any",
-              },
-            },
-            args: [],
-          },
-          {
-            name: "organisation_id",
-            type: {
-              kind: "NON_NULL",
-              ofType: {
-                kind: "SCALAR",
-                name: "Any",
-              },
-            },
-            args: [],
-          },
-          {
-            name: "start_time",
-            type: {
-              kind: "NON_NULL",
-              ofType: {
-                kind: "SCALAR",
-                name: "Any",
-              },
-            },
-            args: [],
-          },
-          {
-            name: "template_students",
-            type: {
-              kind: "NON_NULL",
-              ofType: {
-                kind: "LIST",
-                ofType: {
-                  kind: "NON_NULL",
-                  ofType: {
-                    kind: "OBJECT",
-                    name: "lesson_template_student",
-                    ofType: null,
-                  },
-                },
-              },
-            },
-            args: [
-              {
-                name: "distinct_on",
-                type: {
-                  kind: "LIST",
-                  ofType: {
-                    kind: "NON_NULL",
-                    ofType: {
-                      kind: "SCALAR",
-                      name: "Any",
-                    },
-                  },
-                },
-              },
-              {
-                name: "limit",
-                type: {
-                  kind: "SCALAR",
-                  name: "Any",
-                },
-              },
-              {
-                name: "offset",
-                type: {
-                  kind: "SCALAR",
-                  name: "Any",
-                },
-              },
-              {
-                name: "order_by",
-                type: {
-                  kind: "LIST",
-                  ofType: {
-                    kind: "NON_NULL",
-                    ofType: {
-                      kind: "SCALAR",
-                      name: "Any",
-                    },
-                  },
-                },
-              },
-              {
-                name: "where",
-                type: {
-                  kind: "SCALAR",
-                  name: "Any",
-                },
-              },
-            ],
-          },
-          {
-            name: "template_students_aggregate",
-            type: {
-              kind: "NON_NULL",
-              ofType: {
-                kind: "OBJECT",
-                name: "lesson_template_student_aggregate",
-                ofType: null,
-              },
-            },
-            args: [
-              {
-                name: "distinct_on",
-                type: {
-                  kind: "LIST",
-                  ofType: {
-                    kind: "NON_NULL",
-                    ofType: {
-                      kind: "SCALAR",
-                      name: "Any",
-                    },
-                  },
-                },
-              },
-              {
-                name: "limit",
-                type: {
-                  kind: "SCALAR",
-                  name: "Any",
-                },
-              },
-              {
-                name: "offset",
-                type: {
-                  kind: "SCALAR",
-                  name: "Any",
-                },
-              },
-              {
-                name: "order_by",
-                type: {
-                  kind: "LIST",
-                  ofType: {
-                    kind: "NON_NULL",
-                    ofType: {
-                      kind: "SCALAR",
-                      name: "Any",
-                    },
-                  },
-                },
-              },
-              {
-                name: "where",
-                type: {
-                  kind: "SCALAR",
-                  name: "Any",
-                },
-              },
-            ],
-          },
-        ],
-        interfaces: [],
-      },
-      {
-        kind: "OBJECT",
-        name: "lesson_template_aggregate",
-        fields: [
-          {
-            name: "aggregate",
-            type: {
-              kind: "OBJECT",
-              name: "lesson_template_aggregate_fields",
-              ofType: null,
-            },
-            args: [],
-          },
-          {
-            name: "nodes",
-            type: {
-              kind: "NON_NULL",
-              ofType: {
-                kind: "LIST",
-                ofType: {
-                  kind: "NON_NULL",
-                  ofType: {
-                    kind: "OBJECT",
-                    name: "lesson_template",
-                    ofType: null,
-                  },
-                },
-              },
-            },
-            args: [],
-          },
-        ],
-        interfaces: [],
-      },
-      {
-        kind: "OBJECT",
-        name: "lesson_template_aggregate_fields",
-        fields: [
-          {
-            name: "avg",
-            type: {
-              kind: "OBJECT",
-              name: "lesson_template_avg_fields",
-              ofType: null,
-            },
-            args: [],
-          },
-          {
-            name: "count",
-            type: {
-              kind: "SCALAR",
-              name: "Any",
-            },
-            args: [
-              {
-                name: "columns",
-                type: {
-                  kind: "LIST",
-                  ofType: {
-                    kind: "NON_NULL",
-                    ofType: {
-                      kind: "SCALAR",
-                      name: "Any",
-                    },
-                  },
-                },
-              },
-              {
-                name: "distinct",
-                type: {
-                  kind: "SCALAR",
-                  name: "Any",
-                },
-              },
-            ],
-          },
-          {
-            name: "max",
-            type: {
-              kind: "OBJECT",
-              name: "lesson_template_max_fields",
-              ofType: null,
-            },
-            args: [],
-          },
-          {
-            name: "min",
-            type: {
-              kind: "OBJECT",
-              name: "lesson_template_min_fields",
-              ofType: null,
-            },
-            args: [],
-          },
-          {
-            name: "stddev",
-            type: {
-              kind: "OBJECT",
-              name: "lesson_template_stddev_fields",
-              ofType: null,
-            },
-            args: [],
-          },
-          {
-            name: "stddev_pop",
-            type: {
-              kind: "OBJECT",
-              name: "lesson_template_stddev_pop_fields",
-              ofType: null,
-            },
-            args: [],
-          },
-          {
-            name: "stddev_samp",
-            type: {
-              kind: "OBJECT",
-              name: "lesson_template_stddev_samp_fields",
-              ofType: null,
-            },
-            args: [],
-          },
-          {
-            name: "sum",
-            type: {
-              kind: "OBJECT",
-              name: "lesson_template_sum_fields",
-              ofType: null,
-            },
-            args: [],
-          },
-          {
-            name: "var_pop",
-            type: {
-              kind: "OBJECT",
-              name: "lesson_template_var_pop_fields",
-              ofType: null,
-            },
-            args: [],
-          },
-          {
-            name: "var_samp",
-            type: {
-              kind: "OBJECT",
-              name: "lesson_template_var_samp_fields",
-              ofType: null,
-            },
-            args: [],
-          },
-          {
-            name: "variance",
-            type: {
-              kind: "OBJECT",
-              name: "lesson_template_variance_fields",
-              ofType: null,
-            },
-            args: [],
-          },
-        ],
-        interfaces: [],
-      },
-      {
-        kind: "OBJECT",
-        name: "lesson_template_avg_fields",
-        fields: [
-          {
-            name: "day",
-            type: {
-              kind: "SCALAR",
-              name: "Any",
-            },
-            args: [],
-          },
-        ],
-        interfaces: [],
-      },
-      {
-        kind: "OBJECT",
-        name: "lesson_template_max_fields",
-        fields: [
-          {
-            name: "day",
-            type: {
-              kind: "SCALAR",
-              name: "Any",
-            },
-            args: [],
-          },
-          {
-            name: "id",
-            type: {
-              kind: "SCALAR",
-              name: "Any",
-            },
-            args: [],
-          },
-          {
-            name: "name",
-            type: {
-              kind: "SCALAR",
-              name: "Any",
-            },
-            args: [],
-          },
-          {
-            name: "organisation_id",
-            type: {
-              kind: "SCALAR",
-              name: "Any",
-            },
-            args: [],
-          },
-        ],
-        interfaces: [],
-      },
-      {
-        kind: "OBJECT",
-        name: "lesson_template_min_fields",
-        fields: [
-          {
-            name: "day",
-            type: {
-              kind: "SCALAR",
-              name: "Any",
-            },
-            args: [],
-          },
-          {
-            name: "id",
-            type: {
-              kind: "SCALAR",
-              name: "Any",
-            },
-            args: [],
-          },
-          {
-            name: "name",
-            type: {
-              kind: "SCALAR",
-              name: "Any",
-            },
-            args: [],
-          },
-          {
-            name: "organisation_id",
-            type: {
-              kind: "SCALAR",
-              name: "Any",
-            },
-            args: [],
-          },
-        ],
-        interfaces: [],
-      },
-      {
-        kind: "OBJECT",
-        name: "lesson_template_mutation_response",
-        fields: [
-          {
-            name: "affected_rows",
-            type: {
-              kind: "NON_NULL",
-              ofType: {
-                kind: "SCALAR",
-                name: "Any",
-              },
-            },
-            args: [],
-          },
-          {
-            name: "returning",
-            type: {
-              kind: "NON_NULL",
-              ofType: {
-                kind: "LIST",
-                ofType: {
-                  kind: "NON_NULL",
-                  ofType: {
-                    kind: "OBJECT",
-                    name: "lesson_template",
-                    ofType: null,
-                  },
-                },
-              },
-            },
-            args: [],
-          },
-        ],
-        interfaces: [],
-      },
-      {
-        kind: "OBJECT",
-        name: "lesson_template_stddev_fields",
-        fields: [
-          {
-            name: "day",
-            type: {
-              kind: "SCALAR",
-              name: "Any",
-            },
-            args: [],
-          },
-        ],
-        interfaces: [],
-      },
-      {
-        kind: "OBJECT",
-        name: "lesson_template_stddev_pop_fields",
-        fields: [
-          {
-            name: "day",
-            type: {
-              kind: "SCALAR",
-              name: "Any",
-            },
-            args: [],
-          },
-        ],
-        interfaces: [],
-      },
-      {
-        kind: "OBJECT",
-        name: "lesson_template_stddev_samp_fields",
-        fields: [
-          {
-            name: "day",
-            type: {
-              kind: "SCALAR",
-              name: "Any",
-            },
-            args: [],
-          },
-        ],
-        interfaces: [],
-      },
-      {
-        kind: "OBJECT",
-        name: "lesson_template_student",
-        fields: [
-          {
-            name: "id",
-            type: {
-              kind: "NON_NULL",
-              ofType: {
-                kind: "SCALAR",
-                name: "Any",
-              },
-            },
-            args: [],
-          },
-          {
-            name: "lesson_template",
-            type: {
-              kind: "NON_NULL",
-              ofType: {
-                kind: "OBJECT",
-                name: "lesson_template",
-                ofType: null,
-              },
-            },
-            args: [],
-          },
-          {
-            name: "lesson_template_id",
-            type: {
-              kind: "NON_NULL",
-              ofType: {
-                kind: "SCALAR",
-                name: "Any",
-              },
-            },
-            args: [],
-          },
-          {
-            name: "student",
-            type: {
-              kind: "NON_NULL",
-              ofType: {
-                kind: "OBJECT",
-                name: "student",
-                ofType: null,
-              },
-            },
-            args: [],
-          },
-          {
-            name: "student_id",
-            type: {
-              kind: "NON_NULL",
-              ofType: {
-                kind: "SCALAR",
-                name: "Any",
-              },
-            },
-            args: [],
-          },
-        ],
-        interfaces: [],
-      },
-      {
-        kind: "OBJECT",
-        name: "lesson_template_student_aggregate",
-        fields: [
-          {
-            name: "aggregate",
-            type: {
-              kind: "OBJECT",
-              name: "lesson_template_student_aggregate_fields",
-              ofType: null,
-            },
-            args: [],
-          },
-          {
-            name: "nodes",
-            type: {
-              kind: "NON_NULL",
-              ofType: {
-                kind: "LIST",
-                ofType: {
-                  kind: "NON_NULL",
-                  ofType: {
-                    kind: "OBJECT",
-                    name: "lesson_template_student",
-                    ofType: null,
-                  },
-                },
-              },
-            },
-            args: [],
-          },
-        ],
-        interfaces: [],
-      },
-      {
-        kind: "OBJECT",
-        name: "lesson_template_student_aggregate_fields",
-        fields: [
-          {
-            name: "count",
-            type: {
-              kind: "SCALAR",
-              name: "Any",
-            },
-            args: [
-              {
-                name: "columns",
-                type: {
-                  kind: "LIST",
-                  ofType: {
-                    kind: "NON_NULL",
-                    ofType: {
-                      kind: "SCALAR",
-                      name: "Any",
-                    },
-                  },
-                },
-              },
-              {
-                name: "distinct",
-                type: {
-                  kind: "SCALAR",
-                  name: "Any",
-                },
-              },
-            ],
-          },
-          {
-            name: "max",
-            type: {
-              kind: "OBJECT",
-              name: "lesson_template_student_max_fields",
-              ofType: null,
-            },
-            args: [],
-          },
-          {
-            name: "min",
-            type: {
-              kind: "OBJECT",
-              name: "lesson_template_student_min_fields",
-              ofType: null,
-            },
-            args: [],
-          },
-        ],
-        interfaces: [],
-      },
-      {
-        kind: "OBJECT",
-        name: "lesson_template_student_max_fields",
-        fields: [
-          {
-            name: "id",
-            type: {
-              kind: "SCALAR",
-              name: "Any",
-            },
-            args: [],
-          },
-          {
-            name: "lesson_template_id",
-            type: {
-              kind: "SCALAR",
-              name: "Any",
-            },
-            args: [],
-          },
-          {
-            name: "student_id",
-            type: {
-              kind: "SCALAR",
-              name: "Any",
-            },
-            args: [],
-          },
-        ],
-        interfaces: [],
-      },
-      {
-        kind: "OBJECT",
-        name: "lesson_template_student_min_fields",
-        fields: [
-          {
-            name: "id",
-            type: {
-              kind: "SCALAR",
-              name: "Any",
-            },
-            args: [],
-          },
-          {
-            name: "lesson_template_id",
-            type: {
-              kind: "SCALAR",
-              name: "Any",
-            },
-            args: [],
-          },
-          {
-            name: "student_id",
-            type: {
-              kind: "SCALAR",
-              name: "Any",
-            },
-            args: [],
-          },
-        ],
-        interfaces: [],
-      },
-      {
-        kind: "OBJECT",
-        name: "lesson_template_student_mutation_response",
-        fields: [
-          {
-            name: "affected_rows",
-            type: {
-              kind: "NON_NULL",
-              ofType: {
-                kind: "SCALAR",
-                name: "Any",
-              },
-            },
-            args: [],
-          },
-          {
-            name: "returning",
-            type: {
-              kind: "NON_NULL",
-              ofType: {
-                kind: "LIST",
-                ofType: {
-                  kind: "NON_NULL",
-                  ofType: {
-                    kind: "OBJECT",
-                    name: "lesson_template_student",
-                    ofType: null,
-                  },
-                },
-              },
-            },
-            args: [],
-          },
-        ],
-        interfaces: [],
-      },
-      {
-        kind: "OBJECT",
-        name: "lesson_template_sum_fields",
-        fields: [
-          {
-            name: "day",
-            type: {
-              kind: "SCALAR",
-              name: "Any",
-            },
-            args: [],
-          },
-        ],
-        interfaces: [],
-      },
-      {
-        kind: "OBJECT",
-        name: "lesson_template_var_pop_fields",
-        fields: [
-          {
-            name: "day",
-            type: {
-              kind: "SCALAR",
-              name: "Any",
-            },
-            args: [],
-          },
-        ],
-        interfaces: [],
-      },
-      {
-        kind: "OBJECT",
-        name: "lesson_template_var_samp_fields",
-        fields: [
-          {
-            name: "day",
-            type: {
-              kind: "SCALAR",
-              name: "Any",
-            },
-            args: [],
-          },
-        ],
-        interfaces: [],
-      },
-      {
-        kind: "OBJECT",
-        name: "lesson_template_variance_fields",
-        fields: [
-          {
-            name: "day",
-            type: {
-              kind: "SCALAR",
-              name: "Any",
             },
             args: [],
           },
@@ -5792,6 +5407,46 @@ export default ({
             ],
           },
           {
+            name: "delete_group",
+            type: {
+              kind: "OBJECT",
+              name: "group_mutation_response",
+              ofType: null,
+            },
+            args: [
+              {
+                name: "where",
+                type: {
+                  kind: "NON_NULL",
+                  ofType: {
+                    kind: "SCALAR",
+                    name: "Any",
+                  },
+                },
+              },
+            ],
+          },
+          {
+            name: "delete_group_by_pk",
+            type: {
+              kind: "OBJECT",
+              name: "group",
+              ofType: null,
+            },
+            args: [
+              {
+                name: "id",
+                type: {
+                  kind: "NON_NULL",
+                  ofType: {
+                    kind: "SCALAR",
+                    name: "Any",
+                  },
+                },
+              },
+            ],
+          },
+          {
             name: "delete_lesson",
             type: {
               kind: "OBJECT",
@@ -5816,86 +5471,6 @@ export default ({
             type: {
               kind: "OBJECT",
               name: "lesson",
-              ofType: null,
-            },
-            args: [
-              {
-                name: "id",
-                type: {
-                  kind: "NON_NULL",
-                  ofType: {
-                    kind: "SCALAR",
-                    name: "Any",
-                  },
-                },
-              },
-            ],
-          },
-          {
-            name: "delete_lesson_template",
-            type: {
-              kind: "OBJECT",
-              name: "lesson_template_mutation_response",
-              ofType: null,
-            },
-            args: [
-              {
-                name: "where",
-                type: {
-                  kind: "NON_NULL",
-                  ofType: {
-                    kind: "SCALAR",
-                    name: "Any",
-                  },
-                },
-              },
-            ],
-          },
-          {
-            name: "delete_lesson_template_by_pk",
-            type: {
-              kind: "OBJECT",
-              name: "lesson_template",
-              ofType: null,
-            },
-            args: [
-              {
-                name: "id",
-                type: {
-                  kind: "NON_NULL",
-                  ofType: {
-                    kind: "SCALAR",
-                    name: "Any",
-                  },
-                },
-              },
-            ],
-          },
-          {
-            name: "delete_lesson_template_student",
-            type: {
-              kind: "OBJECT",
-              name: "lesson_template_student_mutation_response",
-              ofType: null,
-            },
-            args: [
-              {
-                name: "where",
-                type: {
-                  kind: "NON_NULL",
-                  ofType: {
-                    kind: "SCALAR",
-                    name: "Any",
-                  },
-                },
-              },
-            ],
-          },
-          {
-            name: "delete_lesson_template_student_by_pk",
-            type: {
-              kind: "OBJECT",
-              name: "lesson_template_student",
               ofType: null,
             },
             args: [
@@ -6016,6 +5591,86 @@ export default ({
             type: {
               kind: "OBJECT",
               name: "student",
+              ofType: null,
+            },
+            args: [
+              {
+                name: "id",
+                type: {
+                  kind: "NON_NULL",
+                  ofType: {
+                    kind: "SCALAR",
+                    name: "Any",
+                  },
+                },
+              },
+            ],
+          },
+          {
+            name: "delete_student_group",
+            type: {
+              kind: "OBJECT",
+              name: "student_group_mutation_response",
+              ofType: null,
+            },
+            args: [
+              {
+                name: "where",
+                type: {
+                  kind: "NON_NULL",
+                  ofType: {
+                    kind: "SCALAR",
+                    name: "Any",
+                  },
+                },
+              },
+            ],
+          },
+          {
+            name: "delete_student_group_by_pk",
+            type: {
+              kind: "OBJECT",
+              name: "student_group",
+              ofType: null,
+            },
+            args: [
+              {
+                name: "id",
+                type: {
+                  kind: "NON_NULL",
+                  ofType: {
+                    kind: "SCALAR",
+                    name: "Any",
+                  },
+                },
+              },
+            ],
+          },
+          {
+            name: "delete_timetable",
+            type: {
+              kind: "OBJECT",
+              name: "timetable_mutation_response",
+              ofType: null,
+            },
+            args: [
+              {
+                name: "where",
+                type: {
+                  kind: "NON_NULL",
+                  ofType: {
+                    kind: "SCALAR",
+                    name: "Any",
+                  },
+                },
+              },
+            ],
+          },
+          {
+            name: "delete_timetable_by_pk",
+            type: {
+              kind: "OBJECT",
+              name: "timetable",
               ofType: null,
             },
             args: [
@@ -6212,6 +5867,66 @@ export default ({
             ],
           },
           {
+            name: "insert_group",
+            type: {
+              kind: "OBJECT",
+              name: "group_mutation_response",
+              ofType: null,
+            },
+            args: [
+              {
+                name: "objects",
+                type: {
+                  kind: "NON_NULL",
+                  ofType: {
+                    kind: "LIST",
+                    ofType: {
+                      kind: "NON_NULL",
+                      ofType: {
+                        kind: "SCALAR",
+                        name: "Any",
+                      },
+                    },
+                  },
+                },
+              },
+              {
+                name: "on_conflict",
+                type: {
+                  kind: "SCALAR",
+                  name: "Any",
+                },
+              },
+            ],
+          },
+          {
+            name: "insert_group_one",
+            type: {
+              kind: "OBJECT",
+              name: "group",
+              ofType: null,
+            },
+            args: [
+              {
+                name: "object",
+                type: {
+                  kind: "NON_NULL",
+                  ofType: {
+                    kind: "SCALAR",
+                    name: "Any",
+                  },
+                },
+              },
+              {
+                name: "on_conflict",
+                type: {
+                  kind: "SCALAR",
+                  name: "Any",
+                },
+              },
+            ],
+          },
+          {
             name: "insert_lesson",
             type: {
               kind: "OBJECT",
@@ -6249,126 +5964,6 @@ export default ({
             type: {
               kind: "OBJECT",
               name: "lesson",
-              ofType: null,
-            },
-            args: [
-              {
-                name: "object",
-                type: {
-                  kind: "NON_NULL",
-                  ofType: {
-                    kind: "SCALAR",
-                    name: "Any",
-                  },
-                },
-              },
-              {
-                name: "on_conflict",
-                type: {
-                  kind: "SCALAR",
-                  name: "Any",
-                },
-              },
-            ],
-          },
-          {
-            name: "insert_lesson_template",
-            type: {
-              kind: "OBJECT",
-              name: "lesson_template_mutation_response",
-              ofType: null,
-            },
-            args: [
-              {
-                name: "objects",
-                type: {
-                  kind: "NON_NULL",
-                  ofType: {
-                    kind: "LIST",
-                    ofType: {
-                      kind: "NON_NULL",
-                      ofType: {
-                        kind: "SCALAR",
-                        name: "Any",
-                      },
-                    },
-                  },
-                },
-              },
-              {
-                name: "on_conflict",
-                type: {
-                  kind: "SCALAR",
-                  name: "Any",
-                },
-              },
-            ],
-          },
-          {
-            name: "insert_lesson_template_one",
-            type: {
-              kind: "OBJECT",
-              name: "lesson_template",
-              ofType: null,
-            },
-            args: [
-              {
-                name: "object",
-                type: {
-                  kind: "NON_NULL",
-                  ofType: {
-                    kind: "SCALAR",
-                    name: "Any",
-                  },
-                },
-              },
-              {
-                name: "on_conflict",
-                type: {
-                  kind: "SCALAR",
-                  name: "Any",
-                },
-              },
-            ],
-          },
-          {
-            name: "insert_lesson_template_student",
-            type: {
-              kind: "OBJECT",
-              name: "lesson_template_student_mutation_response",
-              ofType: null,
-            },
-            args: [
-              {
-                name: "objects",
-                type: {
-                  kind: "NON_NULL",
-                  ofType: {
-                    kind: "LIST",
-                    ofType: {
-                      kind: "NON_NULL",
-                      ofType: {
-                        kind: "SCALAR",
-                        name: "Any",
-                      },
-                    },
-                  },
-                },
-              },
-              {
-                name: "on_conflict",
-                type: {
-                  kind: "SCALAR",
-                  name: "Any",
-                },
-              },
-            ],
-          },
-          {
-            name: "insert_lesson_template_student_one",
-            type: {
-              kind: "OBJECT",
-              name: "lesson_template_student",
               ofType: null,
             },
             args: [
@@ -6545,10 +6140,130 @@ export default ({
             ],
           },
           {
+            name: "insert_student_group",
+            type: {
+              kind: "OBJECT",
+              name: "student_group_mutation_response",
+              ofType: null,
+            },
+            args: [
+              {
+                name: "objects",
+                type: {
+                  kind: "NON_NULL",
+                  ofType: {
+                    kind: "LIST",
+                    ofType: {
+                      kind: "NON_NULL",
+                      ofType: {
+                        kind: "SCALAR",
+                        name: "Any",
+                      },
+                    },
+                  },
+                },
+              },
+              {
+                name: "on_conflict",
+                type: {
+                  kind: "SCALAR",
+                  name: "Any",
+                },
+              },
+            ],
+          },
+          {
+            name: "insert_student_group_one",
+            type: {
+              kind: "OBJECT",
+              name: "student_group",
+              ofType: null,
+            },
+            args: [
+              {
+                name: "object",
+                type: {
+                  kind: "NON_NULL",
+                  ofType: {
+                    kind: "SCALAR",
+                    name: "Any",
+                  },
+                },
+              },
+              {
+                name: "on_conflict",
+                type: {
+                  kind: "SCALAR",
+                  name: "Any",
+                },
+              },
+            ],
+          },
+          {
             name: "insert_student_one",
             type: {
               kind: "OBJECT",
               name: "student",
+              ofType: null,
+            },
+            args: [
+              {
+                name: "object",
+                type: {
+                  kind: "NON_NULL",
+                  ofType: {
+                    kind: "SCALAR",
+                    name: "Any",
+                  },
+                },
+              },
+              {
+                name: "on_conflict",
+                type: {
+                  kind: "SCALAR",
+                  name: "Any",
+                },
+              },
+            ],
+          },
+          {
+            name: "insert_timetable",
+            type: {
+              kind: "OBJECT",
+              name: "timetable_mutation_response",
+              ofType: null,
+            },
+            args: [
+              {
+                name: "objects",
+                type: {
+                  kind: "NON_NULL",
+                  ofType: {
+                    kind: "LIST",
+                    ofType: {
+                      kind: "NON_NULL",
+                      ofType: {
+                        kind: "SCALAR",
+                        name: "Any",
+                      },
+                    },
+                  },
+                },
+              },
+              {
+                name: "on_conflict",
+                type: {
+                  kind: "SCALAR",
+                  name: "Any",
+                },
+              },
+            ],
+          },
+          {
+            name: "insert_timetable_one",
+            type: {
+              kind: "OBJECT",
+              name: "timetable",
               ofType: null,
             },
             args: [
@@ -6806,6 +6521,60 @@ export default ({
             ],
           },
           {
+            name: "update_group",
+            type: {
+              kind: "OBJECT",
+              name: "group_mutation_response",
+              ofType: null,
+            },
+            args: [
+              {
+                name: "_set",
+                type: {
+                  kind: "SCALAR",
+                  name: "Any",
+                },
+              },
+              {
+                name: "where",
+                type: {
+                  kind: "NON_NULL",
+                  ofType: {
+                    kind: "SCALAR",
+                    name: "Any",
+                  },
+                },
+              },
+            ],
+          },
+          {
+            name: "update_group_by_pk",
+            type: {
+              kind: "OBJECT",
+              name: "group",
+              ofType: null,
+            },
+            args: [
+              {
+                name: "_set",
+                type: {
+                  kind: "SCALAR",
+                  name: "Any",
+                },
+              },
+              {
+                name: "pk_columns",
+                type: {
+                  kind: "NON_NULL",
+                  ofType: {
+                    kind: "SCALAR",
+                    name: "Any",
+                  },
+                },
+              },
+            ],
+          },
+          {
             name: "update_lesson",
             type: {
               kind: "OBJECT",
@@ -6837,128 +6606,6 @@ export default ({
             type: {
               kind: "OBJECT",
               name: "lesson",
-              ofType: null,
-            },
-            args: [
-              {
-                name: "_set",
-                type: {
-                  kind: "SCALAR",
-                  name: "Any",
-                },
-              },
-              {
-                name: "pk_columns",
-                type: {
-                  kind: "NON_NULL",
-                  ofType: {
-                    kind: "SCALAR",
-                    name: "Any",
-                  },
-                },
-              },
-            ],
-          },
-          {
-            name: "update_lesson_template",
-            type: {
-              kind: "OBJECT",
-              name: "lesson_template_mutation_response",
-              ofType: null,
-            },
-            args: [
-              {
-                name: "_inc",
-                type: {
-                  kind: "SCALAR",
-                  name: "Any",
-                },
-              },
-              {
-                name: "_set",
-                type: {
-                  kind: "SCALAR",
-                  name: "Any",
-                },
-              },
-              {
-                name: "where",
-                type: {
-                  kind: "NON_NULL",
-                  ofType: {
-                    kind: "SCALAR",
-                    name: "Any",
-                  },
-                },
-              },
-            ],
-          },
-          {
-            name: "update_lesson_template_by_pk",
-            type: {
-              kind: "OBJECT",
-              name: "lesson_template",
-              ofType: null,
-            },
-            args: [
-              {
-                name: "_inc",
-                type: {
-                  kind: "SCALAR",
-                  name: "Any",
-                },
-              },
-              {
-                name: "_set",
-                type: {
-                  kind: "SCALAR",
-                  name: "Any",
-                },
-              },
-              {
-                name: "pk_columns",
-                type: {
-                  kind: "NON_NULL",
-                  ofType: {
-                    kind: "SCALAR",
-                    name: "Any",
-                  },
-                },
-              },
-            ],
-          },
-          {
-            name: "update_lesson_template_student",
-            type: {
-              kind: "OBJECT",
-              name: "lesson_template_student_mutation_response",
-              ofType: null,
-            },
-            args: [
-              {
-                name: "_set",
-                type: {
-                  kind: "SCALAR",
-                  name: "Any",
-                },
-              },
-              {
-                name: "where",
-                type: {
-                  kind: "NON_NULL",
-                  ofType: {
-                    kind: "SCALAR",
-                    name: "Any",
-                  },
-                },
-              },
-            ],
-          },
-          {
-            name: "update_lesson_template_student_by_pk",
-            type: {
-              kind: "OBJECT",
-              name: "lesson_template_student",
               ofType: null,
             },
             args: [
@@ -7124,6 +6771,128 @@ export default ({
               ofType: null,
             },
             args: [
+              {
+                name: "_set",
+                type: {
+                  kind: "SCALAR",
+                  name: "Any",
+                },
+              },
+              {
+                name: "pk_columns",
+                type: {
+                  kind: "NON_NULL",
+                  ofType: {
+                    kind: "SCALAR",
+                    name: "Any",
+                  },
+                },
+              },
+            ],
+          },
+          {
+            name: "update_student_group",
+            type: {
+              kind: "OBJECT",
+              name: "student_group_mutation_response",
+              ofType: null,
+            },
+            args: [
+              {
+                name: "_set",
+                type: {
+                  kind: "SCALAR",
+                  name: "Any",
+                },
+              },
+              {
+                name: "where",
+                type: {
+                  kind: "NON_NULL",
+                  ofType: {
+                    kind: "SCALAR",
+                    name: "Any",
+                  },
+                },
+              },
+            ],
+          },
+          {
+            name: "update_student_group_by_pk",
+            type: {
+              kind: "OBJECT",
+              name: "student_group",
+              ofType: null,
+            },
+            args: [
+              {
+                name: "_set",
+                type: {
+                  kind: "SCALAR",
+                  name: "Any",
+                },
+              },
+              {
+                name: "pk_columns",
+                type: {
+                  kind: "NON_NULL",
+                  ofType: {
+                    kind: "SCALAR",
+                    name: "Any",
+                  },
+                },
+              },
+            ],
+          },
+          {
+            name: "update_timetable",
+            type: {
+              kind: "OBJECT",
+              name: "timetable_mutation_response",
+              ofType: null,
+            },
+            args: [
+              {
+                name: "_inc",
+                type: {
+                  kind: "SCALAR",
+                  name: "Any",
+                },
+              },
+              {
+                name: "_set",
+                type: {
+                  kind: "SCALAR",
+                  name: "Any",
+                },
+              },
+              {
+                name: "where",
+                type: {
+                  kind: "NON_NULL",
+                  ofType: {
+                    kind: "SCALAR",
+                    name: "Any",
+                  },
+                },
+              },
+            ],
+          },
+          {
+            name: "update_timetable_by_pk",
+            type: {
+              kind: "OBJECT",
+              name: "timetable",
+              ofType: null,
+            },
+            args: [
+              {
+                name: "_inc",
+                type: {
+                  kind: "SCALAR",
+                  name: "Any",
+                },
+              },
               {
                 name: "_set",
                 type: {
@@ -8176,6 +7945,152 @@ export default ({
             ],
           },
           {
+            name: "group",
+            type: {
+              kind: "NON_NULL",
+              ofType: {
+                kind: "LIST",
+                ofType: {
+                  kind: "NON_NULL",
+                  ofType: {
+                    kind: "OBJECT",
+                    name: "group",
+                    ofType: null,
+                  },
+                },
+              },
+            },
+            args: [
+              {
+                name: "distinct_on",
+                type: {
+                  kind: "LIST",
+                  ofType: {
+                    kind: "NON_NULL",
+                    ofType: {
+                      kind: "SCALAR",
+                      name: "Any",
+                    },
+                  },
+                },
+              },
+              {
+                name: "limit",
+                type: {
+                  kind: "SCALAR",
+                  name: "Any",
+                },
+              },
+              {
+                name: "offset",
+                type: {
+                  kind: "SCALAR",
+                  name: "Any",
+                },
+              },
+              {
+                name: "order_by",
+                type: {
+                  kind: "LIST",
+                  ofType: {
+                    kind: "NON_NULL",
+                    ofType: {
+                      kind: "SCALAR",
+                      name: "Any",
+                    },
+                  },
+                },
+              },
+              {
+                name: "where",
+                type: {
+                  kind: "SCALAR",
+                  name: "Any",
+                },
+              },
+            ],
+          },
+          {
+            name: "group_aggregate",
+            type: {
+              kind: "NON_NULL",
+              ofType: {
+                kind: "OBJECT",
+                name: "group_aggregate",
+                ofType: null,
+              },
+            },
+            args: [
+              {
+                name: "distinct_on",
+                type: {
+                  kind: "LIST",
+                  ofType: {
+                    kind: "NON_NULL",
+                    ofType: {
+                      kind: "SCALAR",
+                      name: "Any",
+                    },
+                  },
+                },
+              },
+              {
+                name: "limit",
+                type: {
+                  kind: "SCALAR",
+                  name: "Any",
+                },
+              },
+              {
+                name: "offset",
+                type: {
+                  kind: "SCALAR",
+                  name: "Any",
+                },
+              },
+              {
+                name: "order_by",
+                type: {
+                  kind: "LIST",
+                  ofType: {
+                    kind: "NON_NULL",
+                    ofType: {
+                      kind: "SCALAR",
+                      name: "Any",
+                    },
+                  },
+                },
+              },
+              {
+                name: "where",
+                type: {
+                  kind: "SCALAR",
+                  name: "Any",
+                },
+              },
+            ],
+          },
+          {
+            name: "group_by_pk",
+            type: {
+              kind: "OBJECT",
+              name: "group",
+              ofType: null,
+            },
+            args: [
+              {
+                name: "id",
+                type: {
+                  kind: "NON_NULL",
+                  ofType: {
+                    kind: "SCALAR",
+                    name: "Any",
+                  },
+                },
+              },
+            ],
+          },
+          {
             name: "lesson",
             type: {
               kind: "NON_NULL",
@@ -8306,298 +8221,6 @@ export default ({
             type: {
               kind: "OBJECT",
               name: "lesson",
-              ofType: null,
-            },
-            args: [
-              {
-                name: "id",
-                type: {
-                  kind: "NON_NULL",
-                  ofType: {
-                    kind: "SCALAR",
-                    name: "Any",
-                  },
-                },
-              },
-            ],
-          },
-          {
-            name: "lesson_template",
-            type: {
-              kind: "NON_NULL",
-              ofType: {
-                kind: "LIST",
-                ofType: {
-                  kind: "NON_NULL",
-                  ofType: {
-                    kind: "OBJECT",
-                    name: "lesson_template",
-                    ofType: null,
-                  },
-                },
-              },
-            },
-            args: [
-              {
-                name: "distinct_on",
-                type: {
-                  kind: "LIST",
-                  ofType: {
-                    kind: "NON_NULL",
-                    ofType: {
-                      kind: "SCALAR",
-                      name: "Any",
-                    },
-                  },
-                },
-              },
-              {
-                name: "limit",
-                type: {
-                  kind: "SCALAR",
-                  name: "Any",
-                },
-              },
-              {
-                name: "offset",
-                type: {
-                  kind: "SCALAR",
-                  name: "Any",
-                },
-              },
-              {
-                name: "order_by",
-                type: {
-                  kind: "LIST",
-                  ofType: {
-                    kind: "NON_NULL",
-                    ofType: {
-                      kind: "SCALAR",
-                      name: "Any",
-                    },
-                  },
-                },
-              },
-              {
-                name: "where",
-                type: {
-                  kind: "SCALAR",
-                  name: "Any",
-                },
-              },
-            ],
-          },
-          {
-            name: "lesson_template_aggregate",
-            type: {
-              kind: "NON_NULL",
-              ofType: {
-                kind: "OBJECT",
-                name: "lesson_template_aggregate",
-                ofType: null,
-              },
-            },
-            args: [
-              {
-                name: "distinct_on",
-                type: {
-                  kind: "LIST",
-                  ofType: {
-                    kind: "NON_NULL",
-                    ofType: {
-                      kind: "SCALAR",
-                      name: "Any",
-                    },
-                  },
-                },
-              },
-              {
-                name: "limit",
-                type: {
-                  kind: "SCALAR",
-                  name: "Any",
-                },
-              },
-              {
-                name: "offset",
-                type: {
-                  kind: "SCALAR",
-                  name: "Any",
-                },
-              },
-              {
-                name: "order_by",
-                type: {
-                  kind: "LIST",
-                  ofType: {
-                    kind: "NON_NULL",
-                    ofType: {
-                      kind: "SCALAR",
-                      name: "Any",
-                    },
-                  },
-                },
-              },
-              {
-                name: "where",
-                type: {
-                  kind: "SCALAR",
-                  name: "Any",
-                },
-              },
-            ],
-          },
-          {
-            name: "lesson_template_by_pk",
-            type: {
-              kind: "OBJECT",
-              name: "lesson_template",
-              ofType: null,
-            },
-            args: [
-              {
-                name: "id",
-                type: {
-                  kind: "NON_NULL",
-                  ofType: {
-                    kind: "SCALAR",
-                    name: "Any",
-                  },
-                },
-              },
-            ],
-          },
-          {
-            name: "lesson_template_student",
-            type: {
-              kind: "NON_NULL",
-              ofType: {
-                kind: "LIST",
-                ofType: {
-                  kind: "NON_NULL",
-                  ofType: {
-                    kind: "OBJECT",
-                    name: "lesson_template_student",
-                    ofType: null,
-                  },
-                },
-              },
-            },
-            args: [
-              {
-                name: "distinct_on",
-                type: {
-                  kind: "LIST",
-                  ofType: {
-                    kind: "NON_NULL",
-                    ofType: {
-                      kind: "SCALAR",
-                      name: "Any",
-                    },
-                  },
-                },
-              },
-              {
-                name: "limit",
-                type: {
-                  kind: "SCALAR",
-                  name: "Any",
-                },
-              },
-              {
-                name: "offset",
-                type: {
-                  kind: "SCALAR",
-                  name: "Any",
-                },
-              },
-              {
-                name: "order_by",
-                type: {
-                  kind: "LIST",
-                  ofType: {
-                    kind: "NON_NULL",
-                    ofType: {
-                      kind: "SCALAR",
-                      name: "Any",
-                    },
-                  },
-                },
-              },
-              {
-                name: "where",
-                type: {
-                  kind: "SCALAR",
-                  name: "Any",
-                },
-              },
-            ],
-          },
-          {
-            name: "lesson_template_student_aggregate",
-            type: {
-              kind: "NON_NULL",
-              ofType: {
-                kind: "OBJECT",
-                name: "lesson_template_student_aggregate",
-                ofType: null,
-              },
-            },
-            args: [
-              {
-                name: "distinct_on",
-                type: {
-                  kind: "LIST",
-                  ofType: {
-                    kind: "NON_NULL",
-                    ofType: {
-                      kind: "SCALAR",
-                      name: "Any",
-                    },
-                  },
-                },
-              },
-              {
-                name: "limit",
-                type: {
-                  kind: "SCALAR",
-                  name: "Any",
-                },
-              },
-              {
-                name: "offset",
-                type: {
-                  kind: "SCALAR",
-                  name: "Any",
-                },
-              },
-              {
-                name: "order_by",
-                type: {
-                  kind: "LIST",
-                  ofType: {
-                    kind: "NON_NULL",
-                    ofType: {
-                      kind: "SCALAR",
-                      name: "Any",
-                    },
-                  },
-                },
-              },
-              {
-                name: "where",
-                type: {
-                  kind: "SCALAR",
-                  name: "Any",
-                },
-              },
-            ],
-          },
-          {
-            name: "lesson_template_student_by_pk",
-            type: {
-              kind: "OBJECT",
-              name: "lesson_template_student",
               ofType: null,
             },
             args: [
@@ -9036,6 +8659,298 @@ export default ({
             type: {
               kind: "OBJECT",
               name: "student",
+              ofType: null,
+            },
+            args: [
+              {
+                name: "id",
+                type: {
+                  kind: "NON_NULL",
+                  ofType: {
+                    kind: "SCALAR",
+                    name: "Any",
+                  },
+                },
+              },
+            ],
+          },
+          {
+            name: "student_group",
+            type: {
+              kind: "NON_NULL",
+              ofType: {
+                kind: "LIST",
+                ofType: {
+                  kind: "NON_NULL",
+                  ofType: {
+                    kind: "OBJECT",
+                    name: "student_group",
+                    ofType: null,
+                  },
+                },
+              },
+            },
+            args: [
+              {
+                name: "distinct_on",
+                type: {
+                  kind: "LIST",
+                  ofType: {
+                    kind: "NON_NULL",
+                    ofType: {
+                      kind: "SCALAR",
+                      name: "Any",
+                    },
+                  },
+                },
+              },
+              {
+                name: "limit",
+                type: {
+                  kind: "SCALAR",
+                  name: "Any",
+                },
+              },
+              {
+                name: "offset",
+                type: {
+                  kind: "SCALAR",
+                  name: "Any",
+                },
+              },
+              {
+                name: "order_by",
+                type: {
+                  kind: "LIST",
+                  ofType: {
+                    kind: "NON_NULL",
+                    ofType: {
+                      kind: "SCALAR",
+                      name: "Any",
+                    },
+                  },
+                },
+              },
+              {
+                name: "where",
+                type: {
+                  kind: "SCALAR",
+                  name: "Any",
+                },
+              },
+            ],
+          },
+          {
+            name: "student_group_aggregate",
+            type: {
+              kind: "NON_NULL",
+              ofType: {
+                kind: "OBJECT",
+                name: "student_group_aggregate",
+                ofType: null,
+              },
+            },
+            args: [
+              {
+                name: "distinct_on",
+                type: {
+                  kind: "LIST",
+                  ofType: {
+                    kind: "NON_NULL",
+                    ofType: {
+                      kind: "SCALAR",
+                      name: "Any",
+                    },
+                  },
+                },
+              },
+              {
+                name: "limit",
+                type: {
+                  kind: "SCALAR",
+                  name: "Any",
+                },
+              },
+              {
+                name: "offset",
+                type: {
+                  kind: "SCALAR",
+                  name: "Any",
+                },
+              },
+              {
+                name: "order_by",
+                type: {
+                  kind: "LIST",
+                  ofType: {
+                    kind: "NON_NULL",
+                    ofType: {
+                      kind: "SCALAR",
+                      name: "Any",
+                    },
+                  },
+                },
+              },
+              {
+                name: "where",
+                type: {
+                  kind: "SCALAR",
+                  name: "Any",
+                },
+              },
+            ],
+          },
+          {
+            name: "student_group_by_pk",
+            type: {
+              kind: "OBJECT",
+              name: "student_group",
+              ofType: null,
+            },
+            args: [
+              {
+                name: "id",
+                type: {
+                  kind: "NON_NULL",
+                  ofType: {
+                    kind: "SCALAR",
+                    name: "Any",
+                  },
+                },
+              },
+            ],
+          },
+          {
+            name: "timetable",
+            type: {
+              kind: "NON_NULL",
+              ofType: {
+                kind: "LIST",
+                ofType: {
+                  kind: "NON_NULL",
+                  ofType: {
+                    kind: "OBJECT",
+                    name: "timetable",
+                    ofType: null,
+                  },
+                },
+              },
+            },
+            args: [
+              {
+                name: "distinct_on",
+                type: {
+                  kind: "LIST",
+                  ofType: {
+                    kind: "NON_NULL",
+                    ofType: {
+                      kind: "SCALAR",
+                      name: "Any",
+                    },
+                  },
+                },
+              },
+              {
+                name: "limit",
+                type: {
+                  kind: "SCALAR",
+                  name: "Any",
+                },
+              },
+              {
+                name: "offset",
+                type: {
+                  kind: "SCALAR",
+                  name: "Any",
+                },
+              },
+              {
+                name: "order_by",
+                type: {
+                  kind: "LIST",
+                  ofType: {
+                    kind: "NON_NULL",
+                    ofType: {
+                      kind: "SCALAR",
+                      name: "Any",
+                    },
+                  },
+                },
+              },
+              {
+                name: "where",
+                type: {
+                  kind: "SCALAR",
+                  name: "Any",
+                },
+              },
+            ],
+          },
+          {
+            name: "timetable_aggregate",
+            type: {
+              kind: "NON_NULL",
+              ofType: {
+                kind: "OBJECT",
+                name: "timetable_aggregate",
+                ofType: null,
+              },
+            },
+            args: [
+              {
+                name: "distinct_on",
+                type: {
+                  kind: "LIST",
+                  ofType: {
+                    kind: "NON_NULL",
+                    ofType: {
+                      kind: "SCALAR",
+                      name: "Any",
+                    },
+                  },
+                },
+              },
+              {
+                name: "limit",
+                type: {
+                  kind: "SCALAR",
+                  name: "Any",
+                },
+              },
+              {
+                name: "offset",
+                type: {
+                  kind: "SCALAR",
+                  name: "Any",
+                },
+              },
+              {
+                name: "order_by",
+                type: {
+                  kind: "LIST",
+                  ofType: {
+                    kind: "NON_NULL",
+                    ofType: {
+                      kind: "SCALAR",
+                      name: "Any",
+                    },
+                  },
+                },
+              },
+              {
+                name: "where",
+                type: {
+                  kind: "SCALAR",
+                  name: "Any",
+                },
+              },
+            ],
+          },
+          {
+            name: "timetable_by_pk",
+            type: {
+              kind: "OBJECT",
+              name: "timetable",
               ofType: null,
             },
             args: [
@@ -10041,6 +9956,256 @@ export default ({
       },
       {
         kind: "OBJECT",
+        name: "student_group",
+        fields: [
+          {
+            name: "group",
+            type: {
+              kind: "NON_NULL",
+              ofType: {
+                kind: "OBJECT",
+                name: "group",
+                ofType: null,
+              },
+            },
+            args: [],
+          },
+          {
+            name: "group_id",
+            type: {
+              kind: "NON_NULL",
+              ofType: {
+                kind: "SCALAR",
+                name: "Any",
+              },
+            },
+            args: [],
+          },
+          {
+            name: "id",
+            type: {
+              kind: "NON_NULL",
+              ofType: {
+                kind: "SCALAR",
+                name: "Any",
+              },
+            },
+            args: [],
+          },
+          {
+            name: "student",
+            type: {
+              kind: "NON_NULL",
+              ofType: {
+                kind: "OBJECT",
+                name: "student",
+                ofType: null,
+              },
+            },
+            args: [],
+          },
+          {
+            name: "student_id",
+            type: {
+              kind: "NON_NULL",
+              ofType: {
+                kind: "SCALAR",
+                name: "Any",
+              },
+            },
+            args: [],
+          },
+        ],
+        interfaces: [],
+      },
+      {
+        kind: "OBJECT",
+        name: "student_group_aggregate",
+        fields: [
+          {
+            name: "aggregate",
+            type: {
+              kind: "OBJECT",
+              name: "student_group_aggregate_fields",
+              ofType: null,
+            },
+            args: [],
+          },
+          {
+            name: "nodes",
+            type: {
+              kind: "NON_NULL",
+              ofType: {
+                kind: "LIST",
+                ofType: {
+                  kind: "NON_NULL",
+                  ofType: {
+                    kind: "OBJECT",
+                    name: "student_group",
+                    ofType: null,
+                  },
+                },
+              },
+            },
+            args: [],
+          },
+        ],
+        interfaces: [],
+      },
+      {
+        kind: "OBJECT",
+        name: "student_group_aggregate_fields",
+        fields: [
+          {
+            name: "count",
+            type: {
+              kind: "SCALAR",
+              name: "Any",
+            },
+            args: [
+              {
+                name: "columns",
+                type: {
+                  kind: "LIST",
+                  ofType: {
+                    kind: "NON_NULL",
+                    ofType: {
+                      kind: "SCALAR",
+                      name: "Any",
+                    },
+                  },
+                },
+              },
+              {
+                name: "distinct",
+                type: {
+                  kind: "SCALAR",
+                  name: "Any",
+                },
+              },
+            ],
+          },
+          {
+            name: "max",
+            type: {
+              kind: "OBJECT",
+              name: "student_group_max_fields",
+              ofType: null,
+            },
+            args: [],
+          },
+          {
+            name: "min",
+            type: {
+              kind: "OBJECT",
+              name: "student_group_min_fields",
+              ofType: null,
+            },
+            args: [],
+          },
+        ],
+        interfaces: [],
+      },
+      {
+        kind: "OBJECT",
+        name: "student_group_max_fields",
+        fields: [
+          {
+            name: "group_id",
+            type: {
+              kind: "SCALAR",
+              name: "Any",
+            },
+            args: [],
+          },
+          {
+            name: "id",
+            type: {
+              kind: "SCALAR",
+              name: "Any",
+            },
+            args: [],
+          },
+          {
+            name: "student_id",
+            type: {
+              kind: "SCALAR",
+              name: "Any",
+            },
+            args: [],
+          },
+        ],
+        interfaces: [],
+      },
+      {
+        kind: "OBJECT",
+        name: "student_group_min_fields",
+        fields: [
+          {
+            name: "group_id",
+            type: {
+              kind: "SCALAR",
+              name: "Any",
+            },
+            args: [],
+          },
+          {
+            name: "id",
+            type: {
+              kind: "SCALAR",
+              name: "Any",
+            },
+            args: [],
+          },
+          {
+            name: "student_id",
+            type: {
+              kind: "SCALAR",
+              name: "Any",
+            },
+            args: [],
+          },
+        ],
+        interfaces: [],
+      },
+      {
+        kind: "OBJECT",
+        name: "student_group_mutation_response",
+        fields: [
+          {
+            name: "affected_rows",
+            type: {
+              kind: "NON_NULL",
+              ofType: {
+                kind: "SCALAR",
+                name: "Any",
+              },
+            },
+            args: [],
+          },
+          {
+            name: "returning",
+            type: {
+              kind: "NON_NULL",
+              ofType: {
+                kind: "LIST",
+                ofType: {
+                  kind: "NON_NULL",
+                  ofType: {
+                    kind: "OBJECT",
+                    name: "student_group",
+                    ofType: null,
+                  },
+                },
+              },
+            },
+            args: [],
+          },
+        ],
+        interfaces: [],
+      },
+      {
+        kind: "OBJECT",
         name: "student_max_fields",
         fields: [
           {
@@ -10304,6 +10469,152 @@ export default ({
             ],
           },
           {
+            name: "group",
+            type: {
+              kind: "NON_NULL",
+              ofType: {
+                kind: "LIST",
+                ofType: {
+                  kind: "NON_NULL",
+                  ofType: {
+                    kind: "OBJECT",
+                    name: "group",
+                    ofType: null,
+                  },
+                },
+              },
+            },
+            args: [
+              {
+                name: "distinct_on",
+                type: {
+                  kind: "LIST",
+                  ofType: {
+                    kind: "NON_NULL",
+                    ofType: {
+                      kind: "SCALAR",
+                      name: "Any",
+                    },
+                  },
+                },
+              },
+              {
+                name: "limit",
+                type: {
+                  kind: "SCALAR",
+                  name: "Any",
+                },
+              },
+              {
+                name: "offset",
+                type: {
+                  kind: "SCALAR",
+                  name: "Any",
+                },
+              },
+              {
+                name: "order_by",
+                type: {
+                  kind: "LIST",
+                  ofType: {
+                    kind: "NON_NULL",
+                    ofType: {
+                      kind: "SCALAR",
+                      name: "Any",
+                    },
+                  },
+                },
+              },
+              {
+                name: "where",
+                type: {
+                  kind: "SCALAR",
+                  name: "Any",
+                },
+              },
+            ],
+          },
+          {
+            name: "group_aggregate",
+            type: {
+              kind: "NON_NULL",
+              ofType: {
+                kind: "OBJECT",
+                name: "group_aggregate",
+                ofType: null,
+              },
+            },
+            args: [
+              {
+                name: "distinct_on",
+                type: {
+                  kind: "LIST",
+                  ofType: {
+                    kind: "NON_NULL",
+                    ofType: {
+                      kind: "SCALAR",
+                      name: "Any",
+                    },
+                  },
+                },
+              },
+              {
+                name: "limit",
+                type: {
+                  kind: "SCALAR",
+                  name: "Any",
+                },
+              },
+              {
+                name: "offset",
+                type: {
+                  kind: "SCALAR",
+                  name: "Any",
+                },
+              },
+              {
+                name: "order_by",
+                type: {
+                  kind: "LIST",
+                  ofType: {
+                    kind: "NON_NULL",
+                    ofType: {
+                      kind: "SCALAR",
+                      name: "Any",
+                    },
+                  },
+                },
+              },
+              {
+                name: "where",
+                type: {
+                  kind: "SCALAR",
+                  name: "Any",
+                },
+              },
+            ],
+          },
+          {
+            name: "group_by_pk",
+            type: {
+              kind: "OBJECT",
+              name: "group",
+              ofType: null,
+            },
+            args: [
+              {
+                name: "id",
+                type: {
+                  kind: "NON_NULL",
+                  ofType: {
+                    kind: "SCALAR",
+                    name: "Any",
+                  },
+                },
+              },
+            ],
+          },
+          {
             name: "lesson",
             type: {
               kind: "NON_NULL",
@@ -10434,298 +10745,6 @@ export default ({
             type: {
               kind: "OBJECT",
               name: "lesson",
-              ofType: null,
-            },
-            args: [
-              {
-                name: "id",
-                type: {
-                  kind: "NON_NULL",
-                  ofType: {
-                    kind: "SCALAR",
-                    name: "Any",
-                  },
-                },
-              },
-            ],
-          },
-          {
-            name: "lesson_template",
-            type: {
-              kind: "NON_NULL",
-              ofType: {
-                kind: "LIST",
-                ofType: {
-                  kind: "NON_NULL",
-                  ofType: {
-                    kind: "OBJECT",
-                    name: "lesson_template",
-                    ofType: null,
-                  },
-                },
-              },
-            },
-            args: [
-              {
-                name: "distinct_on",
-                type: {
-                  kind: "LIST",
-                  ofType: {
-                    kind: "NON_NULL",
-                    ofType: {
-                      kind: "SCALAR",
-                      name: "Any",
-                    },
-                  },
-                },
-              },
-              {
-                name: "limit",
-                type: {
-                  kind: "SCALAR",
-                  name: "Any",
-                },
-              },
-              {
-                name: "offset",
-                type: {
-                  kind: "SCALAR",
-                  name: "Any",
-                },
-              },
-              {
-                name: "order_by",
-                type: {
-                  kind: "LIST",
-                  ofType: {
-                    kind: "NON_NULL",
-                    ofType: {
-                      kind: "SCALAR",
-                      name: "Any",
-                    },
-                  },
-                },
-              },
-              {
-                name: "where",
-                type: {
-                  kind: "SCALAR",
-                  name: "Any",
-                },
-              },
-            ],
-          },
-          {
-            name: "lesson_template_aggregate",
-            type: {
-              kind: "NON_NULL",
-              ofType: {
-                kind: "OBJECT",
-                name: "lesson_template_aggregate",
-                ofType: null,
-              },
-            },
-            args: [
-              {
-                name: "distinct_on",
-                type: {
-                  kind: "LIST",
-                  ofType: {
-                    kind: "NON_NULL",
-                    ofType: {
-                      kind: "SCALAR",
-                      name: "Any",
-                    },
-                  },
-                },
-              },
-              {
-                name: "limit",
-                type: {
-                  kind: "SCALAR",
-                  name: "Any",
-                },
-              },
-              {
-                name: "offset",
-                type: {
-                  kind: "SCALAR",
-                  name: "Any",
-                },
-              },
-              {
-                name: "order_by",
-                type: {
-                  kind: "LIST",
-                  ofType: {
-                    kind: "NON_NULL",
-                    ofType: {
-                      kind: "SCALAR",
-                      name: "Any",
-                    },
-                  },
-                },
-              },
-              {
-                name: "where",
-                type: {
-                  kind: "SCALAR",
-                  name: "Any",
-                },
-              },
-            ],
-          },
-          {
-            name: "lesson_template_by_pk",
-            type: {
-              kind: "OBJECT",
-              name: "lesson_template",
-              ofType: null,
-            },
-            args: [
-              {
-                name: "id",
-                type: {
-                  kind: "NON_NULL",
-                  ofType: {
-                    kind: "SCALAR",
-                    name: "Any",
-                  },
-                },
-              },
-            ],
-          },
-          {
-            name: "lesson_template_student",
-            type: {
-              kind: "NON_NULL",
-              ofType: {
-                kind: "LIST",
-                ofType: {
-                  kind: "NON_NULL",
-                  ofType: {
-                    kind: "OBJECT",
-                    name: "lesson_template_student",
-                    ofType: null,
-                  },
-                },
-              },
-            },
-            args: [
-              {
-                name: "distinct_on",
-                type: {
-                  kind: "LIST",
-                  ofType: {
-                    kind: "NON_NULL",
-                    ofType: {
-                      kind: "SCALAR",
-                      name: "Any",
-                    },
-                  },
-                },
-              },
-              {
-                name: "limit",
-                type: {
-                  kind: "SCALAR",
-                  name: "Any",
-                },
-              },
-              {
-                name: "offset",
-                type: {
-                  kind: "SCALAR",
-                  name: "Any",
-                },
-              },
-              {
-                name: "order_by",
-                type: {
-                  kind: "LIST",
-                  ofType: {
-                    kind: "NON_NULL",
-                    ofType: {
-                      kind: "SCALAR",
-                      name: "Any",
-                    },
-                  },
-                },
-              },
-              {
-                name: "where",
-                type: {
-                  kind: "SCALAR",
-                  name: "Any",
-                },
-              },
-            ],
-          },
-          {
-            name: "lesson_template_student_aggregate",
-            type: {
-              kind: "NON_NULL",
-              ofType: {
-                kind: "OBJECT",
-                name: "lesson_template_student_aggregate",
-                ofType: null,
-              },
-            },
-            args: [
-              {
-                name: "distinct_on",
-                type: {
-                  kind: "LIST",
-                  ofType: {
-                    kind: "NON_NULL",
-                    ofType: {
-                      kind: "SCALAR",
-                      name: "Any",
-                    },
-                  },
-                },
-              },
-              {
-                name: "limit",
-                type: {
-                  kind: "SCALAR",
-                  name: "Any",
-                },
-              },
-              {
-                name: "offset",
-                type: {
-                  kind: "SCALAR",
-                  name: "Any",
-                },
-              },
-              {
-                name: "order_by",
-                type: {
-                  kind: "LIST",
-                  ofType: {
-                    kind: "NON_NULL",
-                    ofType: {
-                      kind: "SCALAR",
-                      name: "Any",
-                    },
-                  },
-                },
-              },
-              {
-                name: "where",
-                type: {
-                  kind: "SCALAR",
-                  name: "Any",
-                },
-              },
-            ],
-          },
-          {
-            name: "lesson_template_student_by_pk",
-            type: {
-              kind: "OBJECT",
-              name: "lesson_template_student",
               ofType: null,
             },
             args: [
@@ -11180,6 +11199,298 @@ export default ({
             ],
           },
           {
+            name: "student_group",
+            type: {
+              kind: "NON_NULL",
+              ofType: {
+                kind: "LIST",
+                ofType: {
+                  kind: "NON_NULL",
+                  ofType: {
+                    kind: "OBJECT",
+                    name: "student_group",
+                    ofType: null,
+                  },
+                },
+              },
+            },
+            args: [
+              {
+                name: "distinct_on",
+                type: {
+                  kind: "LIST",
+                  ofType: {
+                    kind: "NON_NULL",
+                    ofType: {
+                      kind: "SCALAR",
+                      name: "Any",
+                    },
+                  },
+                },
+              },
+              {
+                name: "limit",
+                type: {
+                  kind: "SCALAR",
+                  name: "Any",
+                },
+              },
+              {
+                name: "offset",
+                type: {
+                  kind: "SCALAR",
+                  name: "Any",
+                },
+              },
+              {
+                name: "order_by",
+                type: {
+                  kind: "LIST",
+                  ofType: {
+                    kind: "NON_NULL",
+                    ofType: {
+                      kind: "SCALAR",
+                      name: "Any",
+                    },
+                  },
+                },
+              },
+              {
+                name: "where",
+                type: {
+                  kind: "SCALAR",
+                  name: "Any",
+                },
+              },
+            ],
+          },
+          {
+            name: "student_group_aggregate",
+            type: {
+              kind: "NON_NULL",
+              ofType: {
+                kind: "OBJECT",
+                name: "student_group_aggregate",
+                ofType: null,
+              },
+            },
+            args: [
+              {
+                name: "distinct_on",
+                type: {
+                  kind: "LIST",
+                  ofType: {
+                    kind: "NON_NULL",
+                    ofType: {
+                      kind: "SCALAR",
+                      name: "Any",
+                    },
+                  },
+                },
+              },
+              {
+                name: "limit",
+                type: {
+                  kind: "SCALAR",
+                  name: "Any",
+                },
+              },
+              {
+                name: "offset",
+                type: {
+                  kind: "SCALAR",
+                  name: "Any",
+                },
+              },
+              {
+                name: "order_by",
+                type: {
+                  kind: "LIST",
+                  ofType: {
+                    kind: "NON_NULL",
+                    ofType: {
+                      kind: "SCALAR",
+                      name: "Any",
+                    },
+                  },
+                },
+              },
+              {
+                name: "where",
+                type: {
+                  kind: "SCALAR",
+                  name: "Any",
+                },
+              },
+            ],
+          },
+          {
+            name: "student_group_by_pk",
+            type: {
+              kind: "OBJECT",
+              name: "student_group",
+              ofType: null,
+            },
+            args: [
+              {
+                name: "id",
+                type: {
+                  kind: "NON_NULL",
+                  ofType: {
+                    kind: "SCALAR",
+                    name: "Any",
+                  },
+                },
+              },
+            ],
+          },
+          {
+            name: "timetable",
+            type: {
+              kind: "NON_NULL",
+              ofType: {
+                kind: "LIST",
+                ofType: {
+                  kind: "NON_NULL",
+                  ofType: {
+                    kind: "OBJECT",
+                    name: "timetable",
+                    ofType: null,
+                  },
+                },
+              },
+            },
+            args: [
+              {
+                name: "distinct_on",
+                type: {
+                  kind: "LIST",
+                  ofType: {
+                    kind: "NON_NULL",
+                    ofType: {
+                      kind: "SCALAR",
+                      name: "Any",
+                    },
+                  },
+                },
+              },
+              {
+                name: "limit",
+                type: {
+                  kind: "SCALAR",
+                  name: "Any",
+                },
+              },
+              {
+                name: "offset",
+                type: {
+                  kind: "SCALAR",
+                  name: "Any",
+                },
+              },
+              {
+                name: "order_by",
+                type: {
+                  kind: "LIST",
+                  ofType: {
+                    kind: "NON_NULL",
+                    ofType: {
+                      kind: "SCALAR",
+                      name: "Any",
+                    },
+                  },
+                },
+              },
+              {
+                name: "where",
+                type: {
+                  kind: "SCALAR",
+                  name: "Any",
+                },
+              },
+            ],
+          },
+          {
+            name: "timetable_aggregate",
+            type: {
+              kind: "NON_NULL",
+              ofType: {
+                kind: "OBJECT",
+                name: "timetable_aggregate",
+                ofType: null,
+              },
+            },
+            args: [
+              {
+                name: "distinct_on",
+                type: {
+                  kind: "LIST",
+                  ofType: {
+                    kind: "NON_NULL",
+                    ofType: {
+                      kind: "SCALAR",
+                      name: "Any",
+                    },
+                  },
+                },
+              },
+              {
+                name: "limit",
+                type: {
+                  kind: "SCALAR",
+                  name: "Any",
+                },
+              },
+              {
+                name: "offset",
+                type: {
+                  kind: "SCALAR",
+                  name: "Any",
+                },
+              },
+              {
+                name: "order_by",
+                type: {
+                  kind: "LIST",
+                  ofType: {
+                    kind: "NON_NULL",
+                    ofType: {
+                      kind: "SCALAR",
+                      name: "Any",
+                    },
+                  },
+                },
+              },
+              {
+                name: "where",
+                type: {
+                  kind: "SCALAR",
+                  name: "Any",
+                },
+              },
+            ],
+          },
+          {
+            name: "timetable_by_pk",
+            type: {
+              kind: "OBJECT",
+              name: "timetable",
+              ofType: null,
+            },
+            args: [
+              {
+                name: "id",
+                type: {
+                  kind: "NON_NULL",
+                  ofType: {
+                    kind: "SCALAR",
+                    name: "Any",
+                  },
+                },
+              },
+            ],
+          },
+          {
             name: "url_token",
             type: {
               kind: "NON_NULL",
@@ -11616,6 +11927,507 @@ export default ({
                 },
               },
             ],
+          },
+        ],
+        interfaces: [],
+      },
+      {
+        kind: "OBJECT",
+        name: "timetable",
+        fields: [
+          {
+            name: "day",
+            type: {
+              kind: "NON_NULL",
+              ofType: {
+                kind: "SCALAR",
+                name: "Any",
+              },
+            },
+            args: [],
+          },
+          {
+            name: "duration",
+            type: {
+              kind: "NON_NULL",
+              ofType: {
+                kind: "SCALAR",
+                name: "Any",
+              },
+            },
+            args: [],
+          },
+          {
+            name: "group",
+            type: {
+              kind: "OBJECT",
+              name: "group",
+              ofType: null,
+            },
+            args: [],
+          },
+          {
+            name: "group_id",
+            type: {
+              kind: "SCALAR",
+              name: "Any",
+            },
+            args: [],
+          },
+          {
+            name: "id",
+            type: {
+              kind: "NON_NULL",
+              ofType: {
+                kind: "SCALAR",
+                name: "Any",
+              },
+            },
+            args: [],
+          },
+          {
+            name: "organisation",
+            type: {
+              kind: "NON_NULL",
+              ofType: {
+                kind: "OBJECT",
+                name: "organisation",
+                ofType: null,
+              },
+            },
+            args: [],
+          },
+          {
+            name: "organisation_id",
+            type: {
+              kind: "NON_NULL",
+              ofType: {
+                kind: "SCALAR",
+                name: "Any",
+              },
+            },
+            args: [],
+          },
+          {
+            name: "start_time",
+            type: {
+              kind: "NON_NULL",
+              ofType: {
+                kind: "SCALAR",
+                name: "Any",
+              },
+            },
+            args: [],
+          },
+        ],
+        interfaces: [],
+      },
+      {
+        kind: "OBJECT",
+        name: "timetable_aggregate",
+        fields: [
+          {
+            name: "aggregate",
+            type: {
+              kind: "OBJECT",
+              name: "timetable_aggregate_fields",
+              ofType: null,
+            },
+            args: [],
+          },
+          {
+            name: "nodes",
+            type: {
+              kind: "NON_NULL",
+              ofType: {
+                kind: "LIST",
+                ofType: {
+                  kind: "NON_NULL",
+                  ofType: {
+                    kind: "OBJECT",
+                    name: "timetable",
+                    ofType: null,
+                  },
+                },
+              },
+            },
+            args: [],
+          },
+        ],
+        interfaces: [],
+      },
+      {
+        kind: "OBJECT",
+        name: "timetable_aggregate_fields",
+        fields: [
+          {
+            name: "avg",
+            type: {
+              kind: "OBJECT",
+              name: "timetable_avg_fields",
+              ofType: null,
+            },
+            args: [],
+          },
+          {
+            name: "count",
+            type: {
+              kind: "SCALAR",
+              name: "Any",
+            },
+            args: [
+              {
+                name: "columns",
+                type: {
+                  kind: "LIST",
+                  ofType: {
+                    kind: "NON_NULL",
+                    ofType: {
+                      kind: "SCALAR",
+                      name: "Any",
+                    },
+                  },
+                },
+              },
+              {
+                name: "distinct",
+                type: {
+                  kind: "SCALAR",
+                  name: "Any",
+                },
+              },
+            ],
+          },
+          {
+            name: "max",
+            type: {
+              kind: "OBJECT",
+              name: "timetable_max_fields",
+              ofType: null,
+            },
+            args: [],
+          },
+          {
+            name: "min",
+            type: {
+              kind: "OBJECT",
+              name: "timetable_min_fields",
+              ofType: null,
+            },
+            args: [],
+          },
+          {
+            name: "stddev",
+            type: {
+              kind: "OBJECT",
+              name: "timetable_stddev_fields",
+              ofType: null,
+            },
+            args: [],
+          },
+          {
+            name: "stddev_pop",
+            type: {
+              kind: "OBJECT",
+              name: "timetable_stddev_pop_fields",
+              ofType: null,
+            },
+            args: [],
+          },
+          {
+            name: "stddev_samp",
+            type: {
+              kind: "OBJECT",
+              name: "timetable_stddev_samp_fields",
+              ofType: null,
+            },
+            args: [],
+          },
+          {
+            name: "sum",
+            type: {
+              kind: "OBJECT",
+              name: "timetable_sum_fields",
+              ofType: null,
+            },
+            args: [],
+          },
+          {
+            name: "var_pop",
+            type: {
+              kind: "OBJECT",
+              name: "timetable_var_pop_fields",
+              ofType: null,
+            },
+            args: [],
+          },
+          {
+            name: "var_samp",
+            type: {
+              kind: "OBJECT",
+              name: "timetable_var_samp_fields",
+              ofType: null,
+            },
+            args: [],
+          },
+          {
+            name: "variance",
+            type: {
+              kind: "OBJECT",
+              name: "timetable_variance_fields",
+              ofType: null,
+            },
+            args: [],
+          },
+        ],
+        interfaces: [],
+      },
+      {
+        kind: "OBJECT",
+        name: "timetable_avg_fields",
+        fields: [
+          {
+            name: "day",
+            type: {
+              kind: "SCALAR",
+              name: "Any",
+            },
+            args: [],
+          },
+        ],
+        interfaces: [],
+      },
+      {
+        kind: "OBJECT",
+        name: "timetable_max_fields",
+        fields: [
+          {
+            name: "day",
+            type: {
+              kind: "SCALAR",
+              name: "Any",
+            },
+            args: [],
+          },
+          {
+            name: "group_id",
+            type: {
+              kind: "SCALAR",
+              name: "Any",
+            },
+            args: [],
+          },
+          {
+            name: "id",
+            type: {
+              kind: "SCALAR",
+              name: "Any",
+            },
+            args: [],
+          },
+          {
+            name: "organisation_id",
+            type: {
+              kind: "SCALAR",
+              name: "Any",
+            },
+            args: [],
+          },
+          {
+            name: "start_time",
+            type: {
+              kind: "SCALAR",
+              name: "Any",
+            },
+            args: [],
+          },
+        ],
+        interfaces: [],
+      },
+      {
+        kind: "OBJECT",
+        name: "timetable_min_fields",
+        fields: [
+          {
+            name: "day",
+            type: {
+              kind: "SCALAR",
+              name: "Any",
+            },
+            args: [],
+          },
+          {
+            name: "group_id",
+            type: {
+              kind: "SCALAR",
+              name: "Any",
+            },
+            args: [],
+          },
+          {
+            name: "id",
+            type: {
+              kind: "SCALAR",
+              name: "Any",
+            },
+            args: [],
+          },
+          {
+            name: "organisation_id",
+            type: {
+              kind: "SCALAR",
+              name: "Any",
+            },
+            args: [],
+          },
+          {
+            name: "start_time",
+            type: {
+              kind: "SCALAR",
+              name: "Any",
+            },
+            args: [],
+          },
+        ],
+        interfaces: [],
+      },
+      {
+        kind: "OBJECT",
+        name: "timetable_mutation_response",
+        fields: [
+          {
+            name: "affected_rows",
+            type: {
+              kind: "NON_NULL",
+              ofType: {
+                kind: "SCALAR",
+                name: "Any",
+              },
+            },
+            args: [],
+          },
+          {
+            name: "returning",
+            type: {
+              kind: "NON_NULL",
+              ofType: {
+                kind: "LIST",
+                ofType: {
+                  kind: "NON_NULL",
+                  ofType: {
+                    kind: "OBJECT",
+                    name: "timetable",
+                    ofType: null,
+                  },
+                },
+              },
+            },
+            args: [],
+          },
+        ],
+        interfaces: [],
+      },
+      {
+        kind: "OBJECT",
+        name: "timetable_stddev_fields",
+        fields: [
+          {
+            name: "day",
+            type: {
+              kind: "SCALAR",
+              name: "Any",
+            },
+            args: [],
+          },
+        ],
+        interfaces: [],
+      },
+      {
+        kind: "OBJECT",
+        name: "timetable_stddev_pop_fields",
+        fields: [
+          {
+            name: "day",
+            type: {
+              kind: "SCALAR",
+              name: "Any",
+            },
+            args: [],
+          },
+        ],
+        interfaces: [],
+      },
+      {
+        kind: "OBJECT",
+        name: "timetable_stddev_samp_fields",
+        fields: [
+          {
+            name: "day",
+            type: {
+              kind: "SCALAR",
+              name: "Any",
+            },
+            args: [],
+          },
+        ],
+        interfaces: [],
+      },
+      {
+        kind: "OBJECT",
+        name: "timetable_sum_fields",
+        fields: [
+          {
+            name: "day",
+            type: {
+              kind: "SCALAR",
+              name: "Any",
+            },
+            args: [],
+          },
+        ],
+        interfaces: [],
+      },
+      {
+        kind: "OBJECT",
+        name: "timetable_var_pop_fields",
+        fields: [
+          {
+            name: "day",
+            type: {
+              kind: "SCALAR",
+              name: "Any",
+            },
+            args: [],
+          },
+        ],
+        interfaces: [],
+      },
+      {
+        kind: "OBJECT",
+        name: "timetable_var_samp_fields",
+        fields: [
+          {
+            name: "day",
+            type: {
+              kind: "SCALAR",
+              name: "Any",
+            },
+            args: [],
+          },
+        ],
+        interfaces: [],
+      },
+      {
+        kind: "OBJECT",
+        name: "timetable_variance_fields",
+        fields: [
+          {
+            name: "day",
+            type: {
+              kind: "SCALAR",
+              name: "Any",
+            },
+            args: [],
           },
         ],
         interfaces: [],
@@ -12531,182 +13343,77 @@ export function useSetLessonDurationMutation() {
     SetLessonDurationMutationVariables
   >(SetLessonDurationDocument);
 }
-export const GetLessonTemplatesDocument = gql`
-  query GetLessonTemplates {
-    lesson_template {
+export const GetTimeTableEntriesDocument = gql`
+  query GetTimeTableEntries {
+    timetable {
       id
-      duration
-      day
-      name
-      start_time
-    }
-  }
-`;
-
-export function useGetLessonTemplatesQuery(
-  options: Omit<
-    Urql.UseQueryArgs<GetLessonTemplatesQueryVariables>,
-    "query"
-  > = {}
-) {
-  return Urql.useQuery<GetLessonTemplatesQuery>({
-    query: GetLessonTemplatesDocument,
-    ...options,
-  });
-}
-export const GetLessonTemplateByIdDocument = gql`
-  query GetLessonTemplateById($id: uuid!) {
-    lesson_template_by_pk(id: $id) {
-      id
-      name
-      duration
-      start_time
-      day
-      template_students {
-        id
-        student {
-          id
-          name
-        }
+      group {
+        name
       }
+      day
+      start_time
+      duration
     }
   }
 `;
 
-export function useGetLessonTemplateByIdQuery(
+export function useGetTimeTableEntriesQuery(
   options: Omit<
-    Urql.UseQueryArgs<GetLessonTemplateByIdQueryVariables>,
+    Urql.UseQueryArgs<GetTimeTableEntriesQueryVariables>,
     "query"
   > = {}
 ) {
-  return Urql.useQuery<GetLessonTemplateByIdQuery>({
-    query: GetLessonTemplateByIdDocument,
+  return Urql.useQuery<GetTimeTableEntriesQuery>({
+    query: GetTimeTableEntriesDocument,
     ...options,
   });
 }
-export const UpdateLessonTemplateNameDocument = gql`
-  mutation UpdateLessonTemplateName($id: uuid!, $name: String!) {
-    update_lesson_template_by_pk(
-      pk_columns: { id: $id }
-      _set: { name: $name }
-    ) {
-      name
-      id
-    }
-  }
-`;
-
-export function useUpdateLessonTemplateNameMutation() {
-  return Urql.useMutation<
-    UpdateLessonTemplateNameMutation,
-    UpdateLessonTemplateNameMutationVariables
-  >(UpdateLessonTemplateNameDocument);
-}
-export const UpdateLessonTemplateDayDocument = gql`
-  mutation UpdateLessonTemplateDay($id: uuid!, $day: Int!) {
-    update_lesson_template_by_pk(pk_columns: { id: $id }, _set: { day: $day }) {
-      name
-      id
-    }
-  }
-`;
-
-export function useUpdateLessonTemplateDayMutation() {
-  return Urql.useMutation<
-    UpdateLessonTemplateDayMutation,
-    UpdateLessonTemplateDayMutationVariables
-  >(UpdateLessonTemplateDayDocument);
-}
-export const UpdateLessonTemplateTimeDocument = gql`
-  mutation UpdateLessonTemplateTime($id: uuid!, $time: time!) {
-    update_lesson_template_by_pk(
-      pk_columns: { id: $id }
-      _set: { start_time: $time }
-    ) {
-      name
-      id
-    }
-  }
-`;
-
-export function useUpdateLessonTemplateTimeMutation() {
-  return Urql.useMutation<
-    UpdateLessonTemplateTimeMutation,
-    UpdateLessonTemplateTimeMutationVariables
-  >(UpdateLessonTemplateTimeDocument);
-}
-export const UpdateLessonTemplateDurationDocument = gql`
-  mutation UpdateLessonTemplateDuration($id: uuid!, $duration: interval!) {
-    update_lesson_template_by_pk(
-      pk_columns: { id: $id }
-      _set: { duration: $duration }
-    ) {
-      name
-      id
-    }
-  }
-`;
-
-export function useUpdateLessonTemplateDurationMutation() {
-  return Urql.useMutation<
-    UpdateLessonTemplateDurationMutation,
-    UpdateLessonTemplateDurationMutationVariables
-  >(UpdateLessonTemplateDurationDocument);
-}
-export const AddLessonTemplateStudentDocument = gql`
-  mutation AddLessonTemplateStudent($template_id: uuid!, $student_id: uuid!) {
-    insert_lesson_template_student_one(
-      object: { lesson_template_id: $template_id, student_id: $student_id }
-    ) {
-      id
-      lesson_template_id
-      student_id
-    }
-  }
-`;
-
-export function useAddLessonTemplateStudentMutation() {
-  return Urql.useMutation<
-    AddLessonTemplateStudentMutation,
-    AddLessonTemplateStudentMutationVariables
-  >(AddLessonTemplateStudentDocument);
-}
-export const RemoveLessonTemplateStudentDocument = gql`
-  mutation RemoveLessonTemplateStudent($id: uuid!) {
-    delete_lesson_template_student_by_pk(id: $id) {
-      id
-      student_id
-      lesson_template_id
-    }
-  }
-`;
-
-export function useRemoveLessonTemplateStudentMutation() {
-  return Urql.useMutation<
-    RemoveLessonTemplateStudentMutation,
-    RemoveLessonTemplateStudentMutationVariables
-  >(RemoveLessonTemplateStudentDocument);
-}
-export const AddLessonTemplateDocument = gql`
-  mutation AddLessonTemplate(
-    $name: String!
-    $time: time!
-    $duration: interval!
+export const AddTimeTableEntriesDocument = gql`
+  mutation AddTimeTableEntries(
     $day: Int!
+    $duration: interval!
+    $group_id: uuid!
+    $start_time: timetz!
   ) {
-    insert_lesson_template_one(
-      object: { name: $name, start_time: $time, duration: $duration, day: $day }
+    insert_timetable_one(
+      object: {
+        day: $day
+        duration: $duration
+        group_id: $group_id
+        start_time: $start_time
+      }
     ) {
+      day
+      duration
+      group_id
       id
+      start_time
     }
   }
 `;
 
-export function useAddLessonTemplateMutation() {
+export function useAddTimeTableEntriesMutation() {
   return Urql.useMutation<
-    AddLessonTemplateMutation,
-    AddLessonTemplateMutationVariables
-  >(AddLessonTemplateDocument);
+    AddTimeTableEntriesMutation,
+    AddTimeTableEntriesMutationVariables
+  >(AddTimeTableEntriesDocument);
+}
+export const GetGroupNamesDocument = gql`
+  query GetGroupNames {
+    group {
+      id
+      name
+    }
+  }
+`;
+
+export function useGetGroupNamesQuery(
+  options: Omit<Urql.UseQueryArgs<GetGroupNamesQueryVariables>, "query"> = {}
+) {
+  return Urql.useQuery<GetGroupNamesQuery>({
+    query: GetGroupNamesDocument,
+    ...options,
+  });
 }
 export const LessonsTodayDocument = gql`
   query LessonsToday($start: timestamptz!, $end: timestamptz!) {
@@ -12731,30 +13438,24 @@ export function useLessonsTodayQuery(
 }
 export const AllLessonsInWeekDocument = gql`
   query AllLessonsInWeek($weekStart: timestamptz!, $weekEnd: timestamptz!) {
-    lesson_template(
-      where: {
-        _not: { lessons: { start_time: { _gte: $weekStart, _lte: $weekEnd } } }
-      }
-    ) {
+    timetable {
       id
-      day
-      duration
-      name
-      time: start_time
-      template_students(order_by: { student: { name: asc } }) {
-        id
-        student {
+      group {
+        name
+        students {
           id
-          name
         }
       }
+      start_time
+      duration
+      day
     }
     lesson(where: { start_time: { _gte: $weekStart, _lte: $weekEnd } }) {
       id
       name
       start_time
       duration
-      template_id
+      timetable_id
     }
   }
 `;
@@ -12769,7 +13470,7 @@ export function useAllLessonsInWeekQuery(
 }
 export const CreateLessonDocument = gql`
   mutation CreateLesson(
-    $template_id: uuid!
+    $timetable_id: uuid
     $start_time: timestamptz!
     $name: String!
     $duration: interval!
@@ -12780,7 +13481,7 @@ export const CreateLessonDocument = gql`
         duration: $duration
         name: $name
         start_time: $start_time
-        template_id: $template_id
+        timetable_id: $timetable_id
         student_attendances: $student_attendances
       }
     ) {

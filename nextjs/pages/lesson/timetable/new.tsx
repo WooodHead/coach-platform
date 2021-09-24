@@ -3,30 +3,31 @@ import { useRouter } from "next/dist/client/router";
 import React, { FC } from "react";
 import { Layout } from "../../../src/components/layout";
 import { DAYS } from "../../../src/days";
-import { useAddLessonTemplateMutation } from "../../../src/generated-graphql";
+import { useAddTimeTableEntriesMutation, useGetGroupNamesQuery } from "../../../src/generated-graphql";
 
 function NewLessonPage() {
   const router = useRouter();
-  const [, insertTemplate] = useAddLessonTemplateMutation();
+  const [, insertTimeTable] = useAddTimeTableEntriesMutation();
+  const [groups] = useGetGroupNamesQuery();
 
   const formik = useFormik({
     initialValues: {
-      name: "",
       day: "",
       time: "14:00",
       duration: "01:00",
+      group: ""
     },
     onSubmit: async (values) => {
       console.log(values);
-      const res = await insertTemplate({
-        name: values.name,
+      const res = await insertTimeTable({
         day: Number(values.day),
-        time: values.time,
+        start_time: values.time,
         duration: values.duration + ":00",
+        group_id: values.group
       });
       if (res?.data) {
         router.push(
-          `/lesson/template/${res.data.insert_lesson_template_one.id}`
+          `/lesson/`
         );
       }
     },
@@ -37,13 +38,6 @@ function NewLessonPage() {
       <div>
         <h1>New Template</h1>
         <form onSubmit={formik.handleSubmit}>
-          <input
-            type="text"
-            name="name"
-            placeholder="Name"
-            onChange={formik.handleChange}
-            value={formik.values.name}
-          />
           <select
             name="day"
             onChange={formik.handleChange}
@@ -53,6 +47,18 @@ function NewLessonPage() {
             {DAYS.map((d, i) => (
               <option key={d} value={i}>
                 {d}
+              </option>
+            ))}
+          </select>
+          <select
+            name="group"
+            onChange={formik.handleChange}
+            value={formik.values.group}
+          >
+            <option value=""></option>
+            {groups?.data?.group.map?.((g) => (
+              <option key={g.id} value={g.id}>
+                {g.name}
               </option>
             ))}
           </select>

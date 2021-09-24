@@ -10,37 +10,29 @@ query LessonsToday($start: timestamptz!, $end: timestamptz!) {
 }
 
 query AllLessonsInWeek($weekStart: timestamptz!, $weekEnd: timestamptz!) {
-  lesson_template(
-    where: {
-      _not: {
-        lessons: { start_time: { _gte: $weekStart, _lte: $weekEnd } }
-      }
-    }
-  ) {
+  timetable {
     id
-    day
-    duration
-    name
-    time: start_time
-    template_students(order_by: { student: { name: asc } }) {
-      id
-      student {
+    group {
+      name
+      students {
         id
-        name
       }
     }
+    start_time
+    duration
+    day
   }
   lesson(where: { start_time: { _gte: $weekStart, _lte: $weekEnd } }) {
     id
     name
     start_time
     duration
-    template_id
+    timetable_id
   }
 }
 
 mutation CreateLesson(
-  $template_id: uuid!
+  $timetable_id: uuid
   $start_time: timestamptz!
   $name: String!
   $duration: interval!
@@ -51,7 +43,7 @@ mutation CreateLesson(
       duration: $duration
       name: $name
       start_time: $start_time
-      template_id: $template_id
+      timetable_id: $timetable_id
       student_attendances: $student_attendances
     }
   ) {
